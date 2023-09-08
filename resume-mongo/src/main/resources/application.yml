@@ -1,0 +1,55 @@
+# It will define the port where the app will run, when zero spring assigns a random port
+server:
+  port: 0
+# Spring details required by the application
+spring:
+  application:
+    name: resumeapi-mongoversion
+  jpa:
+    generate-ddl: true
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+  docker:
+    compose:
+      lifecycle-management: start_only
+# Details used by Json Web Token functionality, This is the encrypted key
+jwt:
+  secret: '{cipher}cdbbf31873716ca9cbf934ffc9932ca8e20b3ee0419d2b85422cccdb50b68109'
+# Swagger details and/or endpoints
+springdoc:
+  api-docs:
+    path: /openapi
+  swagger-ui:
+    path: /swagger-ui-openapi.html
+    defaultModelsExpandDepth: -1    # This will hide the Schemas/Models section
+# Project information
+info:
+  app:
+    version: '@project.version@'
+    name: "${spring.application.name}"
+    description: '@project.description@'
+    license:
+      name: "MIT License"
+      url: "https://opensource.org/licenses/MIT"
+    contact:
+      name: "Miguel Hernandez"
+      url: "https://github.com/mahzarasua"
+      email: "mahzarasua@hotmail.com"
+#Actuactor
+management:
+  health:
+    db:
+      enabled: true
+    diskspace:
+      enabled: false
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+      base-path: /admin
+  endpoint:
+    health:
+      show-details: always
+      probes:
+        enabled: false
