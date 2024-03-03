@@ -21,6 +21,8 @@
     <modules>
         <module>resume-postgres</module>
         <module>resume-mongo</module>
+        <module>resume-mongo-graphql_bk</module>
+        <module>resume-mongo-graphql</module>
     </modules>
 
     <properties>
@@ -145,11 +147,12 @@
             </plugins>
         </pluginManagement>
         <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.7.0</version>
-            </plugin>
+            <!--            <plugin>-->
+            <!--                <groupId>org.apache.maven.plugins</groupId>-->
+            <!--                <artifactId>maven-compiler-plugin</artifactId>-->
+            <!--                <version>3.12.0</version>-->
+            <!--            </plugin>-->
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
@@ -228,6 +231,7 @@
                     </execution>
                 </executions>
             </plugin>
+
         </plugins>
         <resources>
             <resource>
