@@ -4,14 +4,12 @@ import dev.mhzars.projects.postgres.resumeapidockercompose.domain.GenericDeleteR
 import dev.mhzars.projects.postgres.resumeapidockercompose.domain.experience.ExperienceRequest;
 import dev.mhzars.projects.postgres.resumeapidockercompose.domain.experience.ExperienceResponse;
 
-import java.util.UUID;
-
 public interface ExperienceService {
-    ExperienceResponse getListbyResumeId(UUID resumeId);
+    ExperienceResponse getListbyResumeId(String resumeId);
 
     ExperienceResponse saveList(ExperienceRequest request);
 
-    GenericDeleteResponse deleteRecordsbyResumeId(UUID resumeId);
+    GenericDeleteResponse deleteRecordsbyResumeId(String resumeId);
 
-    GenericDeleteResponse deleteRecordbyId(UUID resumeId, UUID id);
+    GenericDeleteResponse deleteRecordbyId(String resumeId, String id);
 }

@@ -1,10 +1,12 @@
 package dev.mhzars.projects.mongo.resumeapidockercompose.validator;
 
+import dev.mhzars.projects.mongo.resumeapidockercompose.domain.education.EducationDegreeEnum;
 import dev.mhzars.projects.mongo.resumeapidockercompose.domain.education.EducationDomain;
 import dev.mhzars.projects.mongo.resumeapidockercompose.domain.experience.ExperienceDomain;
 import dev.mhzars.projects.mongo.resumeapidockercompose.domain.resume.ResumeRequest;
 import dev.mhzars.projects.mongo.resumeapidockercompose.exception.CustomBadRequestException;
 import dev.mhzars.projects.mongo.resumeapidockercompose.exception.ExceptionBody;
+import org.apache.commons.lang3.EnumUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -50,7 +52,7 @@ public class ResumeValidator implements CustomValidator<ResumeRequest> {
             resumeRequest.getSkillList().forEach(e -> {
                 if (!CustomValidationUtils.isValidString(e.getName()))
                     errorDetails.add(newErrorDetail(CustomValidationUtils.REQ_FIELD, "Skill name"));
-                if (e.getPercentage() <= 0 || e.getPercentage() > 100)
+                if (e.getPercentage() < 0 || e.getPercentage() > 100)
                     errorDetails.add(newErrorDetail(CustomValidationUtils.INVALID_FORMAT, "Percentage for skill " + e.getName()));
             });
         }
@@ -71,9 +73,10 @@ public class ResumeValidator implements CustomValidator<ResumeRequest> {
         if (e.getStartDate() == null)
             errorDetails.add(newErrorDetail(CustomValidationUtils.REQ_FIELD, "Beginning date for work " + e.getTitle() + " at " + e.getCompany()));
         if (!e.isCurrentJob()) {
-            if (e.getEndDate() == null)
+            if (e.getEndDate() == null) {
                 errorDetails.add(newErrorDetail(CustomValidationUtils.REQ_FIELD, "Ending date for work " + e.getTitle() + " at " + e.getCompany()));
-                // Verify the ending date is greater than the beginning date.
+            }
+            // Verify the ending date is greater than the beginning date.
             else if (!e.getEndDate().isAfter(e.getStartDate()))
                 errorDetails.add(newErrorDetail(CustomValidationUtils.REQ_FIELD, "Ending date for work " + e.getTitle() + " must be greater than beginning date"));
         }
@@ -86,7 +89,7 @@ public class ResumeValidator implements CustomValidator<ResumeRequest> {
             errorDetails.add(newErrorDetail(CustomValidationUtils.REQ_FIELD, "Career name at " + e.getName()));
         if (!CustomValidationUtils.isValidString(e.getDegree()))
             errorDetails.add(newErrorDetail(CustomValidationUtils.REQ_FIELD, "Degree of your career at " + e.getName()));
-        if (e.getDegree() != null && !e.getDegree().equals("Bachelor") && !e.getDegree().equals("Master") && !e.getDegree().equals("Ph"))
+        if (e.getDegree() != null && !EnumUtils.isValidEnumIgnoreCase(EducationDegreeEnum.class, e.getDegree()))
             errorDetails.add(newErrorDetail(CustomValidationUtils.INVALID_FORMAT, "Degree of you career at " + e.getName() + " should be either 'Bachelor', 'Master', or 'Ph'"));
         if (e.getStartDate() == null)
             errorDetails.add(newErrorDetail(CustomValidationUtils.REQ_FIELD, "Beginning date of your career at " + e.getName()));

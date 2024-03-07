@@ -1,6 +1,5 @@
-package resumeapidockercompose;
+package dev.mhzars.projects.postgres.resumeapidockercompose;
 
-import dev.mhzars.projects.mongo.resumeapidockercompose.ResumeMongo;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
@@ -8,8 +7,8 @@ import org.springframework.test.context.ContextConfiguration;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
-@ContextConfiguration(classes = ResumeMongo.class)
-class ResumeMongoTests {
+@ContextConfiguration(classes = ResumePostgres.class)
+class ResumePostgresTests {
 
     @Test
     void contextLoads() {

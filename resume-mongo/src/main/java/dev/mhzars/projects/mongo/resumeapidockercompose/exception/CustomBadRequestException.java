@@ -10,8 +10,4 @@ public class CustomBadRequestException extends CustomErrorDetails {
     public CustomBadRequestException(List<ExceptionBody.ErrorDetails> errorDetails, String errorMessage) {
         super(errorDetails, errorMessage);
     }
-
-    public CustomBadRequestException(String errorMessage) {
-        super(errorMessage, "Bad Request");
-    }
 }

@@ -11,6 +11,7 @@ import dev.mhzars.projects.mongo.resumeapidockercompose.model.Resume;
 import dev.mhzars.projects.mongo.resumeapidockercompose.repository.ResumeRepository;
 import dev.mhzars.projects.mongo.resumeapidockercompose.utils.SpringResumeRepo;
 import dev.mhzars.projects.mongo.resumeapidockercompose.utils.SpringUtils;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -18,18 +19,13 @@ import java.util.List;
 import java.util.Objects;
 
 @Service
+@AllArgsConstructor
 public class EducationServiceImpl implements EducationService {
 
     public static final String EXCEPTION_MSG = "No Education record was found for resumeId %s";
     private final ResumeRepository repo;
     private final CustomMapper mapper;
     private final SpringResumeRepo checkResume;
-
-    public EducationServiceImpl(ResumeRepository resumeRepo, CustomMapper mapper, SpringResumeRepo checkResume) {
-        this.repo = resumeRepo;
-        this.mapper = mapper;
-        this.checkResume = checkResume;
-    }
 
     @Override
     public EducationResponse getListbyResumeId(String resumeId) {

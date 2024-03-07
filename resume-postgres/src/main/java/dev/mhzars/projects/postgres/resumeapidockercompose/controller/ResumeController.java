@@ -5,7 +5,6 @@ import dev.mhzars.projects.postgres.resumeapidockercompose.domain.resume.ResumeR
 import dev.mhzars.projects.postgres.resumeapidockercompose.domain.resume.ResumeResponse;
 import dev.mhzars.projects.postgres.resumeapidockercompose.exception.ExceptionBody;
 import dev.mhzars.projects.postgres.resumeapidockercompose.service.ResumeService;
-import dev.mhzars.projects.postgres.resumeapidockercompose.utils.SpringUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
@@ -78,7 +77,7 @@ public class ResumeController {
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "This operation will return a resume resource by a specific resumeId")
     public ResumeResponse getResumeById(@Parameter(name = "resumeId", required = true) @PathVariable String resumeId) {
-        return service.getResumeById(SpringUtils.getUuid(resumeId));
+        return service.getResumeById(resumeId);
     }
 
     @PostMapping(value = "/")
@@ -93,7 +92,7 @@ public class ResumeController {
     @Operation(summary = "This operation will update a resume and return the unique identifier of the Resume updated")
     public ResumeIdResponse updateResume(@Parameter(name = "resumeId", required = true) @PathVariable String resumeId,
                                          @RequestBody ResumeRequest request) {
-        return service.saveResume(request, SpringUtils.getUuid(resumeId));
+        return service.saveResume(request, resumeId);
     }
 
     @DeleteMapping(value = "/")
@@ -104,6 +103,6 @@ public class ResumeController {
             @Parameter(name = "resumeId", required = true, in = ParameterIn.QUERY)
     })
     public ResumeIdResponse deleteResumeById(String resumeId) {
-        return service.deleteResumeById(SpringUtils.getUuid(resumeId));
+        return service.deleteResumeById(resumeId);
     }
 }

@@ -24,8 +24,6 @@ import java.time.LocalDateTime;
 public class CustomMapper extends ConfigurableMapper {
     public static final String AUTH_ROLE = "role";
     public static final String DOMAIN_ROLE_NAME = "roleName";
-    public static final String PARENT_RESUME_ID = "resume.id";
-    public static final String DOMAIN_RESUME_ID = "resumeId";
 
     @Override
     protected void configure(MapperFactory factory) {

@@ -8,6 +8,7 @@ import dev.mhzars.projects.mongo.resumeapidockercompose.mapper.CustomMapper;
 import dev.mhzars.projects.mongo.resumeapidockercompose.model.Resume;
 import dev.mhzars.projects.mongo.resumeapidockercompose.repository.ResumeRepository;
 import dev.mhzars.projects.mongo.resumeapidockercompose.validator.ResumeValidator;
+import lombok.AllArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
 
@@ -19,17 +20,12 @@ import static dev.mhzars.projects.mongo.resumeapidockercompose.utils.SpringUtils
 import static dev.mhzars.projects.mongo.resumeapidockercompose.utils.SpringUtils.validateObjectId;
 
 @Service
+@AllArgsConstructor
 public class ResumeServiceImpl implements ResumeService {
 
     private final ResumeRepository repo;
     private final CustomMapper mapper;
     private final ResumeValidator validator;
-
-    public ResumeServiceImpl(ResumeRepository repo, CustomMapper mapper, ResumeValidator validator) {
-        this.repo = repo;
-        this.mapper = mapper;
-        this.validator = validator;
-    }
 
     private static void removeChildRecords(ResumeRequest request) {
         request.setEducationList(new ArrayList<>());
@@ -52,7 +48,6 @@ public class ResumeServiceImpl implements ResumeService {
 
     private void removeChildRecordsAndSaveResume(ResumeRequest request, String id) {
         removeChildRecords(request);
-
         saveResume(request, id);
     }
 
@@ -102,9 +97,7 @@ public class ResumeServiceImpl implements ResumeService {
     public ResumeIdResponse deleteResumeById(String id) {
         Resume resume = repo.findById(validateObjectId(id))
                 .orElseThrow(() -> new CustomNotFoundException(String.format("No Record was found for resumeId %s", id)));
-
         ResumeRequest request = mapper.map(resume, ResumeRequest.class);
-
         removeChildRecordsAndSaveResume(request, id);
         repo.deleteById(validateObjectId(id));
 

@@ -24,6 +24,10 @@ public class SpringUtils {
     private SpringUtils() {
     }
 
+    public static UUID generateUniqueObjectId() {
+        return getRandomId();
+    }
+
     public static UUID getUuid(String resumeId) {
         return UUID.fromString(resumeId);
     }

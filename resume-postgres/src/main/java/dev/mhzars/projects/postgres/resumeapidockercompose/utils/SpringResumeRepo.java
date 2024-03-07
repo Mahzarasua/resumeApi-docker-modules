@@ -5,8 +5,6 @@ import dev.mhzars.projects.postgres.resumeapidockercompose.model.Resume;
 import dev.mhzars.projects.postgres.resumeapidockercompose.repository.ResumeRepository;
 import org.springframework.stereotype.Component;
 
-import java.util.UUID;
-
 @Component
 public class SpringResumeRepo {
 
@@ -17,7 +15,7 @@ public class SpringResumeRepo {
         this.resumeRepo = resumeRepo;
     }
 
-    public Resume checkResumeId(UUID id) {
+    public Resume checkResumeId(String id) {
         return resumeRepo.findById(id)
                 .orElseThrow(() -> new CustomNotFoundException(String.format(RESUME_ID_NOT_FOUND, id)));
     }
