@@ -16,7 +16,7 @@ public class SpringResumeRepo {
     }
 
     public Resume checkResumeId(String id) {
-        return resumeRepo.findById(id)
+        return resumeRepo.findById(SpringUtils.validateObjectId(id))
                 .orElseThrow(() -> new CustomNotFoundException(String.format(RESUME_ID_NOT_FOUND, id)));
     }
 }

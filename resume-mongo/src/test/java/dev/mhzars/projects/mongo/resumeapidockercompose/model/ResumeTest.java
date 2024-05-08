@@ -27,5 +27,4 @@ class ResumeTest {
         assertThat(r).usingRecursiveComparison().isNotEqualTo(tmp);
         log.info("{}", tmp);
     }
-
 }

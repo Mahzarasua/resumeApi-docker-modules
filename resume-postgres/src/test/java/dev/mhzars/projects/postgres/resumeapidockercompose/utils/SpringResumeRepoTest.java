@@ -10,6 +10,7 @@ import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import static dev.mhzars.projects.postgres.resumeapidockercompose.TestUtils.manufacturedCustomPojo;
 import static dev.mhzars.projects.postgres.resumeapidockercompose.utils.SpringUtils.generateUniqueObjectId;
@@ -18,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @Slf4j
 class SpringResumeRepoTest {
-    private final String objectId = String.valueOf(generateUniqueObjectId());
+    private final UUID objectId = generateUniqueObjectId();
     private SpringResumeRepo springResumeRepo;
 
     @BeforeEach
@@ -29,7 +30,7 @@ class SpringResumeRepoTest {
         Optional<Resume> emptyResume = Optional.empty();
 
         Mockito.doReturn(optionalResume)
-                .when(resumeRepo).findById(ArgumentMatchers.anyString());
+                .when(resumeRepo).findById(ArgumentMatchers.any(UUID.class));
         Mockito.doReturn(emptyResume)
                 .when(resumeRepo).findById(objectId);
 
@@ -43,7 +44,7 @@ class SpringResumeRepoTest {
 
     @Test
     void checkResumeId_throwsException() {
-        String objectIdString = objectId;
+        String objectIdString = objectId.toString();
         Exception e = assertThrows(CustomNotFoundException.class, () -> springResumeRepo.checkResumeId(objectIdString));
 
         assertTrue(e.getMessage().contains("Resume with id"));

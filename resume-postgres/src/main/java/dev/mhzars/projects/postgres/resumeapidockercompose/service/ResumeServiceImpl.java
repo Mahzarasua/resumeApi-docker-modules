@@ -13,8 +13,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
-import static dev.mhzars.projects.postgres.resumeapidockercompose.utils.SpringUtils.getRandomId;
+import static dev.mhzars.projects.postgres.resumeapidockercompose.utils.SpringUtils.generateUniqueObjectId;
+import static dev.mhzars.projects.postgres.resumeapidockercompose.utils.SpringUtils.validateObjectId;
 
 @Service
 @AllArgsConstructor
@@ -38,14 +40,13 @@ public class ResumeServiceImpl implements ResumeService {
 
     @Override
     public ResumeResponse getResumeById(String id) {
-        Resume resume = repo.findById(id)
+        Resume resume = repo.findById(validateObjectId(id))
                 .orElseThrow(() -> new CustomNotFoundException(String.format("Resume with id %s was not found", id)));
         return mapper.map(resume, ResumeResponse.class);
     }
 
     private void removeChildRecordsAndSaveResume(ResumeRequest request, String id) {
         removeChildRecords(request);
-
         saveResume(request, id);
     }
 
@@ -63,14 +64,14 @@ public class ResumeServiceImpl implements ResumeService {
 
     @Override
     public ResumeIdResponse saveResume(ResumeRequest request, String id) {
-        String resumeId = null;
+        UUID resumeId;
         if (id == null) {
-            resumeId = (request.getId() == null) ? String.valueOf(getRandomId()) : request.getId();
+            resumeId = (request.getId() == null || request.getId().isEmpty()) ? generateUniqueObjectId() : validateObjectId(request.getId());
         } else {
-            resumeId = String.valueOf(mapper.map(getResumeById(id), Resume.class).getId());
+            resumeId = mapper.map(getResumeById(id), Resume.class).getId();
         }
 
-        request.setId(resumeId);
+        request.setId(String.valueOf(resumeId));
 
         validateAndSaveResume(request);
 
@@ -79,13 +80,11 @@ public class ResumeServiceImpl implements ResumeService {
 
     @Override
     public ResumeIdResponse deleteResumeById(String id) {
-        Resume resume = repo.findById(id)
+        Resume resume = repo.findById(validateObjectId(id))
                 .orElseThrow(() -> new CustomNotFoundException(String.format("No Record was found for resumeId %s", id)));
-
         ResumeRequest request = mapper.map(resume, ResumeRequest.class);
-
         removeChildRecordsAndSaveResume(request, id);
-        repo.deleteById(id);
+        repo.deleteById(validateObjectId(id));
 
         return new ResumeIdResponse(id);
     }

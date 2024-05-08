@@ -58,6 +58,7 @@ public class ResumeServiceImpl implements ResumeService {
         if (resume.getCreationDate() == null)
             resume.setCreationDate(LocalDateTime.now());
         repo.save(resume);
+        request.setId(String.valueOf(resume.getId()));
     }
 
     private void checkChildTables(Resume resume) {

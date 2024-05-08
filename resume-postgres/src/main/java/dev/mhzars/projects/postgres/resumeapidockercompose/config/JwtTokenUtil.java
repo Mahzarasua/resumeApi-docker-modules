@@ -19,10 +19,11 @@ import java.util.function.Function;
 @Component
 @Slf4j
 public class JwtTokenUtil implements Serializable {
-    public static final long JWT_TOKEN_VALIDITY = 3600;
     @Serial
     private static final long serialVersionUID = 6934826346341103267L;
 
+    @Value("${jwt-token-validity:3600}")
+    private long jwtTokenValidity;
     @Value("${jwt.secret}")
     private String secret;
 
@@ -65,7 +66,7 @@ public class JwtTokenUtil implements Serializable {
     private String doGenerateToken(Map<String, Object> claims, String subject) {
 
         return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY * 1000))
+                .setExpiration(new Date(System.currentTimeMillis() + jwtTokenValidity * 1000))
                 .signWith(SignatureAlgorithm.HS512, secret).compact();
     }
 
