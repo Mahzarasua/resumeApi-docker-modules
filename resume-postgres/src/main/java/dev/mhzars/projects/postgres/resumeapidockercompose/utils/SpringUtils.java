@@ -7,8 +7,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import dev.mhzars.projects.postgres.resumeapidockercompose.exception.CustomBadRequestException;
+import dev.mhzars.projects.postgres.resumeapidockercompose.exception.ExceptionBody;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import java.util.function.Predicate;
@@ -24,8 +27,23 @@ public class SpringUtils {
     private SpringUtils() {
     }
 
+    public static UUID generateUniqueObjectId() {
+        return getRandomId();
+    }
+
     public static UUID getUuid(String resumeId) {
-        return UUID.fromString(resumeId);
+        return validateObjectId(resumeId);
+    }
+
+    public static UUID validateObjectId(String id) {
+        try {
+            return UUID.fromString(id);
+        } catch (IllegalArgumentException e) {
+            ExceptionBody.ErrorDetails errorDetails =
+                    new ExceptionBody.ErrorDetails("id",
+                            String.format("Value provided: %s cannot be converted to UUID", id));
+            throw new CustomBadRequestException(Collections.singletonList(errorDetails), "Conversion Error");
+        }
     }
 
     public static UUID getRandomId() {

@@ -10,6 +10,7 @@ import dev.mhzars.projects.mongo.resumeapidockercompose.model.Experience;
 import dev.mhzars.projects.mongo.resumeapidockercompose.model.Resume;
 import dev.mhzars.projects.mongo.resumeapidockercompose.repository.ResumeRepository;
 import dev.mhzars.projects.mongo.resumeapidockercompose.utils.SpringResumeRepo;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -21,18 +22,13 @@ import static dev.mhzars.projects.mongo.resumeapidockercompose.utils.SpringUtils
 import static dev.mhzars.projects.mongo.resumeapidockercompose.utils.SpringUtils.validateObjectId;
 
 @Service
+@AllArgsConstructor
 public class ExperienceServiceImpl implements ExperienceService {
 
     public static final String EXCEPTION_MSG = "No Experience record was found for resumeId %s";
     private final ResumeRepository repo;
     private final CustomMapper mapper;
     private final SpringResumeRepo checkResume;
-
-    public ExperienceServiceImpl(ResumeRepository resumeRepo, CustomMapper mapper, SpringResumeRepo checkResume) {
-        this.repo = resumeRepo;
-        this.mapper = mapper;
-        this.checkResume = checkResume;
-    }
 
     @Override
     public ExperienceResponse getListbyResumeId(String resumeId) {

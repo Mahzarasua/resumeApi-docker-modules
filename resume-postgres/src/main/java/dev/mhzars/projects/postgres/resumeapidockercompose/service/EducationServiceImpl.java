@@ -11,12 +11,14 @@ import dev.mhzars.projects.postgres.resumeapidockercompose.model.Resume;
 import dev.mhzars.projects.postgres.resumeapidockercompose.repository.ResumeRepository;
 import dev.mhzars.projects.postgres.resumeapidockercompose.utils.SpringResumeRepo;
 import dev.mhzars.projects.postgres.resumeapidockercompose.utils.SpringUtils;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
+import java.util.Objects;
 
 @Service
+@AllArgsConstructor
 public class EducationServiceImpl implements EducationService {
 
     public static final String EXCEPTION_MSG = "No Education record was found for resumeId %s";
@@ -24,14 +26,8 @@ public class EducationServiceImpl implements EducationService {
     private final CustomMapper mapper;
     private final SpringResumeRepo checkResume;
 
-    public EducationServiceImpl(ResumeRepository resumeRepo, CustomMapper mapper, SpringResumeRepo checkResume) {
-        this.repo = resumeRepo;
-        this.mapper = mapper;
-        this.checkResume = checkResume;
-    }
-
     @Override
-    public EducationResponse getListbyResumeId(UUID resumeId) {
+    public EducationResponse getListbyResumeId(String resumeId) {
         Resume resume = checkResume.checkResumeId(resumeId);
         List<Education> list = resume.getEducationList();
 
@@ -43,10 +39,10 @@ public class EducationServiceImpl implements EducationService {
 
     @Override
     public EducationResponse saveList(EducationRequest request) {
-        UUID resumeId = request.getEducationList().get(0).getResumeId();
+        String resumeId = request.getEducationList().get(0).getResumeId();
         Resume resume = checkResume.checkResumeId(resumeId);
 
-        request.getEducationList().forEach(e -> e.setResumeId(resume.getId()));
+        request.getEducationList().forEach(e -> e.setResumeId(String.valueOf(resume.getId())));
         for (Education e : mapper.mapAsList(request.getEducationList(), Education.class)) {
             if (!resume.getEducationList().contains(e)) {
                 resume.getEducationList().add(e);
@@ -59,7 +55,7 @@ public class EducationServiceImpl implements EducationService {
     }
 
     @Override
-    public GenericDeleteResponse deleteRecordsbyResumeId(UUID resumeId) {
+    public GenericDeleteResponse deleteRecordsbyResumeId(String resumeId) {
         Resume resume = checkResume.checkResumeId(resumeId);
 
         List<Education> list = resume.getEducationList();
@@ -74,10 +70,22 @@ public class EducationServiceImpl implements EducationService {
     }
 
     @Override
-    public GenericDeleteResponse deleteRecordbyId(UUID resumeId, UUID id) {
+    public GenericDeleteResponse deleteRecordbyId(String resumeId, String id) {
         Resume resume = checkResume.checkResumeId(resumeId);
-        SpringUtils.removeFromList(resume.getEducationList(), row -> row.getId() == id && resume.getId() == resumeId);
+        checkResumeEducationList(resume, id);
+        SpringUtils.removeFromList(resume.getEducationList(), row -> Objects.equals(row.getId(), SpringUtils.getUuid(id)) && Objects.equals(resume.getId(), SpringUtils.getUuid(resumeId)));
         repo.save(resume);
         return new GenericDeleteResponse(id, resumeId);
+    }
+
+    private void checkResumeEducationList(Resume resume, String id) {
+        boolean recNotFound = true;
+        for (Education e : resume.getEducationList()) {
+            if (Objects.equals(e.getId(), SpringUtils.getUuid(id))) {
+                recNotFound = false;
+            }
+        }
+        if (recNotFound)
+            throw new CustomNotFoundException(String.format("Education with id %s was not found", id));
     }
 }

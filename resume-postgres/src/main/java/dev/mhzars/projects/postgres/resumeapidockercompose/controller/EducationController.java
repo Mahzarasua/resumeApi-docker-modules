@@ -5,7 +5,6 @@ import dev.mhzars.projects.postgres.resumeapidockercompose.domain.education.Educ
 import dev.mhzars.projects.postgres.resumeapidockercompose.domain.education.EducationResponse;
 import dev.mhzars.projects.postgres.resumeapidockercompose.exception.ExceptionBody;
 import dev.mhzars.projects.postgres.resumeapidockercompose.service.EducationService;
-import dev.mhzars.projects.postgres.resumeapidockercompose.utils.SpringUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -60,7 +59,7 @@ public class EducationController {
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "This operation will return a list of records associated to the resume id")
     public EducationResponse getListbyResumeId(@PathVariable String resumeId) {
-        return service.getListbyResumeId(SpringUtils.getUuid(resumeId));
+        return service.getListbyResumeId(resumeId);
     }
 
     @PostMapping(value = "/")
@@ -78,7 +77,7 @@ public class EducationController {
             "and will return the list of records associated to the resume id")
     public GenericDeleteResponse deleteRecords(@PathVariable String resumeId,
                                                @RequestParam(required = false) String id) {
-        return (id != null) ? service.deleteRecordbyId(SpringUtils.getUuid(resumeId), SpringUtils.getUuid(id))
-                : service.deleteRecordsbyResumeId(SpringUtils.getUuid(resumeId));
+        return (id != null) ? service.deleteRecordbyId(resumeId, id)
+                : service.deleteRecordsbyResumeId(resumeId);
     }
 }

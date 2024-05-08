@@ -48,7 +48,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         this.jwtTokenUtil = jwtTokenUtil;
     }
 
-    private static void filterException(String requestUri, HttpServletResponse response, CustomAuthException e) throws IOException {
+    static void filterException(String requestUri, HttpServletResponse response, CustomAuthException e) throws IOException {
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         ExceptionBody body = new ExceptionBody();

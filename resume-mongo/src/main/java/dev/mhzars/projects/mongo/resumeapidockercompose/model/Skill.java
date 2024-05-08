@@ -1,6 +1,5 @@
 package dev.mhzars.projects.mongo.resumeapidockercompose.model;
 
-import dev.mhzars.projects.mongo.resumeapidockercompose.utils.SpringUtils;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,12 +24,4 @@ public class Skill {
     private int percentage;
     private String type;
     private LocalDateTime creationDate;
-
-    public Skill(String name, int percentage, String type, LocalDateTime creationDate) {
-        this.id = SpringUtils.generateUniqueObjectId();
-        this.name = name;
-        this.percentage = percentage;
-        this.type = type;
-        this.creationDate = creationDate;
-    }
 }

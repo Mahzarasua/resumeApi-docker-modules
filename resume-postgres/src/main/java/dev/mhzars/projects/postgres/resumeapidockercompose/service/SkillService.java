@@ -4,14 +4,12 @@ import dev.mhzars.projects.postgres.resumeapidockercompose.domain.GenericDeleteR
 import dev.mhzars.projects.postgres.resumeapidockercompose.domain.skill.SkillRequest;
 import dev.mhzars.projects.postgres.resumeapidockercompose.domain.skill.SkillResponse;
 
-import java.util.UUID;
-
 public interface SkillService {
-    SkillResponse getListbyResumeId(UUID resumeId);
+    SkillResponse getListbyResumeId(String resumeId);
 
     SkillResponse saveList(SkillRequest request);
 
-    GenericDeleteResponse deleteRecordsbyResumeId(UUID resumeId);
+    GenericDeleteResponse deleteRecordsbyResumeId(String resumeId);
 
-    GenericDeleteResponse deleteRecordbyId(UUID resumeId, UUID id);
+    GenericDeleteResponse deleteRecordbyId(String resumeId, String id);
 }

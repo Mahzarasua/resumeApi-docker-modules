@@ -8,26 +8,23 @@ import dev.mhzars.projects.postgres.resumeapidockercompose.mapper.CustomMapper;
 import dev.mhzars.projects.postgres.resumeapidockercompose.model.Resume;
 import dev.mhzars.projects.postgres.resumeapidockercompose.repository.ResumeRepository;
 import dev.mhzars.projects.postgres.resumeapidockercompose.validator.ResumeValidator;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import static dev.mhzars.projects.postgres.resumeapidockercompose.utils.SpringUtils.getRandomId;
+import static dev.mhzars.projects.postgres.resumeapidockercompose.utils.SpringUtils.generateUniqueObjectId;
+import static dev.mhzars.projects.postgres.resumeapidockercompose.utils.SpringUtils.validateObjectId;
 
 @Service
+@AllArgsConstructor
 public class ResumeServiceImpl implements ResumeService {
 
     private final ResumeRepository repo;
     private final CustomMapper mapper;
     private final ResumeValidator validator;
-
-    public ResumeServiceImpl(ResumeRepository repo, CustomMapper mapper, ResumeValidator validator) {
-        this.repo = repo;
-        this.mapper = mapper;
-        this.validator = validator;
-    }
 
     private static void removeChildRecords(ResumeRequest request) {
         request.setEducationList(new ArrayList<>());
@@ -42,15 +39,14 @@ public class ResumeServiceImpl implements ResumeService {
     }
 
     @Override
-    public ResumeResponse getResumeById(UUID id) {
-        Resume resume = repo.findById(id)
+    public ResumeResponse getResumeById(String id) {
+        Resume resume = repo.findById(validateObjectId(id))
                 .orElseThrow(() -> new CustomNotFoundException(String.format("Resume with id %s was not found", id)));
         return mapper.map(resume, ResumeResponse.class);
     }
 
-    private void removeChildRecordsAndSaveResume(ResumeRequest request, UUID id) {
+    private void removeChildRecordsAndSaveResume(ResumeRequest request, String id) {
         removeChildRecords(request);
-
         saveResume(request, id);
     }
 
@@ -58,7 +54,7 @@ public class ResumeServiceImpl implements ResumeService {
         validator.validate(request);
         Resume resume = mapper.map(request, Resume.class);
         repo.save(resume);
-        request.setId(resume.getId());
+        request.setId(String.valueOf(resume.getId()));
     }
 
     @Override
@@ -67,15 +63,15 @@ public class ResumeServiceImpl implements ResumeService {
     }
 
     @Override
-    public ResumeIdResponse saveResume(ResumeRequest request, UUID id) {
-        UUID resumeId = null;
+    public ResumeIdResponse saveResume(ResumeRequest request, String id) {
+        UUID resumeId;
         if (id == null) {
-            resumeId = (request.getId() == null) ? getRandomId() : request.getId();
+            resumeId = (request.getId() == null || request.getId().isEmpty()) ? generateUniqueObjectId() : validateObjectId(request.getId());
         } else {
             resumeId = mapper.map(getResumeById(id), Resume.class).getId();
         }
 
-        request.setId(resumeId);
+        request.setId(String.valueOf(resumeId));
 
         validateAndSaveResume(request);
 
@@ -83,14 +79,12 @@ public class ResumeServiceImpl implements ResumeService {
     }
 
     @Override
-    public ResumeIdResponse deleteResumeById(UUID id) {
-        Resume resume = repo.findById(id)
+    public ResumeIdResponse deleteResumeById(String id) {
+        Resume resume = repo.findById(validateObjectId(id))
                 .orElseThrow(() -> new CustomNotFoundException(String.format("No Record was found for resumeId %s", id)));
-
         ResumeRequest request = mapper.map(resume, ResumeRequest.class);
-
         removeChildRecordsAndSaveResume(request, id);
-        repo.deleteById(id);
+        repo.deleteById(validateObjectId(id));
 
         return new ResumeIdResponse(id);
     }

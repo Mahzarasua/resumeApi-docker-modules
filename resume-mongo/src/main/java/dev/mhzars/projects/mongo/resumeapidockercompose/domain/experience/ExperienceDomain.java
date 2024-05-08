@@ -1,10 +1,14 @@
 package dev.mhzars.projects.mongo.resumeapidockercompose.domain.experience;
 
+import dev.mhzars.projects.mongo.resumeapidockercompose.podam.GenerateUUIDStrategy;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import uk.co.jemos.podam.common.PodamStrategyValue;
 
+import javax.validation.constraints.FutureOrPresent;
+import javax.validation.constraints.Past;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -12,7 +16,9 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ExperienceDomain {
+    @PodamStrategyValue(GenerateUUIDStrategy.class)
     private String resumeId;
+    @PodamStrategyValue(GenerateUUIDStrategy.class)
     private String id;
     @NotBlank
     private String title;
@@ -21,7 +27,9 @@ public class ExperienceDomain {
     private boolean currentJob;
     @NotBlank
     private String description;
+    @Past
     private LocalDate startDate;
+    @FutureOrPresent
     private LocalDate endDate;
     private LocalDateTime creationDate;
 }

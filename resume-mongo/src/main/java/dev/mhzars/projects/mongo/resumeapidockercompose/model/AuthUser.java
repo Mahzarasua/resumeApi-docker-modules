@@ -11,6 +11,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import static dev.mhzars.projects.mongo.resumeapidockercompose.utils.SpringUtils.generateUniqueObjectId;
+
 @Document
 @Data
 @NoArgsConstructor
@@ -27,6 +29,7 @@ public class AuthUser {
     private List<AuthRole> authRoles;
 
     public AuthUser(String username, String password, boolean active, LocalDateTime creationDate, List<AuthRole> authRoles) {
+        this.id = generateUniqueObjectId();
         this.username = username;
         this.password = password;
         this.active = active;

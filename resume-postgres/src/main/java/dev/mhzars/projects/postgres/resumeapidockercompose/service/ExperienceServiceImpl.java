@@ -11,12 +11,16 @@ import dev.mhzars.projects.postgres.resumeapidockercompose.model.Resume;
 import dev.mhzars.projects.postgres.resumeapidockercompose.repository.ResumeRepository;
 import dev.mhzars.projects.postgres.resumeapidockercompose.utils.SpringResumeRepo;
 import dev.mhzars.projects.postgres.resumeapidockercompose.utils.SpringUtils;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
+import java.util.Objects;
+
+import static dev.mhzars.projects.postgres.resumeapidockercompose.utils.SpringUtils.getUuid;
 
 @Service
+@AllArgsConstructor
 public class ExperienceServiceImpl implements ExperienceService {
 
     public static final String EXCEPTION_MSG = "No Experience record was found for resumeId %s";
@@ -24,14 +28,8 @@ public class ExperienceServiceImpl implements ExperienceService {
     private final CustomMapper mapper;
     private final SpringResumeRepo checkResume;
 
-    public ExperienceServiceImpl(ResumeRepository resumeRepo, CustomMapper mapper, SpringResumeRepo checkResume) {
-        this.repo = resumeRepo;
-        this.mapper = mapper;
-        this.checkResume = checkResume;
-    }
-
     @Override
-    public ExperienceResponse getListbyResumeId(UUID resumeId) {
+    public ExperienceResponse getListbyResumeId(String resumeId) {
         Resume resume = checkResume.checkResumeId(resumeId);
         List<Experience> list = resume.getExperienceList();
 
@@ -43,10 +41,10 @@ public class ExperienceServiceImpl implements ExperienceService {
 
     @Override
     public ExperienceResponse saveList(ExperienceRequest request) {
-        UUID resumeId = request.getExperienceList().get(0).getResumeId();
+        String resumeId = request.getExperienceList().get(0).getResumeId();
         Resume resume = checkResume.checkResumeId(resumeId);
 
-        request.getExperienceList().forEach(e -> e.setResumeId(resume.getId()));
+        request.getExperienceList().forEach(e -> e.setResumeId(String.valueOf(resume.getId())));
         for (Experience e : mapper.mapAsList(request.getExperienceList(), Experience.class)) {
             if (!resume.getExperienceList().contains(e)) {
                 resume.getExperienceList().add(e);
@@ -59,7 +57,7 @@ public class ExperienceServiceImpl implements ExperienceService {
     }
 
     @Override
-    public GenericDeleteResponse deleteRecordsbyResumeId(UUID resumeId) {
+    public GenericDeleteResponse deleteRecordsbyResumeId(String resumeId) {
         Resume resume = checkResume.checkResumeId(resumeId);
 
         List<Experience> list = resume.getExperienceList();
@@ -74,10 +72,22 @@ public class ExperienceServiceImpl implements ExperienceService {
     }
 
     @Override
-    public GenericDeleteResponse deleteRecordbyId(UUID resumeId, UUID id) {
+    public GenericDeleteResponse deleteRecordbyId(String resumeId, String id) {
         Resume resume = checkResume.checkResumeId(resumeId);
-        SpringUtils.removeFromList(resume.getExperienceList(), row -> row.getId() == id && resume.getId() == resumeId);
+        checkResumeExperienceList(resume, id);
+        SpringUtils.removeFromList(resume.getExperienceList(), row -> Objects.equals(row.getId(), getUuid(id)) && Objects.equals(resume.getId(), getUuid(resumeId)));
         repo.save(resume);
         return new GenericDeleteResponse(id, resumeId);
+    }
+
+    private void checkResumeExperienceList(Resume resume, String id) {
+        boolean recNotFound = true;
+        for (Experience e : resume.getExperienceList()) {
+            if (Objects.equals(e.getId(), getUuid(id))) {
+                recNotFound = false;
+            }
+        }
+        if (recNotFound)
+            throw new CustomNotFoundException(String.format("Experience with id %s was not found", id));
     }
 }

@@ -5,18 +5,17 @@ import dev.mhzars.projects.postgres.resumeapidockercompose.domain.resume.ResumeR
 import dev.mhzars.projects.postgres.resumeapidockercompose.domain.resume.ResumeResponse;
 
 import java.util.List;
-import java.util.UUID;
 
 public interface ResumeService {
     List<ResumeResponse> getAllResumes();
 
-    ResumeResponse getResumeById(UUID id);
+    ResumeResponse getResumeById(String id);
 
     ResumeIdResponse saveResume(ResumeRequest request);
 
-    ResumeIdResponse saveResume(ResumeRequest request, UUID id);
+    ResumeIdResponse saveResume(ResumeRequest request, String id);
 
-    ResumeIdResponse deleteResumeById(UUID id);
+    ResumeIdResponse deleteResumeById(String id);
 
     ResumeResponse getResumeByFirstName(String firstName);
 }

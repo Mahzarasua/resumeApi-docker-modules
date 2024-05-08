@@ -4,21 +4,23 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import dev.mhzars.projects.postgres.resumeapidockercompose.domain.education.EducationDomain;
 import dev.mhzars.projects.postgres.resumeapidockercompose.domain.experience.ExperienceDomain;
 import dev.mhzars.projects.postgres.resumeapidockercompose.domain.skill.SkillDomain;
+import dev.mhzars.projects.postgres.resumeapidockercompose.podam.GenerateUUIDStrategy;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import uk.co.jemos.podam.common.PodamStrategyValue;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Schema(description = "ResumeResponse")
 public class ResumeResponse {
-    private UUID id;
+    @PodamStrategyValue(GenerateUUIDStrategy.class)
+    private String id;
     private String firstName;
     private String lastName;
     private String title;
@@ -29,6 +31,7 @@ public class ResumeResponse {
     private String phone;
     private String summary;
     private LocalDateTime creationDate;
+
     @JsonIgnoreProperties(value = "resumeId")
     private List<SkillDomain> skillList;
     @JsonIgnoreProperties(value = "resumeId")

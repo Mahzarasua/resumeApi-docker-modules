@@ -5,12 +5,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.UUID;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Schema(description = "ResumeIdResponse")
 public class ResumeIdResponse {
-    private UUID resumeId;
+    private String resumeId;
 }
