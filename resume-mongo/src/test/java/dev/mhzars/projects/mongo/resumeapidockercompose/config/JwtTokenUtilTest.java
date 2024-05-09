@@ -67,21 +67,21 @@ class JwtTokenUtilTest {
     }
 
     @Test
-    public void generateToken_shouldGenerateToken() {
+    void generateToken_shouldGenerateToken() {
         String token = jwtTokenUtil.generateToken(userDetails);
 
         assertNotNull(token);
     }
 
     @Test
-    public void validateToken_shouldReturnTrueForValidToken() {
+    void validateToken_shouldReturnTrueForValidToken() {
         String token = jwtTokenUtil.generateToken(userDetails);
 
         assertTrue(jwtTokenUtil.validateToken(token, userDetails));
     }
 
     @Test
-    public void validateToken_shouldReturnFalseForExpiredToken() throws IllegalAccessException, NoSuchFieldException {
+    void validateToken_shouldReturnFalseForExpiredToken() throws IllegalAccessException, NoSuchFieldException {
         //Setting an expired value
         Field expirationField = jwtTokenUtil.getClass().getDeclaredField("jwtTokenValidity");
         expirationField.setAccessible(true);
@@ -90,9 +90,7 @@ class JwtTokenUtilTest {
 
         String token = jwtTokenUtil.generateToken(userDetails);
 
-        assertThrows(ExpiredJwtException.class, () -> {
-            boolean isValid = jwtTokenUtil.validateToken(token, userDetails);
-        });
+        assertThrows(ExpiredJwtException.class, () -> jwtTokenUtil.validateToken(token, userDetails));
 
         //returning it to the original value
         expirationField.setAccessible(true);
