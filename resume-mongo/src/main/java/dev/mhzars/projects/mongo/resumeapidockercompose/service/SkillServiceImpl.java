@@ -1,10 +1,10 @@
 package dev.mhzars.projects.mongo.resumeapidockercompose.service;
 
-import dev.mhzars.projects.mongo.resumeapidockercompose.domain.GenericDeleteResponse;
-import dev.mhzars.projects.mongo.resumeapidockercompose.domain.skill.SkillDomain;
-import dev.mhzars.projects.mongo.resumeapidockercompose.domain.skill.SkillRequest;
-import dev.mhzars.projects.mongo.resumeapidockercompose.domain.skill.SkillResponse;
-import dev.mhzars.projects.mongo.resumeapidockercompose.exception.CustomNotFoundException;
+import dev.mhzars.projects.commons.resumeapidockercompose.domain.GenericDeleteResponse;
+import dev.mhzars.projects.commons.resumeapidockercompose.domain.skill.SkillDomain;
+import dev.mhzars.projects.commons.resumeapidockercompose.domain.skill.SkillRequest;
+import dev.mhzars.projects.commons.resumeapidockercompose.domain.skill.SkillResponse;
+import dev.mhzars.projects.commons.resumeapidockercompose.exception.CustomNotFoundException;
 import dev.mhzars.projects.mongo.resumeapidockercompose.mapper.CustomMapper;
 import dev.mhzars.projects.mongo.resumeapidockercompose.model.Resume;
 import dev.mhzars.projects.mongo.resumeapidockercompose.model.Skill;

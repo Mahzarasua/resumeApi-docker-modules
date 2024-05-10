@@ -1,7 +1,11 @@
 package dev.mhzars.projects.mongo.resumeapidockercompose.config;
 
-import dev.mhzars.projects.mongo.resumeapidockercompose.exception.CustomAuthException;
-import dev.mhzars.projects.mongo.resumeapidockercompose.exception.ExceptionBody;
+
+import dev.mhzars.projects.commons.resumeapidockercompose.config.MyUserDetails;
+import dev.mhzars.projects.commons.resumeapidockercompose.exception.CustomAuthException;
+import dev.mhzars.projects.commons.resumeapidockercompose.exception.ExceptionBody;
+import dev.mhzars.projects.commons.resumeapidockercompose.model.CommonAuthUser;
+import dev.mhzars.projects.mongo.resumeapidockercompose.mapper.CustomMapper;
 import dev.mhzars.projects.mongo.resumeapidockercompose.model.AuthRole;
 import dev.mhzars.projects.mongo.resumeapidockercompose.model.AuthUser;
 import dev.mhzars.projects.mongo.resumeapidockercompose.service.MyUserDetailsService;
@@ -27,24 +31,20 @@ import static org.wildfly.common.Assert.assertTrue;
 
 class JwtRequestFilterTest {
 
+    private static final CustomMapper mapper = new CustomMapper();
     @Mock
     private MyUserDetailsService userDetailsService;
-
     @Mock
     private JwtTokenUtil jwtTokenUtil;
-
     @Mock
     private HttpServletRequest request;
-
     @Mock
     private HttpServletResponse response;
-
     @Mock
     private FilterChain filterChain;
-
     private JwtRequestFilter jwtRequestFilter;
 
-    private static AuthUser getAuthUser(String username) {
+    private static CommonAuthUser getAuthUser(String username) {
         AuthUser authUserModel = new AuthUser();
         authUserModel.setUsername(username);
         authUserModel.setPassword("password");
@@ -56,7 +56,7 @@ class JwtRequestFilterTest {
         role.setRole("ROLE_USER");
         role.setCreationDate(LocalDateTime.now());
         authUserModel.setAuthRoles(Collections.singletonList(role));
-        return authUserModel;
+        return mapper.map(authUserModel, CommonAuthUser.class);
     }
 
     @BeforeEach

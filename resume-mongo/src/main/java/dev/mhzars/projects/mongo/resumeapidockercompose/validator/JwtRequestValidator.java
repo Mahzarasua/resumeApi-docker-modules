@@ -1,15 +1,17 @@
 package dev.mhzars.projects.mongo.resumeapidockercompose.validator;
 
-import dev.mhzars.projects.mongo.resumeapidockercompose.domain.auth.JwtRequest;
-import dev.mhzars.projects.mongo.resumeapidockercompose.exception.CustomBadRequestException;
-import dev.mhzars.projects.mongo.resumeapidockercompose.exception.ExceptionBody;
+import dev.mhzars.projects.commons.resumeapidockercompose.domain.auth.JwtRequest;
+import dev.mhzars.projects.commons.resumeapidockercompose.exception.CustomBadRequestException;
+import dev.mhzars.projects.commons.resumeapidockercompose.exception.ExceptionBody;
+import dev.mhzars.projects.commons.resumeapidockercompose.validator.CustomValidator;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static dev.mhzars.projects.mongo.resumeapidockercompose.validator.CustomValidationUtils.CUSTOM_ERROR_MSG;
-import static dev.mhzars.projects.mongo.resumeapidockercompose.validator.CustomValidationUtils.validateRequiredString;
+import static dev.mhzars.projects.commons.resumeapidockercompose.validator.CustomValidationUtils.CUSTOM_ERROR_MSG;
+import static dev.mhzars.projects.commons.resumeapidockercompose.validator.CustomValidationUtils.validateRequiredString;
+
 
 @Service
 public class JwtRequestValidator implements CustomValidator<JwtRequest> {

@@ -1,6 +1,7 @@
 package dev.mhzars.projects.postgres.resumeapidockercompose.utils;
 
-import dev.mhzars.projects.postgres.resumeapidockercompose.exception.CustomNotFoundException;
+
+import dev.mhzars.projects.commons.resumeapidockercompose.exception.CustomNotFoundException;
 import dev.mhzars.projects.postgres.resumeapidockercompose.model.Resume;
 import dev.mhzars.projects.postgres.resumeapidockercompose.repository.ResumeRepository;
 import org.springframework.stereotype.Component;

@@ -1,6 +1,7 @@
 package dev.mhzars.projects.mongo.resumeapidockercompose.utils;
 
-import dev.mhzars.projects.mongo.resumeapidockercompose.exception.CustomNotFoundException;
+
+import dev.mhzars.projects.commons.resumeapidockercompose.exception.CustomNotFoundException;
 import dev.mhzars.projects.mongo.resumeapidockercompose.model.Resume;
 import dev.mhzars.projects.mongo.resumeapidockercompose.repository.ResumeRepository;
 import lombok.AllArgsConstructor;

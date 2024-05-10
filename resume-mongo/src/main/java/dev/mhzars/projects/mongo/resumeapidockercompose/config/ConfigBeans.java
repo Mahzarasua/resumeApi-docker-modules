@@ -1,21 +1,8 @@
 package dev.mhzars.projects.mongo.resumeapidockercompose.config;
 
-import org.springframework.context.annotation.Bean;
+import dev.mhzars.projects.commons.resumeapidockercompose.config.CommonConfigBeans;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.client.RestTemplate;
 
 @Configuration
-public class ConfigBeans {
-
-    @Bean
-    public PasswordEncoder getPasswordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
-    @Bean
-    public RestTemplate restTemplate() {
-        return new RestTemplate();
-    }
+public class ConfigBeans extends CommonConfigBeans {
 }

@@ -1,9 +1,9 @@
 package dev.mhzars.projects.postgres.resumeapidockercompose.controller;
 
-import dev.mhzars.projects.postgres.resumeapidockercompose.domain.GenericDeleteResponse;
-import dev.mhzars.projects.postgres.resumeapidockercompose.domain.skill.SkillRequest;
-import dev.mhzars.projects.postgres.resumeapidockercompose.domain.skill.SkillResponse;
-import dev.mhzars.projects.postgres.resumeapidockercompose.exception.ExceptionBody;
+import dev.mhzars.projects.commons.resumeapidockercompose.domain.GenericDeleteResponse;
+import dev.mhzars.projects.commons.resumeapidockercompose.domain.skill.SkillRequest;
+import dev.mhzars.projects.commons.resumeapidockercompose.domain.skill.SkillResponse;
+import dev.mhzars.projects.commons.resumeapidockercompose.exception.ExceptionBody;
 import dev.mhzars.projects.postgres.resumeapidockercompose.service.SkillService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -48,6 +48,7 @@ import org.springframework.web.bind.annotation.RestController;
                         schema = @Schema(implementation = ExceptionBody.class))})
 })
 public class SkillController {
+
     private final SkillService service;
 
     public SkillController(SkillService service) {

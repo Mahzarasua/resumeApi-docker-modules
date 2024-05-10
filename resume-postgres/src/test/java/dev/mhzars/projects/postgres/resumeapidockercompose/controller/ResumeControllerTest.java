@@ -1,9 +1,9 @@
 package dev.mhzars.projects.postgres.resumeapidockercompose.controller;
 
 
-import dev.mhzars.projects.postgres.resumeapidockercompose.domain.resume.ResumeIdResponse;
+import dev.mhzars.projects.commons.resumeapidockercompose.domain.resume.ResumeIdResponse;
+import dev.mhzars.projects.commons.resumeapidockercompose.domain.resume.ResumeResponse;
 import dev.mhzars.projects.postgres.resumeapidockercompose.domain.resume.ResumeRequest;
-import dev.mhzars.projects.postgres.resumeapidockercompose.domain.resume.ResumeResponse;
 import dev.mhzars.projects.postgres.resumeapidockercompose.service.ResumeService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;

@@ -1,9 +1,9 @@
 package dev.mhzars.projects.postgres.resumeapidockercompose.controller;
 
-import dev.mhzars.projects.postgres.resumeapidockercompose.domain.resume.ResumeIdResponse;
+import dev.mhzars.projects.commons.resumeapidockercompose.domain.resume.ResumeIdResponse;
+import dev.mhzars.projects.commons.resumeapidockercompose.domain.resume.ResumeResponse;
+import dev.mhzars.projects.commons.resumeapidockercompose.exception.ExceptionBody;
 import dev.mhzars.projects.postgres.resumeapidockercompose.domain.resume.ResumeRequest;
-import dev.mhzars.projects.postgres.resumeapidockercompose.domain.resume.ResumeResponse;
-import dev.mhzars.projects.postgres.resumeapidockercompose.exception.ExceptionBody;
 import dev.mhzars.projects.postgres.resumeapidockercompose.service.ResumeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

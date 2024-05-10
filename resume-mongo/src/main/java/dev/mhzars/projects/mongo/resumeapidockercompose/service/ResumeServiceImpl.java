@@ -1,9 +1,10 @@
 package dev.mhzars.projects.mongo.resumeapidockercompose.service;
 
-import dev.mhzars.projects.mongo.resumeapidockercompose.domain.resume.ResumeIdResponse;
+import dev.mhzars.projects.commons.resumeapidockercompose.domain.resume.ResumeIdResponse;
+import dev.mhzars.projects.commons.resumeapidockercompose.domain.resume.ResumeResponse;
+import dev.mhzars.projects.commons.resumeapidockercompose.exception.CustomNotFoundException;
+import dev.mhzars.projects.commons.resumeapidockercompose.validator.CommonResumeValidator;
 import dev.mhzars.projects.mongo.resumeapidockercompose.domain.resume.ResumeRequest;
-import dev.mhzars.projects.mongo.resumeapidockercompose.domain.resume.ResumeResponse;
-import dev.mhzars.projects.mongo.resumeapidockercompose.exception.CustomNotFoundException;
 import dev.mhzars.projects.mongo.resumeapidockercompose.mapper.CustomMapper;
 import dev.mhzars.projects.mongo.resumeapidockercompose.model.Resume;
 import dev.mhzars.projects.mongo.resumeapidockercompose.repository.ResumeRepository;
@@ -26,6 +27,7 @@ public class ResumeServiceImpl implements ResumeService {
     private final ResumeRepository repo;
     private final CustomMapper mapper;
     private final ResumeValidator validator;
+    private final CommonResumeValidator commonValidator;
 
     private static void removeChildRecords(ResumeRequest request) {
         request.setEducationList(new ArrayList<>());
@@ -52,6 +54,7 @@ public class ResumeServiceImpl implements ResumeService {
     }
 
     private void validateAndSaveResume(ResumeRequest request) {
+        commonValidator.validate(request);
         validator.validate(request);
         Resume resume = mapper.map(request, Resume.class);
         checkChildTables(resume);

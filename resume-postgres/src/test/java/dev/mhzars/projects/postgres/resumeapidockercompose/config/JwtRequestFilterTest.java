@@ -1,8 +1,11 @@
 package dev.mhzars.projects.postgres.resumeapidockercompose.config;
 
 
-import dev.mhzars.projects.postgres.resumeapidockercompose.exception.CustomAuthException;
-import dev.mhzars.projects.postgres.resumeapidockercompose.exception.ExceptionBody;
+import dev.mhzars.projects.commons.resumeapidockercompose.config.MyUserDetails;
+import dev.mhzars.projects.commons.resumeapidockercompose.exception.CustomAuthException;
+import dev.mhzars.projects.commons.resumeapidockercompose.exception.ExceptionBody;
+import dev.mhzars.projects.commons.resumeapidockercompose.model.CommonAuthUser;
+import dev.mhzars.projects.postgres.resumeapidockercompose.mapper.CustomMapper;
 import dev.mhzars.projects.postgres.resumeapidockercompose.model.AuthRole;
 import dev.mhzars.projects.postgres.resumeapidockercompose.model.AuthUser;
 import dev.mhzars.projects.postgres.resumeapidockercompose.service.MyUserDetailsService;
@@ -23,41 +26,37 @@ import java.io.PrintWriter;
 import java.time.LocalDateTime;
 import java.util.Collections;
 
-import static dev.mhzars.projects.postgres.resumeapidockercompose.utils.SpringUtils.getRandomId;
+import static dev.mhzars.projects.postgres.resumeapidockercompose.utils.SpringUtils.generateUniqueObjectId;
 import static org.wildfly.common.Assert.assertTrue;
 
 class JwtRequestFilterTest {
 
+    private static final CustomMapper mapper = new CustomMapper();
     @Mock
     private MyUserDetailsService userDetailsService;
-
     @Mock
     private JwtTokenUtil jwtTokenUtil;
-
     @Mock
     private HttpServletRequest request;
-
     @Mock
     private HttpServletResponse response;
-
     @Mock
     private FilterChain filterChain;
-
     private JwtRequestFilter jwtRequestFilter;
 
-    private static AuthUser getAuthUser(String username) {
+    private static CommonAuthUser getAuthUser(String username) {
         AuthUser authUserModel = new AuthUser();
         authUserModel.setUsername(username);
         authUserModel.setPassword("password");
-        authUserModel.setId(getRandomId());
+        authUserModel.setId(generateUniqueObjectId());
         authUserModel.setActive(true);
         authUserModel.setCreationDate(LocalDateTime.now());
         AuthRole role = new AuthRole();
-        role.setId(getRandomId());
+        role.setId(generateUniqueObjectId());
         role.setRole("ROLE_USER");
         role.setCreationDate(LocalDateTime.now());
         authUserModel.setAuthRoles(Collections.singletonList(role));
-        return authUserModel;
+        return mapper.map(authUserModel, CommonAuthUser.class);
     }
 
     @BeforeEach
@@ -101,8 +100,6 @@ class JwtRequestFilterTest {
 
         Mockito.verify(filterChain, Mockito.times(1)).doFilter(request, response);
         Mockito.verify(request, Mockito.times(1)).getHeader("Authorization");
-//        Mockito.verify(jwtTokenUtil, Mockito.times(1)).getUsernameFromToken(token);
-//        Mockito.verify(userDetailsService, Mockito.times(1)).loadUserByUsername(username);
         assertTrue(true);
     }
 

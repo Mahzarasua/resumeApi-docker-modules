@@ -7,9 +7,12 @@ import org.junit.jupiter.api.Test;
 import java.time.LocalDateTime;
 import java.util.Collections;
 
+import static dev.mhzars.projects.commons.resumeapidockercompose.CommonTestUtils.manufacturedCustomPojo;
 import static dev.mhzars.projects.postgres.resumeapidockercompose.TestUtils.manufacturedPojo;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 @Slf4j
 class AuthUserTest {
@@ -39,6 +42,16 @@ class AuthUserTest {
         assertNotNull(tmp);
         assertThat(r).usingRecursiveComparison().isNotEqualTo(tmp);
         log.info("{}", tmp);
+    }
+
+    @Test
+    void testPrepareRole() {
+        AuthUser tmp = manufacturedCustomPojo(AuthUser.class);
+
+        assertNull(tmp.getAuthRoles().get(0).getUser());
+
+        tmp.prepareRole();
+        assertEquals(tmp.getAuthRoles().get(0).getUser().getId(), tmp.getId());
     }
 
 }

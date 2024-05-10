@@ -1,10 +1,14 @@
 package dev.mhzars.projects.mongo.resumeapidockercompose.mapper;
 
-import dev.mhzars.projects.mongo.resumeapidockercompose.config.MyUserDetails;
-import dev.mhzars.projects.mongo.resumeapidockercompose.domain.auth.UserResponse;
-import dev.mhzars.projects.mongo.resumeapidockercompose.domain.education.EducationDomain;
-import dev.mhzars.projects.mongo.resumeapidockercompose.domain.experience.ExperienceDomain;
-import dev.mhzars.projects.mongo.resumeapidockercompose.domain.skill.SkillDomain;
+import dev.mhzars.projects.commons.resumeapidockercompose.config.MyUserDetails;
+import dev.mhzars.projects.commons.resumeapidockercompose.domain.auth.UserResponse;
+import dev.mhzars.projects.commons.resumeapidockercompose.domain.education.EducationDomain;
+import dev.mhzars.projects.commons.resumeapidockercompose.domain.experience.ExperienceDomain;
+import dev.mhzars.projects.commons.resumeapidockercompose.domain.skill.SkillDomain;
+import dev.mhzars.projects.commons.resumeapidockercompose.mapper.BidirectionalStringAndUUIDConverter;
+import dev.mhzars.projects.commons.resumeapidockercompose.mapper.CommonCustomMapper;
+import dev.mhzars.projects.commons.resumeapidockercompose.model.CommonAuthRole;
+import dev.mhzars.projects.commons.resumeapidockercompose.model.CommonAuthUser;
 import dev.mhzars.projects.mongo.resumeapidockercompose.model.AuthRole;
 import dev.mhzars.projects.mongo.resumeapidockercompose.model.AuthUser;
 import dev.mhzars.projects.mongo.resumeapidockercompose.model.Education;
@@ -12,7 +16,6 @@ import dev.mhzars.projects.mongo.resumeapidockercompose.model.Experience;
 import dev.mhzars.projects.mongo.resumeapidockercompose.model.Skill;
 import ma.glasnost.orika.MapperFactory;
 import ma.glasnost.orika.converter.builtin.PassThroughConverter;
-import ma.glasnost.orika.impl.ConfigurableMapper;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
@@ -21,7 +24,7 @@ import java.time.LocalDateTime;
 
 @Component
 @Primary
-public class CustomMapper extends ConfigurableMapper {
+public class CustomMapper extends CommonCustomMapper {
     public static final String AUTH_ROLE = "role";
     public static final String DOMAIN_ROLE_NAME = "roleName";
 
@@ -55,7 +58,15 @@ public class CustomMapper extends ConfigurableMapper {
                 .byDefault().mapNulls(false)
                 .register();
 
-        factory.classMap(AuthUser.class, MyUserDetails.class)
+        factory.classMap(AuthUser.class, CommonAuthUser.class)
+                .byDefault().mapNulls(false)
+                .register();
+
+        factory.classMap(AuthRole.class, CommonAuthRole.class)
+                .byDefault().mapNulls(false)
+                .register();
+
+        factory.classMap(CommonAuthUser.class, MyUserDetails.class)
                 .byDefault().mapNulls(false)
                 .register();
     }

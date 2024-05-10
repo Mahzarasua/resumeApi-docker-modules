@@ -1,9 +1,9 @@
 package dev.mhzars.projects.mongo.resumeapidockercompose.controller;
 
-import dev.mhzars.projects.mongo.resumeapidockercompose.domain.GenericDeleteResponse;
-import dev.mhzars.projects.mongo.resumeapidockercompose.domain.education.EducationRequest;
-import dev.mhzars.projects.mongo.resumeapidockercompose.domain.education.EducationResponse;
-import dev.mhzars.projects.mongo.resumeapidockercompose.exception.ExceptionBody;
+import dev.mhzars.projects.commons.resumeapidockercompose.domain.GenericDeleteResponse;
+import dev.mhzars.projects.commons.resumeapidockercompose.domain.education.EducationRequest;
+import dev.mhzars.projects.commons.resumeapidockercompose.domain.education.EducationResponse;
+import dev.mhzars.projects.commons.resumeapidockercompose.exception.ExceptionBody;
 import dev.mhzars.projects.mongo.resumeapidockercompose.service.EducationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;

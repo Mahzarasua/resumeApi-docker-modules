@@ -1,9 +1,9 @@
 package dev.mhzars.projects.postgres.resumeapidockercompose.controller;
 
 
-import dev.mhzars.projects.postgres.resumeapidockercompose.domain.GenericDeleteResponse;
-import dev.mhzars.projects.postgres.resumeapidockercompose.domain.experience.ExperienceRequest;
-import dev.mhzars.projects.postgres.resumeapidockercompose.domain.experience.ExperienceResponse;
+import dev.mhzars.projects.commons.resumeapidockercompose.domain.GenericDeleteResponse;
+import dev.mhzars.projects.commons.resumeapidockercompose.domain.experience.ExperienceRequest;
+import dev.mhzars.projects.commons.resumeapidockercompose.domain.experience.ExperienceResponse;
 import dev.mhzars.projects.postgres.resumeapidockercompose.service.ExperienceService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
