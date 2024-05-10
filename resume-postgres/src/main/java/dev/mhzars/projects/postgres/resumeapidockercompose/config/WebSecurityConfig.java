@@ -14,6 +14,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import static dev.mhzars.projects.commons.resumeapidockercompose.config.WebConfigWhiteList.getAuthWhitelist;
 import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
@@ -26,26 +27,6 @@ import static org.springframework.security.config.Customizer.withDefaults;
                 , contact = @Contact(name = "${info.app.contact.name}", url = "${info.app.contact.url}", email = "${info.app.contact.email}"))
 )
 public class WebSecurityConfig {
-    protected static final String[] AUTH_WHITELIST = {
-            // -- Swagger UI v2
-            "/v2/api-docs**",
-            "/swagger-resources",
-            "/swagger-resources/**",
-            "/configuration**",
-            "/swagger-ui.html",
-            "/webjars/**",
-            // -- Swagger UI v3 (OpenAPI)
-            "/v3/api-docs/**",
-            "/swagger-ui/**",
-            "/swagger-ui**",
-            "/openapi**",
-            "/openapi/**",
-            "/admin**",
-            "/admin/**"
-            // other public endpoints of your API may be appended to this array
-            , "/authenticate"
-    };
-
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JwtRequestFilter jwtRequestFilter;
     private final CustomAuthenticationManager customAuthenticationManager;
@@ -60,7 +41,7 @@ public class WebSecurityConfig {
     @Primary
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http.authorizeHttpRequests(
-                        authz -> authz.requestMatchers(AUTH_WHITELIST).permitAll()
+                        authz -> authz.requestMatchers(getAuthWhitelist()).permitAll()
                                 .anyRequest().authenticated()).httpBasic(withDefaults())
                 .authenticationManager(customAuthenticationManager)
                 .csrf(AbstractHttpConfigurer::disable)

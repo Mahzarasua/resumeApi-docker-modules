@@ -1,11 +1,10 @@
 package dev.mhzars.projects.postgres.resumeapidockercompose.controller;
 
-
+import dev.mhzars.projects.commons.resumeapidockercompose.config.CommonJwtTokenUtil;
+import dev.mhzars.projects.commons.resumeapidockercompose.config.MyUserDetails;
+import dev.mhzars.projects.commons.resumeapidockercompose.domain.auth.JwtRequest;
+import dev.mhzars.projects.commons.resumeapidockercompose.domain.auth.JwtResponse;
 import dev.mhzars.projects.postgres.resumeapidockercompose.config.CustomAuthenticationManager;
-import dev.mhzars.projects.postgres.resumeapidockercompose.config.JwtTokenUtil;
-import dev.mhzars.projects.postgres.resumeapidockercompose.config.MyUserDetails;
-import dev.mhzars.projects.postgres.resumeapidockercompose.domain.auth.JwtRequest;
-import dev.mhzars.projects.postgres.resumeapidockercompose.domain.auth.JwtResponse;
 import dev.mhzars.projects.postgres.resumeapidockercompose.validator.JwtRequestValidator;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,10 +22,9 @@ class JwtAuthenticationControllerTest {
     @BeforeEach
     void init() {
         CustomAuthenticationManager authenticationManager = Mockito.mock(CustomAuthenticationManager.class);
-        JwtTokenUtil jwtTokenUtil = Mockito.mock(JwtTokenUtil.class);
+        CommonJwtTokenUtil jwtTokenUtil = Mockito.mock(CommonJwtTokenUtil.class);
         JwtRequestValidator validator = Mockito.mock(JwtRequestValidator.class);
 
-        JwtResponse response = manufacturedPojo(JwtResponse.class);
         MyUserDetails userDetails = manufacturedPojo(MyUserDetails.class);
 
         Mockito.doNothing()

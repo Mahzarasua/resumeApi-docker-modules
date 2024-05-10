@@ -1,10 +1,11 @@
 package dev.mhzars.projects.postgres.resumeapidockercompose.service;
 
-import dev.mhzars.projects.postgres.resumeapidockercompose.domain.GenericDeleteResponse;
-import dev.mhzars.projects.postgres.resumeapidockercompose.domain.skill.SkillDomain;
-import dev.mhzars.projects.postgres.resumeapidockercompose.domain.skill.SkillRequest;
-import dev.mhzars.projects.postgres.resumeapidockercompose.domain.skill.SkillResponse;
-import dev.mhzars.projects.postgres.resumeapidockercompose.exception.CustomNotFoundException;
+
+import dev.mhzars.projects.commons.resumeapidockercompose.domain.GenericDeleteResponse;
+import dev.mhzars.projects.commons.resumeapidockercompose.domain.skill.SkillDomain;
+import dev.mhzars.projects.commons.resumeapidockercompose.domain.skill.SkillRequest;
+import dev.mhzars.projects.commons.resumeapidockercompose.domain.skill.SkillResponse;
+import dev.mhzars.projects.commons.resumeapidockercompose.exception.CustomNotFoundException;
 import dev.mhzars.projects.postgres.resumeapidockercompose.mapper.CustomMapper;
 import dev.mhzars.projects.postgres.resumeapidockercompose.model.Resume;
 import dev.mhzars.projects.postgres.resumeapidockercompose.model.Skill;
@@ -17,7 +18,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Objects;
 
-import static dev.mhzars.projects.postgres.resumeapidockercompose.utils.SpringUtils.getUuid;
+import static dev.mhzars.projects.postgres.resumeapidockercompose.utils.SpringUtils.validateObjectId;
 
 @Service
 @AllArgsConstructor
@@ -74,7 +75,7 @@ public class SkillServiceImpl implements SkillService {
     public GenericDeleteResponse deleteRecordbyId(String resumeId, String id) {
         Resume resume = checkResume.checkResumeId(resumeId);
         checkResumeSkillList(resume, id);
-        SpringUtils.removeFromList(resume.getSkillList(), row -> Objects.equals(row.getId(), SpringUtils.getUuid(id)) && Objects.equals(resume.getId(), SpringUtils.getUuid(resumeId)));
+        SpringUtils.removeFromList(resume.getSkillList(), row -> Objects.equals(row.getId(), validateObjectId(id)) && Objects.equals(resume.getId(), validateObjectId(resumeId)));
         repo.save(resume);
         return new GenericDeleteResponse(id, resumeId);
     }
@@ -82,7 +83,7 @@ public class SkillServiceImpl implements SkillService {
     private void checkResumeSkillList(Resume resume, String id) {
         boolean recNotFound = true;
         for (Skill e : resume.getSkillList()) {
-            if (Objects.equals(e.getId(), getUuid(id))) {
+            if (Objects.equals(e.getId(), validateObjectId(id))) {
                 recNotFound = false;
             }
         }

@@ -1,10 +1,12 @@
 package dev.mhzars.projects.postgres.resumeapidockercompose.mapper;
 
-import dev.mhzars.projects.postgres.resumeapidockercompose.config.MyUserDetails;
-import dev.mhzars.projects.postgres.resumeapidockercompose.domain.auth.UserResponse;
-import dev.mhzars.projects.postgres.resumeapidockercompose.domain.education.EducationDomain;
-import dev.mhzars.projects.postgres.resumeapidockercompose.domain.experience.ExperienceDomain;
-import dev.mhzars.projects.postgres.resumeapidockercompose.domain.skill.SkillDomain;
+import dev.mhzars.projects.commons.resumeapidockercompose.config.MyUserDetails;
+import dev.mhzars.projects.commons.resumeapidockercompose.domain.auth.UserResponse;
+import dev.mhzars.projects.commons.resumeapidockercompose.domain.education.EducationDomain;
+import dev.mhzars.projects.commons.resumeapidockercompose.domain.experience.ExperienceDomain;
+import dev.mhzars.projects.commons.resumeapidockercompose.domain.skill.SkillDomain;
+import dev.mhzars.projects.commons.resumeapidockercompose.mapper.BidirectionalStringAndUUIDConverter;
+import dev.mhzars.projects.commons.resumeapidockercompose.mapper.CommonCustomMapper;
 import dev.mhzars.projects.postgres.resumeapidockercompose.model.AuthRole;
 import dev.mhzars.projects.postgres.resumeapidockercompose.model.AuthUser;
 import dev.mhzars.projects.postgres.resumeapidockercompose.model.Education;
@@ -12,7 +14,6 @@ import dev.mhzars.projects.postgres.resumeapidockercompose.model.Experience;
 import dev.mhzars.projects.postgres.resumeapidockercompose.model.Skill;
 import ma.glasnost.orika.MapperFactory;
 import ma.glasnost.orika.converter.builtin.PassThroughConverter;
-import ma.glasnost.orika.impl.ConfigurableMapper;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
@@ -21,7 +22,7 @@ import java.time.LocalDateTime;
 
 @Component
 @Primary
-public class CustomMapper extends ConfigurableMapper {
+public class CustomMapper extends CommonCustomMapper {
 
     public static final String PARENT_RESUME_ID = "resume.id";
     public static final String DOMAIN_RESUME_ID = "resumeId";

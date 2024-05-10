@@ -1,10 +1,10 @@
 package dev.mhzars.projects.mongo.resumeapidockercompose.service;
 
-import dev.mhzars.projects.mongo.resumeapidockercompose.domain.GenericDeleteResponse;
-import dev.mhzars.projects.mongo.resumeapidockercompose.domain.experience.ExperienceDomain;
-import dev.mhzars.projects.mongo.resumeapidockercompose.domain.experience.ExperienceRequest;
-import dev.mhzars.projects.mongo.resumeapidockercompose.domain.experience.ExperienceResponse;
-import dev.mhzars.projects.mongo.resumeapidockercompose.exception.CustomNotFoundException;
+import dev.mhzars.projects.commons.resumeapidockercompose.domain.GenericDeleteResponse;
+import dev.mhzars.projects.commons.resumeapidockercompose.domain.experience.ExperienceDomain;
+import dev.mhzars.projects.commons.resumeapidockercompose.domain.experience.ExperienceRequest;
+import dev.mhzars.projects.commons.resumeapidockercompose.domain.experience.ExperienceResponse;
+import dev.mhzars.projects.commons.resumeapidockercompose.exception.CustomNotFoundException;
 import dev.mhzars.projects.mongo.resumeapidockercompose.mapper.CustomMapper;
 import dev.mhzars.projects.mongo.resumeapidockercompose.model.Experience;
 import dev.mhzars.projects.mongo.resumeapidockercompose.model.Resume;

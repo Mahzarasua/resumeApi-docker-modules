@@ -1,9 +1,9 @@
 package dev.mhzars.projects.mongo.resumeapidockercompose.controller;
 
-import dev.mhzars.projects.mongo.resumeapidockercompose.domain.resume.ResumeIdResponse;
+import dev.mhzars.projects.commons.resumeapidockercompose.domain.resume.ResumeIdResponse;
+import dev.mhzars.projects.commons.resumeapidockercompose.domain.resume.ResumeResponse;
+import dev.mhzars.projects.commons.resumeapidockercompose.exception.ExceptionBody;
 import dev.mhzars.projects.mongo.resumeapidockercompose.domain.resume.ResumeRequest;
-import dev.mhzars.projects.mongo.resumeapidockercompose.domain.resume.ResumeResponse;
-import dev.mhzars.projects.mongo.resumeapidockercompose.exception.ExceptionBody;
 import dev.mhzars.projects.mongo.resumeapidockercompose.service.ResumeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

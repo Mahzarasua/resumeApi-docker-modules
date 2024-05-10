@@ -1,10 +1,10 @@
 package dev.mhzars.projects.mongo.resumeapidockercompose.controller;
 
+import dev.mhzars.projects.commons.resumeapidockercompose.config.CommonJwtTokenUtil;
+import dev.mhzars.projects.commons.resumeapidockercompose.domain.auth.JwtRequest;
+import dev.mhzars.projects.commons.resumeapidockercompose.domain.auth.JwtResponse;
+import dev.mhzars.projects.commons.resumeapidockercompose.exception.ExceptionBody;
 import dev.mhzars.projects.mongo.resumeapidockercompose.config.CustomAuthenticationManager;
-import dev.mhzars.projects.mongo.resumeapidockercompose.config.JwtTokenUtil;
-import dev.mhzars.projects.mongo.resumeapidockercompose.domain.auth.JwtRequest;
-import dev.mhzars.projects.mongo.resumeapidockercompose.domain.auth.JwtResponse;
-import dev.mhzars.projects.mongo.resumeapidockercompose.exception.ExceptionBody;
 import dev.mhzars.projects.mongo.resumeapidockercompose.validator.JwtRequestValidator;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -45,11 +45,11 @@ public class JwtAuthenticationController {
 
     private final CustomAuthenticationManager authenticationManager;
 
-    private final JwtTokenUtil jwtTokenUtil;
+    private final CommonJwtTokenUtil jwtTokenUtil;
 
     private final JwtRequestValidator validator;
 
-    public JwtAuthenticationController(CustomAuthenticationManager authenticationManager, JwtTokenUtil jwtTokenUtil, JwtRequestValidator validator) {
+    public JwtAuthenticationController(CustomAuthenticationManager authenticationManager, CommonJwtTokenUtil jwtTokenUtil, JwtRequestValidator validator) {
         this.authenticationManager = authenticationManager;
         this.jwtTokenUtil = jwtTokenUtil;
         this.validator = validator;

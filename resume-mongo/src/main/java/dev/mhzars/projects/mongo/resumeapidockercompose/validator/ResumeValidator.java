@@ -1,19 +1,24 @@
 package dev.mhzars.projects.mongo.resumeapidockercompose.validator;
 
-import dev.mhzars.projects.mongo.resumeapidockercompose.domain.education.EducationDegreeEnum;
-import dev.mhzars.projects.mongo.resumeapidockercompose.domain.education.EducationDomain;
-import dev.mhzars.projects.mongo.resumeapidockercompose.domain.experience.ExperienceDomain;
+import dev.mhzars.projects.commons.resumeapidockercompose.domain.education.EducationDomain;
+import dev.mhzars.projects.commons.resumeapidockercompose.domain.experience.ExperienceDomain;
+import dev.mhzars.projects.commons.resumeapidockercompose.enums.EducationDegreeEnum;
+import dev.mhzars.projects.commons.resumeapidockercompose.exception.CustomBadRequestException;
+import dev.mhzars.projects.commons.resumeapidockercompose.exception.ExceptionBody;
+import dev.mhzars.projects.commons.resumeapidockercompose.validator.CustomValidationUtils;
+import dev.mhzars.projects.commons.resumeapidockercompose.validator.CustomValidator;
 import dev.mhzars.projects.mongo.resumeapidockercompose.domain.resume.ResumeRequest;
-import dev.mhzars.projects.mongo.resumeapidockercompose.exception.CustomBadRequestException;
-import dev.mhzars.projects.mongo.resumeapidockercompose.exception.ExceptionBody;
 import org.apache.commons.lang3.EnumUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static dev.mhzars.projects.commons.resumeapidockercompose.exception.ExceptionBody.newErrorDetail;
+
 @Service
 public class ResumeValidator implements CustomValidator<ResumeRequest> {
+
     @Override
     public void validate(ResumeRequest request) {
         List<ExceptionBody.ErrorDetails> errorDetails = new ArrayList<>();
@@ -24,23 +29,6 @@ public class ResumeValidator implements CustomValidator<ResumeRequest> {
     }
 
     private void validateRequiredField(ResumeRequest request, List<ExceptionBody.ErrorDetails> errorDetails) {
-        if (!CustomValidationUtils.isValidString(request.getFirstName()))
-            errorDetails.add(newErrorDetail(CustomValidationUtils.REQ_FIELD, "First name"));
-        if (!CustomValidationUtils.isValidString(request.getLastName()))
-            errorDetails.add(newErrorDetail(CustomValidationUtils.REQ_FIELD, "Second name"));
-        if (!CustomValidationUtils.isValidString(request.getEmail()))
-            errorDetails.add(newErrorDetail(CustomValidationUtils.REQ_FIELD, "Email"));
-        if (!CustomValidationUtils.isValidString(request.getPhone()))
-            errorDetails.add(newErrorDetail(CustomValidationUtils.REQ_FIELD, "Phone number"));
-        if (!CustomValidationUtils.isValidString(request.getCity()))
-            errorDetails.add(newErrorDetail(CustomValidationUtils.REQ_FIELD, "City"));
-        if (!CustomValidationUtils.isValidString(request.getCountry()))
-            errorDetails.add(newErrorDetail(CustomValidationUtils.REQ_FIELD, "Country"));
-        if (!CustomValidationUtils.isValidEmail(request.getEmail()))
-            errorDetails.add(newErrorDetail(CustomValidationUtils.INVALID_FORMAT, "Email"));
-        if (!CustomValidationUtils.isValidPhoneNumber(request.getPhone()))
-            errorDetails.add(newErrorDetail(CustomValidationUtils.INVALID_FORMAT, "Phone number"));
-
         validateSkills(request, errorDetails);
         validateWorkExperience(request, errorDetails);
         validateEducation(request, errorDetails);
@@ -104,12 +92,5 @@ public class ResumeValidator implements CustomValidator<ResumeRequest> {
         if (resumeRequest.getEducationList() != null && !resumeRequest.getEducationList().isEmpty()) {
             resumeRequest.getEducationList().forEach(e -> educationValidator(errorDetails, e));
         }
-    }
-
-    private ExceptionBody.ErrorDetails newErrorDetail(String errorMessage, String fieldName) {
-        ExceptionBody.ErrorDetails error = new ExceptionBody.ErrorDetails();
-        error.setErrorMessage(errorMessage);
-        error.setFieldName(fieldName);
-        return error;
     }
 }

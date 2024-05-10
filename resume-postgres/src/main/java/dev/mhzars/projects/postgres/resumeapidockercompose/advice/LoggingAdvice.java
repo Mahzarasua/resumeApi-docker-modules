@@ -7,13 +7,15 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
 
-import static dev.mhzars.projects.postgres.resumeapidockercompose.utils.SpringUtils.OBJECT_MAPPER;
+import static dev.mhzars.projects.commons.resumeapidockercompose.utils.CommonSpringUtils.OBJECT_MAPPER;
+
 
 @Aspect
 @Component
 @Slf4j
 public class LoggingAdvice {
-    @Pointcut(value = "execution(* dev.mhzars.projects.postgres.resumeapidockercompose.*.*.*(..) ) && !execution(* dev.mhzars.projects.postgres.resumeapidockercompose.config.*.*(..) ) "
+    @Pointcut(value = "execution(* dev.mhzars.projects.postgres.resumeapidockercompose.*.*.*(..) ) && !execution(* dev.mhzars.projects.postgres.resumeapidockercompose.config.*.*(..) ) " +
+            " && !execution(* dev.mhzars.projects.commons.resumeapidockercompose.config.*.*(..) ) && !execution(* dev.mhzars.projects.postgres.resumeapidockercompose.controller.CustomExceptionHandler.*(..) )"
     )
     public void myPointcut() {
 

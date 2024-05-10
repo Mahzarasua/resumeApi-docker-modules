@@ -1,10 +1,11 @@
 package dev.mhzars.projects.postgres.resumeapidockercompose.service;
 
 
-import dev.mhzars.projects.postgres.resumeapidockercompose.domain.resume.ResumeIdResponse;
+import dev.mhzars.projects.commons.resumeapidockercompose.domain.resume.ResumeIdResponse;
+import dev.mhzars.projects.commons.resumeapidockercompose.domain.resume.ResumeResponse;
+import dev.mhzars.projects.commons.resumeapidockercompose.exception.CustomNotFoundException;
+import dev.mhzars.projects.commons.resumeapidockercompose.validator.CommonResumeValidator;
 import dev.mhzars.projects.postgres.resumeapidockercompose.domain.resume.ResumeRequest;
-import dev.mhzars.projects.postgres.resumeapidockercompose.domain.resume.ResumeResponse;
-import dev.mhzars.projects.postgres.resumeapidockercompose.exception.CustomNotFoundException;
 import dev.mhzars.projects.postgres.resumeapidockercompose.mapper.CustomMapper;
 import dev.mhzars.projects.postgres.resumeapidockercompose.model.Resume;
 import dev.mhzars.projects.postgres.resumeapidockercompose.repository.ResumeRepository;
@@ -49,6 +50,7 @@ class ResumeServiceImplTest {
 
         ResumeRepository repository = Mockito.mock(ResumeRepository.class);
         ResumeValidator validator = Mockito.mock(ResumeValidator.class);
+        CommonResumeValidator commonResumeValidator = Mockito.mock(CommonResumeValidator.class);
         CustomMapper mapper = Mockito.mock(CustomMapper.class);
 
         Mockito.doReturn(responseList)
@@ -66,6 +68,8 @@ class ResumeServiceImplTest {
 
         Mockito.doNothing()
                 .when(validator).validate(ArgumentMatchers.any());
+        Mockito.doNothing()
+                .when(commonResumeValidator).validate(ArgumentMatchers.any());
 
         Mockito.when(mapper.mapAsList(ArgumentMatchers.eq(responseList), ArgumentMatchers.eq(ResumeResponse.class)))
                 .thenReturn(resumeResponseList);
@@ -78,7 +82,7 @@ class ResumeServiceImplTest {
         Mockito.when(mapper.map(ArgumentMatchers.eq(resumeRequest), ArgumentMatchers.eq(Resume.class)))
                 .thenReturn(resume);
 
-        service = new ResumeServiceImpl(repository, mapper, validator);
+        service = new ResumeServiceImpl(repository, mapper, validator, commonResumeValidator);
     }
 
     @Test
@@ -144,8 +148,6 @@ class ResumeServiceImplTest {
     //Negative
     @Test
     void getResumeByFirstName_Negative() {
-        assertThrows(CustomNotFoundException.class, () -> {
-            service.getResumeByFirstName(RESUME_ID);
-        });
+        assertThrows(CustomNotFoundException.class, () -> service.getResumeByFirstName(RESUME_ID));
     }
 }

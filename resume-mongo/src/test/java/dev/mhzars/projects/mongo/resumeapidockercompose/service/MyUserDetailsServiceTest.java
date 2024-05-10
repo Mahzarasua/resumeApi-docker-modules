@@ -1,7 +1,8 @@
 package dev.mhzars.projects.mongo.resumeapidockercompose.service;
 
-import dev.mhzars.projects.mongo.resumeapidockercompose.config.MyUserDetails;
-import dev.mhzars.projects.mongo.resumeapidockercompose.exception.CustomAuthException;
+import dev.mhzars.projects.commons.resumeapidockercompose.config.MyUserDetails;
+import dev.mhzars.projects.commons.resumeapidockercompose.exception.CustomAuthException;
+import dev.mhzars.projects.commons.resumeapidockercompose.model.CommonAuthUser;
 import dev.mhzars.projects.mongo.resumeapidockercompose.mapper.CustomMapper;
 import dev.mhzars.projects.mongo.resumeapidockercompose.model.AuthUser;
 import dev.mhzars.projects.mongo.resumeapidockercompose.repository.AuthUserRepository;
@@ -32,6 +33,7 @@ class MyUserDetailsServiceTest {
         AuthUser user = manufacturedPojo(AuthUser.class);
         Optional<AuthUser> userOptional = Optional.ofNullable(user);
         Optional<AuthUser> userEmpty = Optional.empty();
+        CommonAuthUser authUser = manufacturedPojo(CommonAuthUser.class);
         MyUserDetails userDetails = manufacturedPojo(MyUserDetails.class);
 
         Mockito.doReturn(userOptional)
@@ -39,7 +41,9 @@ class MyUserDetailsServiceTest {
         Mockito.doReturn(userEmpty)
                 .when(authUserRepository).findByUsername(RESUME_ID);
 
-        Mockito.when(mapper.map(ArgumentMatchers.eq(user), ArgumentMatchers.eq(MyUserDetails.class)))
+        Mockito.when(mapper.map(ArgumentMatchers.eq(user), ArgumentMatchers.eq(CommonAuthUser.class)))
+                .thenReturn(authUser);
+        Mockito.when(mapper.map(ArgumentMatchers.eq(authUser), ArgumentMatchers.eq(MyUserDetails.class)))
                 .thenReturn(userDetails);
 
         service = new MyUserDetailsService(authUserRepository, mapper);
@@ -54,8 +58,6 @@ class MyUserDetailsServiceTest {
 
     @Test
     void loadUserByUsername_Negative() {
-        assertThrows(CustomAuthException.class, () -> {
-            service.loadUserByUsername(RESUME_ID);
-        });
+        assertThrows(CustomAuthException.class, () -> service.loadUserByUsername(RESUME_ID));
     }
 }

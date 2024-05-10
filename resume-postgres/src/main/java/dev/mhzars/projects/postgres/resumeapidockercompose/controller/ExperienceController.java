@@ -1,9 +1,9 @@
 package dev.mhzars.projects.postgres.resumeapidockercompose.controller;
 
-import dev.mhzars.projects.postgres.resumeapidockercompose.domain.GenericDeleteResponse;
-import dev.mhzars.projects.postgres.resumeapidockercompose.domain.experience.ExperienceRequest;
-import dev.mhzars.projects.postgres.resumeapidockercompose.domain.experience.ExperienceResponse;
-import dev.mhzars.projects.postgres.resumeapidockercompose.exception.ExceptionBody;
+import dev.mhzars.projects.commons.resumeapidockercompose.domain.GenericDeleteResponse;
+import dev.mhzars.projects.commons.resumeapidockercompose.domain.experience.ExperienceRequest;
+import dev.mhzars.projects.commons.resumeapidockercompose.domain.experience.ExperienceResponse;
+import dev.mhzars.projects.commons.resumeapidockercompose.exception.ExceptionBody;
 import dev.mhzars.projects.postgres.resumeapidockercompose.service.ExperienceService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -54,26 +54,23 @@ public class ExperienceController {
         this.service = service;
     }
 
-    @GetMapping(value = "/{resumeId}")
+    @GetMapping(value = "/{resumeId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    @Operation(summary = "This operation will return a list of records associated to the resume id")
+    @Operation(summary = "This operation will return a list of Experience associated to a resume id")
     public ExperienceResponse getListbyResumeId(@PathVariable String resumeId) {
         return service.getListbyResumeId(resumeId);
     }
 
-    @PostMapping(value = "/")
+    @PostMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    @Operation(summary = "This operation will generate a new record with the resume id provided " +
-            "and will return the list of records associated to the resume id")
+    @Operation(summary = "This operation will associate a new Experience and will return the list of Experience associated to a resume id")
     public ExperienceResponse saveList(@RequestBody ExperienceRequest request) {
         return service.saveList(request);
     }
 
-    @DeleteMapping(value = "/{resumeId}")
+    @DeleteMapping(value = "/{resumeId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    @Operation(summary = "This operation will remove all records if only the resume id is provided or " +
-            "it will remove the record matching the id and resume id provided " +
-            "and will return the list of records associated to the resume id")
+    @Operation(summary = "This operation will remove a Experience record and will return the list of Experience associated to a resume id")
     public GenericDeleteResponse deleteRecords(@PathVariable String resumeId,
                                                @RequestParam(required = false) String id) {
         return (id != null) ? service.deleteRecordbyId(resumeId, id)

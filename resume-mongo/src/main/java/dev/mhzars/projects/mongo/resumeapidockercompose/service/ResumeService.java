@@ -1,8 +1,9 @@
 package dev.mhzars.projects.mongo.resumeapidockercompose.service;
 
-import dev.mhzars.projects.mongo.resumeapidockercompose.domain.resume.ResumeIdResponse;
+
+import dev.mhzars.projects.commons.resumeapidockercompose.domain.resume.ResumeIdResponse;
+import dev.mhzars.projects.commons.resumeapidockercompose.domain.resume.ResumeResponse;
 import dev.mhzars.projects.mongo.resumeapidockercompose.domain.resume.ResumeRequest;
-import dev.mhzars.projects.mongo.resumeapidockercompose.domain.resume.ResumeResponse;
 
 import java.util.List;
 

@@ -1,10 +1,10 @@
 package dev.mhzars.projects.mongo.resumeapidockercompose.service;
 
-import dev.mhzars.projects.mongo.resumeapidockercompose.domain.GenericDeleteResponse;
-import dev.mhzars.projects.mongo.resumeapidockercompose.domain.education.EducationDomain;
-import dev.mhzars.projects.mongo.resumeapidockercompose.domain.education.EducationRequest;
-import dev.mhzars.projects.mongo.resumeapidockercompose.domain.education.EducationResponse;
-import dev.mhzars.projects.mongo.resumeapidockercompose.exception.CustomNotFoundException;
+import dev.mhzars.projects.commons.resumeapidockercompose.domain.GenericDeleteResponse;
+import dev.mhzars.projects.commons.resumeapidockercompose.domain.education.EducationDomain;
+import dev.mhzars.projects.commons.resumeapidockercompose.domain.education.EducationRequest;
+import dev.mhzars.projects.commons.resumeapidockercompose.domain.education.EducationResponse;
+import dev.mhzars.projects.commons.resumeapidockercompose.exception.CustomNotFoundException;
 import dev.mhzars.projects.mongo.resumeapidockercompose.mapper.CustomMapper;
 import dev.mhzars.projects.mongo.resumeapidockercompose.model.Education;
 import dev.mhzars.projects.mongo.resumeapidockercompose.model.Resume;
@@ -104,24 +104,18 @@ class EducationServiceImplTest {
     //Negative
     @Test
     void getListbyResumeId_Negative() {
-        assertThrows(CustomNotFoundException.class, () -> {
-            EducationResponse response = service.getListbyResumeId(RESUME_ID);
-        });
+        assertThrows(CustomNotFoundException.class, () -> service.getListbyResumeId(RESUME_ID));
     }
 
     @Test
     void deleteRecordsbyResumeId_Negative() {
-        assertThrows(CustomNotFoundException.class, () -> {
-            GenericDeleteResponse response = service.deleteRecordsbyResumeId(RESUME_ID);
-        });
+        assertThrows(CustomNotFoundException.class, () -> service.deleteRecordsbyResumeId(RESUME_ID));
     }
 
     @Test
     void deleteRecordbyId_Negative() {
         String resumeId = resume.getId().toString();
         String id = generateUniqueObjectId().toString();
-        assertThrows(CustomNotFoundException.class, () -> {
-            GenericDeleteResponse response = service.deleteRecordbyId(resumeId, id);
-        });
+        assertThrows(CustomNotFoundException.class, () -> service.deleteRecordbyId(resumeId, id));
     }
 }

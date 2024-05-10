@@ -1,9 +1,9 @@
 package dev.mhzars.projects.mongo.resumeapidockercompose.controller;
 
 
-import dev.mhzars.projects.mongo.resumeapidockercompose.domain.GenericDeleteResponse;
-import dev.mhzars.projects.mongo.resumeapidockercompose.domain.skill.SkillRequest;
-import dev.mhzars.projects.mongo.resumeapidockercompose.domain.skill.SkillResponse;
+import dev.mhzars.projects.commons.resumeapidockercompose.domain.GenericDeleteResponse;
+import dev.mhzars.projects.commons.resumeapidockercompose.domain.skill.SkillRequest;
+import dev.mhzars.projects.commons.resumeapidockercompose.domain.skill.SkillResponse;
 import dev.mhzars.projects.mongo.resumeapidockercompose.service.SkillService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;

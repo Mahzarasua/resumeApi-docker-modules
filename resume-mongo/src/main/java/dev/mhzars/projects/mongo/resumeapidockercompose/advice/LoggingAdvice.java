@@ -13,7 +13,8 @@ import static dev.mhzars.projects.mongo.resumeapidockercompose.utils.SpringUtils
 @Component
 @Slf4j
 public class LoggingAdvice {
-    @Pointcut(value = "execution(* dev.mhzars.projects.mongo.resumeapidockercompose.*.*.*(..) ) && !execution(* dev.mhzars.projects.mongo.resumeapidockercompose.config.*.*(..) ) "
+    @Pointcut(value = "execution(* dev.mhzars.projects.mongo.resumeapidockercompose.*.*.*(..) ) && !execution(* dev.mhzars.projects.mongo.resumeapidockercompose.config.*.*(..) ) " +
+            " && !execution(* dev.mhzars.projects.commons.resumeapidockercompose.config.*.*(..) ) && !execution(* dev.mhzars.projects.mongo.resumeapidockercompose.controller.CustomExceptionHandler.*(..) )"
     )
     public void myPointcut() {
 

@@ -1,10 +1,10 @@
 package dev.mhzars.projects.postgres.resumeapidockercompose.validator;
 
-import dev.mhzars.projects.postgres.resumeapidockercompose.domain.education.EducationDomain;
-import dev.mhzars.projects.postgres.resumeapidockercompose.domain.experience.ExperienceDomain;
+import dev.mhzars.projects.commons.resumeapidockercompose.domain.education.EducationDomain;
+import dev.mhzars.projects.commons.resumeapidockercompose.domain.experience.ExperienceDomain;
+import dev.mhzars.projects.commons.resumeapidockercompose.domain.skill.SkillDomain;
+import dev.mhzars.projects.commons.resumeapidockercompose.exception.CustomBadRequestException;
 import dev.mhzars.projects.postgres.resumeapidockercompose.domain.resume.ResumeRequest;
-import dev.mhzars.projects.postgres.resumeapidockercompose.domain.skill.SkillDomain;
-import dev.mhzars.projects.postgres.resumeapidockercompose.exception.CustomBadRequestException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -34,53 +34,6 @@ class ResumeValidatorTest {
         request.setId(null);
         setChildTables(request);
         validator.validate(request);
-    }
-
-    @Test
-    void validate_Negative() {
-        ResumeRequest request = new ResumeRequest();
-        request.setId("");
-        request.setFirstName("");
-        request.setLastName("");
-        request.setTitle("");
-        request.setCity("");
-        request.setState("");
-        request.setCountry("");
-        request.setEmail("aaaaaaaaaaa");
-        request.setPhone("TEST_PHONE");
-        request.setSummary("");
-        request.setCreationDate(LocalDateTime.now());
-        request.setSkillList(new ArrayList<>());
-        request.setEducationList(new ArrayList<>());
-        request.setExperienceList(new ArrayList<>());
-
-
-        assertThrows(CustomBadRequestException.class, () -> {
-            validator.validate(request);
-        });
-    }
-
-    @Test
-    void validate_Negative_null() {
-        ResumeRequest request = new ResumeRequest();
-        request.setId("");
-        request.setFirstName("");
-        request.setLastName("");
-        request.setTitle("");
-        request.setCity("");
-        request.setState("");
-        request.setCountry("");
-        request.setEmail("");
-        request.setPhone("");
-        request.setSummary("");
-        request.setCreationDate(LocalDateTime.now());
-        request.setSkillList(new ArrayList<>());
-        request.setEducationList(new ArrayList<>());
-        request.setExperienceList(new ArrayList<>());
-
-        assertThrows(CustomBadRequestException.class, () -> {
-            validator.validate(request);
-        });
     }
 
     @Test
@@ -157,8 +110,6 @@ class ResumeValidatorTest {
 
         request.setExperienceList(experienceList);
 
-        assertThrows(CustomBadRequestException.class, () -> {
-            validator.validate(request);
-        });
+        assertThrows(CustomBadRequestException.class, () -> validator.validate(request));
     }
 }

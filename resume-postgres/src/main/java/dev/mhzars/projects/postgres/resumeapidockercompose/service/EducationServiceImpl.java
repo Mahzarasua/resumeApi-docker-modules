@@ -1,10 +1,11 @@
 package dev.mhzars.projects.postgres.resumeapidockercompose.service;
 
-import dev.mhzars.projects.postgres.resumeapidockercompose.domain.GenericDeleteResponse;
-import dev.mhzars.projects.postgres.resumeapidockercompose.domain.education.EducationDomain;
-import dev.mhzars.projects.postgres.resumeapidockercompose.domain.education.EducationRequest;
-import dev.mhzars.projects.postgres.resumeapidockercompose.domain.education.EducationResponse;
-import dev.mhzars.projects.postgres.resumeapidockercompose.exception.CustomNotFoundException;
+
+import dev.mhzars.projects.commons.resumeapidockercompose.domain.GenericDeleteResponse;
+import dev.mhzars.projects.commons.resumeapidockercompose.domain.education.EducationDomain;
+import dev.mhzars.projects.commons.resumeapidockercompose.domain.education.EducationRequest;
+import dev.mhzars.projects.commons.resumeapidockercompose.domain.education.EducationResponse;
+import dev.mhzars.projects.commons.resumeapidockercompose.exception.CustomNotFoundException;
 import dev.mhzars.projects.postgres.resumeapidockercompose.mapper.CustomMapper;
 import dev.mhzars.projects.postgres.resumeapidockercompose.model.Education;
 import dev.mhzars.projects.postgres.resumeapidockercompose.model.Resume;
@@ -73,7 +74,7 @@ public class EducationServiceImpl implements EducationService {
     public GenericDeleteResponse deleteRecordbyId(String resumeId, String id) {
         Resume resume = checkResume.checkResumeId(resumeId);
         checkResumeEducationList(resume, id);
-        SpringUtils.removeFromList(resume.getEducationList(), row -> Objects.equals(row.getId(), SpringUtils.getUuid(id)) && Objects.equals(resume.getId(), SpringUtils.getUuid(resumeId)));
+        SpringUtils.removeFromList(resume.getEducationList(), row -> Objects.equals(row.getId(), SpringUtils.validateObjectId(id)) && Objects.equals(resume.getId(), SpringUtils.validateObjectId(resumeId)));
         repo.save(resume);
         return new GenericDeleteResponse(id, resumeId);
     }
@@ -81,7 +82,7 @@ public class EducationServiceImpl implements EducationService {
     private void checkResumeEducationList(Resume resume, String id) {
         boolean recNotFound = true;
         for (Education e : resume.getEducationList()) {
-            if (Objects.equals(e.getId(), SpringUtils.getUuid(id))) {
+            if (Objects.equals(e.getId(), SpringUtils.validateObjectId(id))) {
                 recNotFound = false;
             }
         }

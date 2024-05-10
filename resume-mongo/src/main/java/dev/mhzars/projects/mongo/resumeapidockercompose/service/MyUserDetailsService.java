@@ -1,8 +1,9 @@
 package dev.mhzars.projects.mongo.resumeapidockercompose.service;
 
-import dev.mhzars.projects.mongo.resumeapidockercompose.config.MyUserDetails;
-import dev.mhzars.projects.mongo.resumeapidockercompose.exception.CustomAuthException;
-import dev.mhzars.projects.mongo.resumeapidockercompose.exception.ExceptionBody;
+import dev.mhzars.projects.commons.resumeapidockercompose.config.MyUserDetails;
+import dev.mhzars.projects.commons.resumeapidockercompose.exception.CustomAuthException;
+import dev.mhzars.projects.commons.resumeapidockercompose.exception.ExceptionBody;
+import dev.mhzars.projects.commons.resumeapidockercompose.model.CommonAuthUser;
 import dev.mhzars.projects.mongo.resumeapidockercompose.mapper.CustomMapper;
 import dev.mhzars.projects.mongo.resumeapidockercompose.model.AuthUser;
 import dev.mhzars.projects.mongo.resumeapidockercompose.repository.AuthUserRepository;
@@ -37,6 +38,8 @@ public class MyUserDetailsService implements UserDetailsService {
                     , "Bad credentials");
         }
 
-        return mapper.map(user.get(), MyUserDetails.class);
+        CommonAuthUser commonAuthUser = mapper.map(user.get(), CommonAuthUser.class);
+
+        return mapper.map(commonAuthUser, MyUserDetails.class);
     }
 }
