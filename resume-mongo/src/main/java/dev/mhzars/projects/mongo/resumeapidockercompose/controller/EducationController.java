@@ -6,6 +6,7 @@ import dev.mhzars.projects.commons.resumeapidockercompose.domain.education.Educa
 import dev.mhzars.projects.commons.resumeapidockercompose.exception.ExceptionBody;
 import dev.mhzars.projects.mongo.resumeapidockercompose.service.EducationService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -58,7 +59,7 @@ public class EducationController {
     @GetMapping(value = "/{resumeId}")
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "This operation will return a list of records associated to the resume id")
-    public EducationResponse getListbyResumeId(@PathVariable String resumeId) {
+    public EducationResponse getListbyResumeId(@Parameter(name = "resumeId", required = true) @PathVariable("resumeId") String resumeId) {
         return service.getListbyResumeId(resumeId);
     }
 
@@ -73,10 +74,9 @@ public class EducationController {
     @DeleteMapping(value = "/{resumeId}")
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "This operation will remove all records if only the resume id is provided or " +
-            "it will remove the record matching the id and resume id provided " +
-            "and will return the list of records associated to the resume id")
-    public GenericDeleteResponse deleteRecords(@PathVariable String resumeId,
-                                               @RequestParam(required = false) String id) {
+            "it will remove the record matching the id and resume id provided ")
+    public GenericDeleteResponse deleteRecords(@Parameter(name = "resumeId", required = true) @PathVariable("resumeId") String resumeId,
+                                               @Parameter(name = "id") @RequestParam(required = false) String id) {
         return (id != null) ? service.deleteRecordbyId(resumeId, id)
                 : service.deleteRecordsbyResumeId(resumeId);
     }

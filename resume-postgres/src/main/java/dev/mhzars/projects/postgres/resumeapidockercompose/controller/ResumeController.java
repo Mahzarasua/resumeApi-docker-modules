@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -68,14 +69,14 @@ public class ResumeController {
     @GetMapping(value = "/firstName/{firstName}")
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "This operation will return a resume resource by a specific resumeId")
-    public ResumeResponse getResumeByFirstName(@Parameter(name = "firstName", required = true) @PathVariable String firstName) {
+    public ResumeResponse getResumeByFirstName(@Parameter(name = "firstName", required = true) @PathVariable("firstName") String firstName) {
         return service.getResumeByFirstName(firstName);
     }
 
     @GetMapping(value = "/{resumeId}")
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "This operation will return a resume resource by a specific resumeId")
-    public ResumeResponse getResumeById(@Parameter(name = "resumeId", required = true) @PathVariable String resumeId) {
+    public ResumeResponse getResumeById(@Parameter(name = "resumeId", required = true) @PathVariable("resumeId") String resumeId) {
         return service.getResumeById(resumeId);
     }
 
@@ -89,7 +90,7 @@ public class ResumeController {
     @PutMapping(value = "/{resumeId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "This operation will update a resume and return the unique identifier of the Resume updated")
-    public ResumeIdResponse updateResume(@Parameter(name = "resumeId", required = true) @PathVariable String resumeId,
+    public ResumeIdResponse updateResume(@Parameter(name = "resumeId", required = true) @PathVariable("resumeId") String resumeId,
                                          @RequestBody ResumeRequest request) {
         return service.saveResume(request, resumeId);
     }
@@ -100,7 +101,7 @@ public class ResumeController {
             , parameters = {
             @Parameter(name = "resumeId", required = true, in = ParameterIn.QUERY)
     })
-    public ResumeIdResponse deleteResumeById(String resumeId) {
+    public ResumeIdResponse deleteResumeById(@RequestParam String resumeId) {
         return service.deleteResumeById(resumeId);
     }
 }
