@@ -5,7 +5,7 @@ import dev.mhzars.projects.commons.resumeapidockercompose.exception.CustomBadReq
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static dev.mhzars.projects.postgres.resumeapidockercompose.TestUtils.manufacturedCustomPojo;
+import static dev.mhzars.projects.commons.resumeapidockercompose.CommonTestUtils.manufacturedCustomPojo;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class JwtRequestValidatorTest {

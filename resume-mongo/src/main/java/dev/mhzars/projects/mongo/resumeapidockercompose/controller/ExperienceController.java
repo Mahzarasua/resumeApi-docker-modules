@@ -6,6 +6,7 @@ import dev.mhzars.projects.commons.resumeapidockercompose.domain.experience.Expe
 import dev.mhzars.projects.commons.resumeapidockercompose.exception.ExceptionBody;
 import dev.mhzars.projects.mongo.resumeapidockercompose.service.ExperienceService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -56,8 +57,8 @@ public class ExperienceController {
 
     @GetMapping(value = "/{resumeId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    @Operation(summary = "This operation will return a list of Experience associated to a resume id")
-    public ExperienceResponse getListbyResumeId(@PathVariable String resumeId) {
+    @Operation(summary = "This operation will return a list of records associated to the resume id")
+    public ExperienceResponse getListbyResumeId(@Parameter(name = "resumeId", required = true) @PathVariable("resumeId") String resumeId) {
         return service.getListbyResumeId(resumeId);
     }
 
@@ -70,9 +71,10 @@ public class ExperienceController {
 
     @DeleteMapping(value = "/{resumeId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    @Operation(summary = "This operation will remove a Experience record and will return the list of Experience associated to a resume id")
-    public GenericDeleteResponse deleteRecords(@PathVariable String resumeId,
-                                               @RequestParam(required = false) String id) {
+    @Operation(summary = "This operation will remove all records if only the resume id is provided or " +
+            "it will remove the record matching the id and resume id provided ")
+    public GenericDeleteResponse deleteRecords(@Parameter(name = "resumeId", required = true) @PathVariable("resumeId") String resumeId,
+                                               @Parameter(name = "id") @RequestParam(required = false) String id) {
         return (id != null) ? service.deleteRecordbyId(resumeId, id)
                 : service.deleteRecordsbyResumeId(resumeId);
     }
