@@ -1,23 +1,23 @@
 package dev.mhzars.projects.commons.resumeapidockercompose.exception;
 
-import org.junit.jupiter.api.Test;
+import static dev.mhzars.projects.commons.resumeapidockercompose.CommonTestUtils.manufacturedPojo;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.Collections;
 import java.util.List;
-
-import static dev.mhzars.projects.commons.resumeapidockercompose.CommonTestUtils.manufacturedPojo;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import org.junit.jupiter.api.Test;
 
 class CustomBadRequestExceptionTest {
 
     @Test
     void test_Constructor() {
-        ExceptionBody.ErrorDetails errorDetails = manufacturedPojo(ExceptionBody.ErrorDetails.class);
+        ExceptionBody.ErrorDetails errorDetails =
+                manufacturedPojo(ExceptionBody.ErrorDetails.class);
         List<ExceptionBody.ErrorDetails> detailsList = Collections.singletonList(errorDetails);
-        assertThrows(CustomBadRequestException.class, () -> {
+        assertThrows(
+                CustomBadRequestException.class,
+                () -> {
                     throw new CustomBadRequestException(detailsList, "string");
-                }
-        );
+                });
     }
-
 }

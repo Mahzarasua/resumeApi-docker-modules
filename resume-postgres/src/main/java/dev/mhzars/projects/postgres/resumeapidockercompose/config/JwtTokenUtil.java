@@ -1,8 +1,8 @@
 package dev.mhzars.projects.postgres.resumeapidockercompose.config;
 
-import dev.mhzars.projects.commons.resumeapidockercompose.config.CommonJwtTokenUtil;
 import org.springframework.stereotype.Component;
 
+import dev.mhzars.projects.commons.resumeapidockercompose.config.CommonJwtTokenUtil;
+
 @Component
-public class JwtTokenUtil extends CommonJwtTokenUtil {
-}
+public class JwtTokenUtil extends CommonJwtTokenUtil {}

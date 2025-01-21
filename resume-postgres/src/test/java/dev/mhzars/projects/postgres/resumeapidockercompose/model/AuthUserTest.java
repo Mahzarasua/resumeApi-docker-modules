@@ -1,18 +1,17 @@
 package dev.mhzars.projects.postgres.resumeapidockercompose.model;
 
-import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-
-import java.time.LocalDateTime;
-import java.util.Collections;
-
 import static dev.mhzars.projects.commons.resumeapidockercompose.CommonTestUtils.manufacturedCustomPojo;
 import static dev.mhzars.projects.postgres.resumeapidockercompose.TestUtils.manufacturedPojo;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+
+import java.time.LocalDateTime;
+import java.util.Collections;
+import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 @Slf4j
 class AuthUserTest {
@@ -38,7 +37,13 @@ class AuthUserTest {
     @Test
     void test_Constructor() {
         AuthRole tmpRole = manufacturedPojo(AuthRole.class);
-        AuthUser tmp = new AuthUser("username", "passowrd", true, LocalDateTime.now(), Collections.singletonList(tmpRole));
+        AuthUser tmp =
+                new AuthUser(
+                        "username",
+                        "passowrd",
+                        true,
+                        LocalDateTime.now(),
+                        Collections.singletonList(tmpRole));
         assertNotNull(tmp);
         assertThat(r).usingRecursiveComparison().isNotEqualTo(tmp);
         log.info("{}", tmp);
@@ -53,5 +58,4 @@ class AuthUserTest {
         tmp.prepareRole();
         assertEquals(tmp.getAuthRoles().get(0).getUser().getId(), tmp.getId());
     }
-
 }

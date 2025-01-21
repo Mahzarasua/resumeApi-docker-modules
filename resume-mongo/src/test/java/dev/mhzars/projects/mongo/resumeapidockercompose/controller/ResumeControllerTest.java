@@ -1,22 +1,20 @@
 package dev.mhzars.projects.mongo.resumeapidockercompose.controller;
 
+import static dev.mhzars.projects.mongo.resumeapidockercompose.TestUtils.RESUME_ID;
+import static dev.mhzars.projects.mongo.resumeapidockercompose.TestUtils.manufacturedPojo;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import dev.mhzars.projects.commons.resumeapidockercompose.domain.resume.ResumeIdResponse;
 import dev.mhzars.projects.commons.resumeapidockercompose.domain.resume.ResumeResponse;
 import dev.mhzars.projects.mongo.resumeapidockercompose.domain.resume.ResumeRequest;
 import dev.mhzars.projects.mongo.resumeapidockercompose.service.ResumeService;
+import java.util.Collections;
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
-
-import java.util.Collections;
-import java.util.List;
-
-import static dev.mhzars.projects.mongo.resumeapidockercompose.TestUtils.RESUME_ID;
-import static dev.mhzars.projects.mongo.resumeapidockercompose.TestUtils.manufacturedPojo;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @Slf4j
 class ResumeControllerTest {
@@ -30,17 +28,16 @@ class ResumeControllerTest {
         ResumeIdResponse resumeIdResponse = manufacturedPojo(ResumeIdResponse.class);
         ResumeService service = Mockito.mock(ResumeService.class);
 
-        Mockito.doReturn(responseList)
-                .when(service).getAllResumes();
-        Mockito.doReturn(response)
-                .when(service).getResumeById(ArgumentMatchers.anyString());
+        Mockito.doReturn(responseList).when(service).getAllResumes();
+        Mockito.doReturn(response).when(service).getResumeById(ArgumentMatchers.anyString());
         Mockito.when(service.saveResume(ArgumentMatchers.any())).thenReturn(resumeIdResponse);
         Mockito.doReturn(resumeIdResponse)
-                .when(service).saveResume(ArgumentMatchers.any(), ArgumentMatchers.anyString());
+                .when(service)
+                .saveResume(ArgumentMatchers.any(), ArgumentMatchers.anyString());
         Mockito.doReturn(resumeIdResponse)
-                .when(service).deleteResumeById(ArgumentMatchers.anyString());
-        Mockito.doReturn(response)
-                .when(service).getResumeByFirstName(ArgumentMatchers.anyString());
+                .when(service)
+                .deleteResumeById(ArgumentMatchers.anyString());
+        Mockito.doReturn(response).when(service).getResumeByFirstName(ArgumentMatchers.anyString());
 
         controller = new ResumeController(service);
     }
@@ -88,6 +85,4 @@ class ResumeControllerTest {
         log.info("Response: {}", response);
         assertNotNull(response);
     }
-
-
 }

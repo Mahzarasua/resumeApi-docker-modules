@@ -11,7 +11,6 @@ import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 import uk.co.jemos.podam.api.RandomDataProviderStrategy;
 
-
 public class CommonTestUtils {
     public static final String RESUME_ID = "resumeId";
 
@@ -25,14 +24,19 @@ public class CommonTestUtils {
         EmailStrategy emailStrategy = new EmailStrategy();
         LocalDatePastStrategy pastStrategy = new LocalDatePastStrategy();
         LocalDateFutureStrategy futureStrategy = new LocalDateFutureStrategy();
-        ((RandomDataProviderStrategy) factory.getStrategy()).addOrReplaceAttributeStrategy(Email.class, emailStrategy);
-        ((RandomDataProviderStrategy) factory.getStrategy()).addOrReplaceAttributeStrategy(Past.class, pastStrategy);
-        ((RandomDataProviderStrategy) factory.getStrategy()).addOrReplaceAttributeStrategy(FutureOrPresent.class, futureStrategy);
-        ((RandomDataProviderStrategy) factory.getStrategy()).addOrReplaceAttributeStrategy(javax.validation.constraints.Past.class, pastStrategy);
-        ((RandomDataProviderStrategy) factory.getStrategy()).addOrReplaceAttributeStrategy(javax.validation.constraints.FutureOrPresent.class, futureStrategy);
+        ((RandomDataProviderStrategy) factory.getStrategy())
+                .addOrReplaceAttributeStrategy(Email.class, emailStrategy);
+        ((RandomDataProviderStrategy) factory.getStrategy())
+                .addOrReplaceAttributeStrategy(Past.class, pastStrategy);
+        ((RandomDataProviderStrategy) factory.getStrategy())
+                .addOrReplaceAttributeStrategy(FutureOrPresent.class, futureStrategy);
+        ((RandomDataProviderStrategy) factory.getStrategy())
+                .addOrReplaceAttributeStrategy(
+                        javax.validation.constraints.Past.class, pastStrategy);
+        ((RandomDataProviderStrategy) factory.getStrategy())
+                .addOrReplaceAttributeStrategy(
+                        javax.validation.constraints.FutureOrPresent.class, futureStrategy);
 
         return factory.manufacturePojo(clazz);
     }
-
-
 }

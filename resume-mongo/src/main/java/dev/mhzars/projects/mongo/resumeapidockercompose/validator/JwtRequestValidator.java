@@ -1,17 +1,16 @@
 package dev.mhzars.projects.mongo.resumeapidockercompose.validator;
 
+import static dev.mhzars.projects.commons.resumeapidockercompose.validator.CustomValidationUtils.CUSTOM_ERROR_MSG;
+import static dev.mhzars.projects.commons.resumeapidockercompose.validator.CustomValidationUtils.validateRequiredString;
+
+import org.springframework.stereotype.Service;
+
 import dev.mhzars.projects.commons.resumeapidockercompose.domain.auth.JwtRequest;
 import dev.mhzars.projects.commons.resumeapidockercompose.exception.CustomBadRequestException;
 import dev.mhzars.projects.commons.resumeapidockercompose.exception.ExceptionBody;
 import dev.mhzars.projects.commons.resumeapidockercompose.validator.CustomValidator;
-import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import static dev.mhzars.projects.commons.resumeapidockercompose.validator.CustomValidationUtils.CUSTOM_ERROR_MSG;
-import static dev.mhzars.projects.commons.resumeapidockercompose.validator.CustomValidationUtils.validateRequiredString;
-
 
 @Service
 public class JwtRequestValidator implements CustomValidator<JwtRequest> {
@@ -22,6 +21,7 @@ public class JwtRequestValidator implements CustomValidator<JwtRequest> {
         validateRequiredString(errorDetails, request.getUsername(), "username");
         validateRequiredString(errorDetails, request.getPassword(), "password");
 
-        if (!errorDetails.isEmpty()) throw new CustomBadRequestException(errorDetails, CUSTOM_ERROR_MSG);
+        if (!errorDetails.isEmpty())
+            throw new CustomBadRequestException(errorDetails, CUSTOM_ERROR_MSG);
     }
 }

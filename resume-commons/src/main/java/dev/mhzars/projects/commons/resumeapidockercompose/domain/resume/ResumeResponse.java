@@ -6,13 +6,12 @@ import dev.mhzars.projects.commons.resumeapidockercompose.domain.experience.Expe
 import dev.mhzars.projects.commons.resumeapidockercompose.domain.skill.SkillDomain;
 import dev.mhzars.projects.commons.resumeapidockercompose.podam.GenerateUUIDStrategy;
 import io.swagger.v3.oas.annotations.media.Schema;
+import java.time.LocalDateTime;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import uk.co.jemos.podam.common.PodamStrategyValue;
-
-import java.time.LocalDateTime;
-import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -21,6 +20,7 @@ import java.util.List;
 public class ResumeResponse {
     @PodamStrategyValue(GenerateUUIDStrategy.class)
     private String id;
+
     private String firstName;
     private String lastName;
     private String title;
@@ -34,9 +34,10 @@ public class ResumeResponse {
 
     @JsonIgnoreProperties(value = "resumeId")
     private List<SkillDomain> skillList;
+
     @JsonIgnoreProperties(value = "resumeId")
     private List<EducationDomain> educationList;
+
     @JsonIgnoreProperties(value = "resumeId")
     private List<ExperienceDomain> experienceList;
-
 }

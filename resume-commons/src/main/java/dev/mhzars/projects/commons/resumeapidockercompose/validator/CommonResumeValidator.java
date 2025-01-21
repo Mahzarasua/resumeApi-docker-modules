@@ -1,14 +1,12 @@
 package dev.mhzars.projects.commons.resumeapidockercompose.validator;
 
+import static dev.mhzars.projects.commons.resumeapidockercompose.exception.ExceptionBody.newErrorDetail;
+
 import dev.mhzars.projects.commons.resumeapidockercompose.domain.resume.CommonResumeRequest;
 import dev.mhzars.projects.commons.resumeapidockercompose.exception.CustomBadRequestException;
 import dev.mhzars.projects.commons.resumeapidockercompose.exception.ExceptionBody;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import static dev.mhzars.projects.commons.resumeapidockercompose.exception.ExceptionBody.newErrorDetail;
-
 
 public class CommonResumeValidator implements CustomValidator<CommonResumeRequest> {
     @Override
@@ -17,10 +15,12 @@ public class CommonResumeValidator implements CustomValidator<CommonResumeReques
         validateRequiredField(request, errorDetails);
 
         if (!errorDetails.isEmpty())
-            throw new CustomBadRequestException(errorDetails, CustomValidationUtils.CUSTOM_ERROR_MSG);
+            throw new CustomBadRequestException(
+                    errorDetails, CustomValidationUtils.CUSTOM_ERROR_MSG);
     }
 
-    private void validateRequiredField(CommonResumeRequest request, List<ExceptionBody.ErrorDetails> errorDetails) {
+    private void validateRequiredField(
+            CommonResumeRequest request, List<ExceptionBody.ErrorDetails> errorDetails) {
         if (!CustomValidationUtils.isValidString(request.getFirstName()))
             errorDetails.add(newErrorDetail(CustomValidationUtils.REQ_FIELD, "First name"));
         if (!CustomValidationUtils.isValidString(request.getLastName()))

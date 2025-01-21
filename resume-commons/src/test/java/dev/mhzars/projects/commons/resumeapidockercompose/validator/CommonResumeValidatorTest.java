@@ -1,14 +1,13 @@
 package dev.mhzars.projects.commons.resumeapidockercompose.validator;
 
-import dev.mhzars.projects.commons.resumeapidockercompose.domain.resume.CommonResumeRequest;
-import dev.mhzars.projects.commons.resumeapidockercompose.exception.CustomBadRequestException;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
-import java.time.LocalDateTime;
-
 import static dev.mhzars.projects.commons.resumeapidockercompose.CommonTestUtils.manufacturedCustomPojo;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import dev.mhzars.projects.commons.resumeapidockercompose.domain.resume.CommonResumeRequest;
+import dev.mhzars.projects.commons.resumeapidockercompose.exception.CustomBadRequestException;
+import java.time.LocalDateTime;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 class CommonResumeValidatorTest {
 
@@ -62,5 +61,4 @@ class CommonResumeValidatorTest {
 
         assertThrows(CustomBadRequestException.class, () -> validator.validate(request));
     }
-
 }

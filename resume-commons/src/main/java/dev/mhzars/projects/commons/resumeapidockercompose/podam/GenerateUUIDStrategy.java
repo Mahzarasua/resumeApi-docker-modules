@@ -1,11 +1,10 @@
 package dev.mhzars.projects.commons.resumeapidockercompose.podam;
 
-import uk.co.jemos.podam.common.AttributeStrategy;
+import static dev.mhzars.projects.commons.resumeapidockercompose.utils.CommonSpringUtils.generateUniqueObjectId;
 
 import java.lang.annotation.Annotation;
 import java.util.List;
-
-import static dev.mhzars.projects.commons.resumeapidockercompose.utils.CommonSpringUtils.generateUniqueObjectId;
+import uk.co.jemos.podam.common.AttributeStrategy;
 
 public class GenerateUUIDStrategy implements AttributeStrategy<String> {
 

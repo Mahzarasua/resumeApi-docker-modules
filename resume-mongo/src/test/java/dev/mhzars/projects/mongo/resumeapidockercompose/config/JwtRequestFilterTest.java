@@ -1,5 +1,9 @@
 package dev.mhzars.projects.mongo.resumeapidockercompose.config;
 
+import static dev.mhzars.projects.mongo.resumeapidockercompose.utils.SpringUtils.generateUniqueObjectId;
+import static org.wildfly.common.Assert.assertTrue;
+
+import org.springframework.http.HttpStatus;
 
 import dev.mhzars.projects.commons.resumeapidockercompose.config.MyUserDetails;
 import dev.mhzars.projects.commons.resumeapidockercompose.exception.CustomAuthException;
@@ -14,34 +18,24 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.time.LocalDateTime;
+import java.util.Collections;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.springframework.http.HttpStatus;
-
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.time.LocalDateTime;
-import java.util.Collections;
-
-import static dev.mhzars.projects.mongo.resumeapidockercompose.utils.SpringUtils.generateUniqueObjectId;
-import static org.wildfly.common.Assert.assertTrue;
 
 class JwtRequestFilterTest {
 
     private static final CustomMapper mapper = new CustomMapper();
-    @Mock
-    private MyUserDetailsService userDetailsService;
-    @Mock
-    private JwtTokenUtil jwtTokenUtil;
-    @Mock
-    private HttpServletRequest request;
-    @Mock
-    private HttpServletResponse response;
-    @Mock
-    private FilterChain filterChain;
+    @Mock private MyUserDetailsService userDetailsService;
+    @Mock private JwtTokenUtil jwtTokenUtil;
+    @Mock private HttpServletRequest request;
+    @Mock private HttpServletResponse response;
+    @Mock private FilterChain filterChain;
     private JwtRequestFilter jwtRequestFilter;
 
     private static CommonAuthUser getAuthUser(String username) {
@@ -110,12 +104,12 @@ class JwtRequestFilterTest {
 
         MyUserDetails userDetails = new MyUserDetails(getAuthUser(username));
         Mockito.when(request.getHeader("Authorization")).thenReturn("Bearer " + token);
-        Mockito.when(jwtTokenUtil.getUsernameFromToken(token)).thenThrow(new IllegalArgumentException("Invalid token"));
+        Mockito.when(jwtTokenUtil.getUsernameFromToken(token))
+                .thenThrow(new IllegalArgumentException("Invalid token"));
         Mockito.when(userDetailsService.loadUserByUsername(username)).thenReturn(userDetails);
         Mockito.when(request.getRequestURI()).thenReturn("/test");
         PrintWriter printWriter = Mockito.mock(PrintWriter.class);
         Mockito.when(response.getWriter()).thenReturn(printWriter);
-
 
         jwtRequestFilter.doFilterInternal(request, response, filterChain);
 
@@ -128,14 +122,15 @@ class JwtRequestFilterTest {
     void testExpiredJwtExceptionHandling() throws ServletException, IOException {
         // Simulate ExpiredJwtException by throwing it from jwtTokenUtil
         Mockito.when(request.getHeader("Authorization")).thenReturn("Bearer expired_token");
-        Mockito.when(jwtTokenUtil.getUsernameFromToken("expired_token")).thenThrow(ExpiredJwtException.class);
+        Mockito.when(jwtTokenUtil.getUsernameFromToken("expired_token"))
+                .thenThrow(ExpiredJwtException.class);
         Mockito.when(request.getRequestURI()).thenReturn("/test");
         PrintWriter printWriter = Mockito.mock(PrintWriter.class);
         Mockito.when(response.getWriter()).thenReturn(printWriter);
 
         // Call the method under test
-        JwtRequestFilter jwtRequestFilter = new JwtRequestFilter(userDetailsService, jwtTokenUtil);
-        jwtRequestFilter.doFilterInternal(request, response, null);
+        JwtRequestFilter requestFilter = new JwtRequestFilter(userDetailsService, jwtTokenUtil);
+        requestFilter.doFilterInternal(request, response, null);
         assertTrue(true);
     }
 
@@ -143,14 +138,15 @@ class JwtRequestFilterTest {
     void testGenericJwtExceptionHandling() throws ServletException, IOException {
         // Simulate ExpiredJwtException by throwing it from jwtTokenUtil
         Mockito.when(request.getHeader("Authorization")).thenReturn("Bearer expired_token");
-        Mockito.when(jwtTokenUtil.getUsernameFromToken("expired_token")).thenThrow(new RuntimeException());
+        Mockito.when(jwtTokenUtil.getUsernameFromToken("expired_token"))
+                .thenThrow(new RuntimeException());
         Mockito.when(request.getRequestURI()).thenReturn("/test");
         PrintWriter printWriter = Mockito.mock(PrintWriter.class);
         Mockito.when(response.getWriter()).thenReturn(printWriter);
 
         // Call the method under test
-        JwtRequestFilter jwtRequestFilter = new JwtRequestFilter(userDetailsService, jwtTokenUtil);
-        jwtRequestFilter.doFilterInternal(request, response, null);
+        JwtRequestFilter requestFilter = new JwtRequestFilter(userDetailsService, jwtTokenUtil);
+        requestFilter.doFilterInternal(request, response, null);
         assertTrue(true);
     }
 
@@ -176,8 +172,10 @@ class JwtRequestFilterTest {
     void testFilterException() throws IOException {
         // Mock the CustomAuthException
         CustomAuthException customAuthException = Mockito.mock(CustomAuthException.class);
-        ExceptionBody.ErrorDetails errorDetails = new ExceptionBody.ErrorDetails("test", "Error details");
-        Mockito.when(customAuthException.getErrorDetails()).thenReturn(Collections.singletonList(errorDetails));
+        ExceptionBody.ErrorDetails errorDetails =
+                new ExceptionBody.ErrorDetails("test", "Error details");
+        Mockito.when(customAuthException.getErrorDetails())
+                .thenReturn(Collections.singletonList(errorDetails));
 
         PrintWriter printWriter = Mockito.mock(PrintWriter.class);
         Mockito.when(response.getWriter()).thenReturn(printWriter);

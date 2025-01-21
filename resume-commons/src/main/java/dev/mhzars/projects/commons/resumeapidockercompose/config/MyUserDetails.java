@@ -1,12 +1,11 @@
 package dev.mhzars.projects.commons.resumeapidockercompose.config;
 
-
-import dev.mhzars.projects.commons.resumeapidockercompose.model.CommonAuthUser;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import dev.mhzars.projects.commons.resumeapidockercompose.model.CommonAuthUser;
 import java.util.Collection;
 import java.util.List;
 
@@ -24,8 +23,7 @@ public class MyUserDetails implements UserDetails {
     }
 
     private List<SimpleGrantedAuthority> getRoles(CommonAuthUser authUserModel) {
-        return authUserModel.getAuthRoles()
-                .stream()
+        return authUserModel.getAuthRoles().stream()
                 .map(authRole -> new SimpleGrantedAuthority(authRole.getRole()))
                 .toList();
     }
@@ -64,5 +62,4 @@ public class MyUserDetails implements UserDetails {
     public boolean isEnabled() {
         return active;
     }
-
 }

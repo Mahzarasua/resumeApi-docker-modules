@@ -1,22 +1,21 @@
 package dev.mhzars.projects.postgres.resumeapidockercompose.validator;
 
+import static dev.mhzars.projects.postgres.resumeapidockercompose.TestUtils.manufacturedCustomPojo;
+import static dev.mhzars.projects.postgres.resumeapidockercompose.TestUtils.setChildTables;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import dev.mhzars.projects.commons.resumeapidockercompose.domain.education.EducationDomain;
 import dev.mhzars.projects.commons.resumeapidockercompose.domain.experience.ExperienceDomain;
 import dev.mhzars.projects.commons.resumeapidockercompose.domain.skill.SkillDomain;
 import dev.mhzars.projects.commons.resumeapidockercompose.exception.CustomBadRequestException;
 import dev.mhzars.projects.postgres.resumeapidockercompose.domain.resume.ResumeRequest;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import static dev.mhzars.projects.postgres.resumeapidockercompose.TestUtils.manufacturedCustomPojo;
-import static dev.mhzars.projects.postgres.resumeapidockercompose.TestUtils.setChildTables;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 class ResumeValidatorTest {
 
@@ -106,7 +105,6 @@ class ResumeValidatorTest {
         List<ExperienceDomain> experienceList = new ArrayList<>();
         experienceList.add(x1);
         experienceList.add(x2);
-
 
         request.setExperienceList(experienceList);
 

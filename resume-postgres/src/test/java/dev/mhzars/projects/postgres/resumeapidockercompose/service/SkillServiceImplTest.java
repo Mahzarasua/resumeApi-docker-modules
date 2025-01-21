@@ -1,5 +1,11 @@
 package dev.mhzars.projects.postgres.resumeapidockercompose.service;
 
+import static dev.mhzars.projects.postgres.resumeapidockercompose.TestUtils.RESUME_ID;
+import static dev.mhzars.projects.postgres.resumeapidockercompose.TestUtils.manufacturedCustomPojo;
+import static dev.mhzars.projects.postgres.resumeapidockercompose.TestUtils.manufacturedPojo;
+import static dev.mhzars.projects.postgres.resumeapidockercompose.utils.SpringUtils.generateUniqueObjectId;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import dev.mhzars.projects.commons.resumeapidockercompose.domain.GenericDeleteResponse;
 import dev.mhzars.projects.commons.resumeapidockercompose.domain.skill.SkillDomain;
@@ -11,22 +17,14 @@ import dev.mhzars.projects.postgres.resumeapidockercompose.model.Resume;
 import dev.mhzars.projects.postgres.resumeapidockercompose.model.Skill;
 import dev.mhzars.projects.postgres.resumeapidockercompose.repository.ResumeRepository;
 import dev.mhzars.projects.postgres.resumeapidockercompose.utils.SpringResumeRepo;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static dev.mhzars.projects.postgres.resumeapidockercompose.TestUtils.RESUME_ID;
-import static dev.mhzars.projects.postgres.resumeapidockercompose.TestUtils.manufacturedCustomPojo;
-import static dev.mhzars.projects.postgres.resumeapidockercompose.TestUtils.manufacturedPojo;
-import static dev.mhzars.projects.postgres.resumeapidockercompose.utils.SpringUtils.generateUniqueObjectId;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @Slf4j
 class SkillServiceImplTest {
@@ -50,7 +48,6 @@ class SkillServiceImplTest {
         }
         resume.setSkillList(entityList);
 
-
         Resume resume1 = manufacturedPojo(Resume.class);
         resume1.getSkillList().clear();
 
@@ -58,14 +55,13 @@ class SkillServiceImplTest {
         SpringResumeRepo checkResume = Mockito.mock(SpringResumeRepo.class);
         CustomMapper mapper = Mockito.mock(CustomMapper.class);
 
-        Mockito.doReturn(resume)
-                .when(checkResume).checkResumeId(ArgumentMatchers.anyString());
-        Mockito.doReturn(resume1)
-                .when(checkResume).checkResumeId(RESUME_ID);
-        Mockito.doReturn(resume)
-                .when(repository).save(ArgumentMatchers.any());
+        Mockito.doReturn(resume).when(checkResume).checkResumeId(ArgumentMatchers.anyString());
+        Mockito.doReturn(resume1).when(checkResume).checkResumeId(RESUME_ID);
+        Mockito.doReturn(resume).when(repository).save(ArgumentMatchers.any());
 
-        Mockito.when(mapper.mapAsList(ArgumentMatchers.eq(entityList), ArgumentMatchers.eq(SkillDomain.class)))
+        Mockito.when(
+                        mapper.mapAsList(
+                                ArgumentMatchers.anyList(), ArgumentMatchers.eq(SkillDomain.class)))
                 .thenReturn(domainList);
 
         service = new SkillServiceImpl(repository, mapper, checkResume);
@@ -96,14 +92,14 @@ class SkillServiceImplTest {
 
     @Test
     void deleteRecordbyId() {
-        List<Skill> SkillList = resume.getSkillList();
-        String id = SkillList.get(0).getId().toString();
+        List<Skill> skillList = resume.getSkillList();
+        String id = skillList.get(0).getId().toString();
         GenericDeleteResponse response = service.deleteRecordbyId(resume.getId().toString(), id);
         log.info("Response: {}", response);
         assertNotNull(response);
     }
 
-    //Negative
+    // Negative
     @Test
     void getListbyResumeId_Negative() {
         assertThrows(CustomNotFoundException.class, () -> service.getListbyResumeId(RESUME_ID));
@@ -111,7 +107,8 @@ class SkillServiceImplTest {
 
     @Test
     void deleteRecordsbyResumeId_Negative() {
-        assertThrows(CustomNotFoundException.class, () -> service.deleteRecordsbyResumeId(RESUME_ID));
+        assertThrows(
+                CustomNotFoundException.class, () -> service.deleteRecordsbyResumeId(RESUME_ID));
     }
 
     @Test

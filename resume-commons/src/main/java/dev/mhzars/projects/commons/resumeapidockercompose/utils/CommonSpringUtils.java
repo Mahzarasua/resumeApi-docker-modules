@@ -9,7 +9,6 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.type.CollectionType;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -20,11 +19,12 @@ import java.util.function.Predicate;
 
 public class CommonSpringUtils {
 
-    public static final ObjectMapper OBJECT_MAPPER = new ObjectMapper()
-            .registerModule(new JavaTimeModule())
-            .registerModule(new Jdk8Module())
-            .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
-            .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    public static final ObjectMapper OBJECT_MAPPER =
+            new ObjectMapper()
+                    .registerModule(new JavaTimeModule())
+                    .registerModule(new Jdk8Module())
+                    .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
+                    .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
     protected CommonSpringUtils() {
         throw new IllegalStateException("Utility class");
@@ -46,25 +46,31 @@ public class CommonSpringUtils {
         return OBJECT_MAPPER.readValue(json, clazz);
     }
 
-    public static <T> T mapFromJsonList(String json, TypeReference<T> clazz) throws JsonProcessingException {
+    public static <T> T mapFromJsonList(String json, TypeReference<T> clazz)
+            throws JsonProcessingException {
         return OBJECT_MAPPER.readValue(json, clazz);
     }
 
-    public static <T> List<T> jsonArrayToList(String json, Class<T> elementClass) throws IOException {
+    public static <T> List<T> jsonArrayToList(String json, Class<T> elementClass)
+            throws IOException {
         CollectionType listType =
-                OBJECT_MAPPER.getTypeFactory().constructCollectionType(ArrayList.class, elementClass);
+                OBJECT_MAPPER
+                        .getTypeFactory()
+                        .constructCollectionType(ArrayList.class, elementClass);
         return OBJECT_MAPPER.readValue(json, listType);
     }
 
-    public static <T, X> List<T> readFile(String filename, Class<T> entityClass, Class<X> objectClass) {
+    public static <T, X> List<T> readFile(
+            String filename, Class<T> entityClass, Class<X> objectClass) {
         String json;
         List<T> entities;
         try (InputStream in = objectClass.getClassLoader().getResourceAsStream(filename)) {
             JsonNode jsonNode = OBJECT_MAPPER.readValue(in, JsonNode.class);
             json = OBJECT_MAPPER.writeValueAsString(jsonNode);
-            entities = jsonNode.isArray() ?
-                    jsonArrayToList(json, entityClass) :
-                    Collections.singletonList(OBJECT_MAPPER.readValue(json, entityClass));
+            entities =
+                    jsonNode.isArray()
+                            ? jsonArrayToList(json, entityClass)
+                            : Collections.singletonList(OBJECT_MAPPER.readValue(json, entityClass));
             return entities;
         } catch (Exception e) {
             e.printStackTrace();

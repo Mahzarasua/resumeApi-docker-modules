@@ -1,16 +1,14 @@
 package dev.mhzars.projects.commons.resumeapidockercompose.podam;
 
+import static dev.mhzars.projects.commons.resumeapidockercompose.podam.DegreeStrategy.randomEducation;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import dev.mhzars.projects.commons.resumeapidockercompose.enums.EducationDegreeEnum;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import static dev.mhzars.projects.commons.resumeapidockercompose.podam.DegreeStrategy.randomEducation;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 class DegreeStrategyTest {
     private static DegreeStrategy strategy;
@@ -22,7 +20,7 @@ class DegreeStrategyTest {
 
     @Test
     void testRandomEducation() {
-        //Expected values
+        // Expected values
         EducationDegreeEnum[] enums = EducationDegreeEnum.values();
         EducationDegreeEnum educationDegreeEnum = randomEducation();
         for (EducationDegreeEnum e : enums) {

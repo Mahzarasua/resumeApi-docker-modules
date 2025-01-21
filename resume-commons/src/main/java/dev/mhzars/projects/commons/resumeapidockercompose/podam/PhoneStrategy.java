@@ -1,9 +1,8 @@
 package dev.mhzars.projects.commons.resumeapidockercompose.podam;
 
-import uk.co.jemos.podam.common.AttributeStrategy;
-
 import java.lang.annotation.Annotation;
 import java.util.List;
+import uk.co.jemos.podam.common.AttributeStrategy;
 
 public class PhoneStrategy implements AttributeStrategy<String> {
 

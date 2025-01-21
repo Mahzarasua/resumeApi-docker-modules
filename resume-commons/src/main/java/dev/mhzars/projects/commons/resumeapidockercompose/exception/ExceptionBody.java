@@ -1,13 +1,12 @@
 package dev.mhzars.projects.commons.resumeapidockercompose.exception;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
@@ -31,8 +30,7 @@ public class ExceptionBody {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class ErrorDetails implements Serializable {
-        @Serial
-        private static final long serialVersionUID = 1067005304158628377L;
+        @Serial private static final long serialVersionUID = 1067005304158628377L;
 
         private String fieldName;
         private String errorMessage;

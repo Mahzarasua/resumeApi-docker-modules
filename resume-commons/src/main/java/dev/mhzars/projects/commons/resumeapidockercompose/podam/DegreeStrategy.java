@@ -1,11 +1,10 @@
 package dev.mhzars.projects.commons.resumeapidockercompose.podam;
 
 import dev.mhzars.projects.commons.resumeapidockercompose.enums.EducationDegreeEnum;
-import uk.co.jemos.podam.common.AttributeStrategy;
-
 import java.lang.annotation.Annotation;
 import java.security.SecureRandom;
 import java.util.List;
+import uk.co.jemos.podam.common.AttributeStrategy;
 
 public class DegreeStrategy implements AttributeStrategy<String> {
 

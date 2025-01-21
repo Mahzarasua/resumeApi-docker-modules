@@ -1,12 +1,12 @@
 package dev.mhzars.projects.postgres.resumeapidockercompose.validator;
 
+import static dev.mhzars.projects.commons.resumeapidockercompose.CommonTestUtils.manufacturedCustomPojo;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import dev.mhzars.projects.commons.resumeapidockercompose.domain.auth.JwtRequest;
 import dev.mhzars.projects.commons.resumeapidockercompose.exception.CustomBadRequestException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import static dev.mhzars.projects.commons.resumeapidockercompose.CommonTestUtils.manufacturedCustomPojo;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class JwtRequestValidatorTest {
 

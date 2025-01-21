@@ -1,5 +1,11 @@
 package dev.mhzars.projects.mongo.resumeapidockercompose.service;
 
+import static dev.mhzars.projects.mongo.resumeapidockercompose.utils.SpringUtils.generateUniqueObjectId;
+import static dev.mhzars.projects.mongo.resumeapidockercompose.utils.SpringUtils.removeFromList;
+import static dev.mhzars.projects.mongo.resumeapidockercompose.utils.SpringUtils.validateObjectId;
+
+import org.springframework.stereotype.Service;
+
 import dev.mhzars.projects.commons.resumeapidockercompose.domain.GenericDeleteResponse;
 import dev.mhzars.projects.commons.resumeapidockercompose.domain.experience.ExperienceDomain;
 import dev.mhzars.projects.commons.resumeapidockercompose.domain.experience.ExperienceRequest;
@@ -10,16 +16,10 @@ import dev.mhzars.projects.mongo.resumeapidockercompose.model.Experience;
 import dev.mhzars.projects.mongo.resumeapidockercompose.model.Resume;
 import dev.mhzars.projects.mongo.resumeapidockercompose.repository.ResumeRepository;
 import dev.mhzars.projects.mongo.resumeapidockercompose.utils.SpringResumeRepo;
-import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Service;
-
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
-
-import static dev.mhzars.projects.mongo.resumeapidockercompose.utils.SpringUtils.generateUniqueObjectId;
-import static dev.mhzars.projects.mongo.resumeapidockercompose.utils.SpringUtils.removeFromList;
-import static dev.mhzars.projects.mongo.resumeapidockercompose.utils.SpringUtils.validateObjectId;
+import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
@@ -79,7 +79,11 @@ public class ExperienceServiceImpl implements ExperienceService {
     public GenericDeleteResponse deleteRecordbyId(String resumeId, String id) {
         Resume resume = checkResume.checkResumeId(resumeId);
         checkResumeExperienceList(resume, id);
-        removeFromList(resume.getExperienceList(), row -> Objects.equals(row.getId(), validateObjectId(id)) && Objects.equals(resume.getId(), validateObjectId(resumeId)));
+        removeFromList(
+                resume.getExperienceList(),
+                row ->
+                        Objects.equals(row.getId(), validateObjectId(id))
+                                && Objects.equals(resume.getId(), validateObjectId(resumeId)));
         repo.save(resume);
         return new GenericDeleteResponse(id, resumeId);
     }
@@ -92,6 +96,7 @@ public class ExperienceServiceImpl implements ExperienceService {
             }
         }
         if (recNotFound)
-            throw new CustomNotFoundException(String.format("Experience with id %s was not found", id));
+            throw new CustomNotFoundException(
+                    String.format("Experience with id %s was not found", id));
     }
 }

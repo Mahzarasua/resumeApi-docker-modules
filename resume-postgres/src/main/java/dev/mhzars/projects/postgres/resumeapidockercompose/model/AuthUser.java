@@ -8,20 +8,17 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
 @NoArgsConstructor
 public class AuthUser {
-    @Id
-    @GeneratedValue
-    private UUID id;
+    @Id @GeneratedValue private UUID id;
     private String username;
     private String password;
     private boolean active;
@@ -30,7 +27,12 @@ public class AuthUser {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<AuthRole> authRoles;
 
-    public AuthUser(String username, String password, boolean active, LocalDateTime creationDate, List<AuthRole> authRoles) {
+    public AuthUser(
+            String username,
+            String password,
+            boolean active,
+            LocalDateTime creationDate,
+            List<AuthRole> authRoles) {
         this.username = username;
         this.password = password;
         this.active = active;

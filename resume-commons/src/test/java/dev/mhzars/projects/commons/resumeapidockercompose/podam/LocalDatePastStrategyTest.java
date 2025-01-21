@@ -1,12 +1,11 @@
 package dev.mhzars.projects.commons.resumeapidockercompose.podam;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.LocalDate;
 import java.util.Collections;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 class LocalDatePastStrategyTest {
     private static LocalDatePastStrategy strategy;
@@ -22,5 +21,4 @@ class LocalDatePastStrategyTest {
         LocalDate value = strategy.getValue(Object.class, Collections.emptyList());
         assertEquals(value, expectedDate);
     }
-
 }

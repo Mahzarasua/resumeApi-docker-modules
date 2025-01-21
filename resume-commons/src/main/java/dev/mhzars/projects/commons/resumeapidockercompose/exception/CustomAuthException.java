@@ -7,8 +7,7 @@ import java.io.Serial;
 
 @ResponseStatus(HttpStatus.UNAUTHORIZED)
 public class CustomAuthException extends CustomErrorDetails {
-    @Serial
-    private static final long serialVersionUID = 8390616249364923286L;
+    @Serial private static final long serialVersionUID = 8390616249364923286L;
     private static final String FIELD_NAME = "Authentication error";
 
     public CustomAuthException(String errorMessage) {

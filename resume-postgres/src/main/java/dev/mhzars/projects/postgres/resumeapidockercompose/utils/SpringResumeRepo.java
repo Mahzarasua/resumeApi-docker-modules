@@ -1,10 +1,10 @@
 package dev.mhzars.projects.postgres.resumeapidockercompose.utils;
 
+import org.springframework.stereotype.Component;
 
 import dev.mhzars.projects.commons.resumeapidockercompose.exception.CustomNotFoundException;
 import dev.mhzars.projects.postgres.resumeapidockercompose.model.Resume;
 import dev.mhzars.projects.postgres.resumeapidockercompose.repository.ResumeRepository;
-import org.springframework.stereotype.Component;
 
 @Component
 public class SpringResumeRepo {
@@ -17,7 +17,9 @@ public class SpringResumeRepo {
     }
 
     public Resume checkResumeId(String id) {
-        return resumeRepo.findById(SpringUtils.validateObjectId(id))
-                .orElseThrow(() -> new CustomNotFoundException(String.format(RESUME_ID_NOT_FOUND, id)));
+        return resumeRepo
+                .findById(SpringUtils.validateObjectId(id))
+                .orElseThrow(
+                        () -> new CustomNotFoundException(String.format(RESUME_ID_NOT_FOUND, id)));
     }
 }
