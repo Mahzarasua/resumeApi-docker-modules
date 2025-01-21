@@ -1,8 +1,6 @@
 package dev.mhzars.projects.commons.resumeapidockercompose.validator;
 
-
 import dev.mhzars.projects.commons.resumeapidockercompose.exception.ExceptionBody;
-
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -11,12 +9,13 @@ public class CustomValidationUtils {
 
     public static final String REQ_FIELD = "is a required field";
     public static final String INVALID_FORMAT = "has an invalid format";
-    public static final String CUSTOM_ERROR_MSG = "One or more fields are required or the format is invalid";
+    public static final String CUSTOM_ERROR_MSG =
+            "One or more fields are required or the format is invalid";
 
-    private CustomValidationUtils() {
-    }
+    private CustomValidationUtils() {}
 
-    public static void validateRequiredString(List<ExceptionBody.ErrorDetails> errorDetails, String value, String fieldName) {
+    public static void validateRequiredString(
+            List<ExceptionBody.ErrorDetails> errorDetails, String value, String fieldName) {
         if (!isValidString(value)) {
             errorDetails.add(new ExceptionBody.ErrorDetails(fieldName, REQ_FIELD));
         }
@@ -32,7 +31,8 @@ public class CustomValidationUtils {
 
     public static boolean isValidEmail(String email) {
         // Regex for emails.
-        Pattern patternEmail = Pattern.compile("^[\\p{L}\\p{N}\\._%+-]+@[\\p{L}\\p{N}\\.\\-]+\\.[\\p{L}]{2,}$");
+        Pattern patternEmail =
+                Pattern.compile("^[\\p{L}\\p{N}\\._%+-]+@[\\p{L}\\p{N}\\.\\-]+\\.[\\p{L}]{2,}$");
         Matcher matcherEmail = patternEmail.matcher(email);
         return matcherEmail.find();
     }

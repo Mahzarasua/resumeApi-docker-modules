@@ -1,6 +1,6 @@
 # It will define the port where the app will run, when zero spring assigns a random port
 server:
-  port: 0
+  port: @mongo.app.port@
 # Spring details required by the application
 spring:
   application:

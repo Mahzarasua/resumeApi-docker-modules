@@ -1,8 +1,8 @@
 package dev.mhzars.projects.postgres.resumeapidockercompose.config;
 
-import dev.mhzars.projects.commons.resumeapidockercompose.config.CommonJwtAuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
 
+import dev.mhzars.projects.commons.resumeapidockercompose.config.CommonJwtAuthenticationEntryPoint;
+
 @Component
-public class JwtAuthenticationEntryPoint extends CommonJwtAuthenticationEntryPoint {
-}
+public class JwtAuthenticationEntryPoint extends CommonJwtAuthenticationEntryPoint {}

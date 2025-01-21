@@ -1,36 +1,34 @@
 package dev.mhzars.projects.postgres.resumeapidockercompose.config;
 
-import dev.mhzars.projects.commons.resumeapidockercompose.validator.CommonResumeValidator;
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.client.RestTemplate;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import dev.mhzars.projects.commons.resumeapidockercompose.validator.CommonResumeValidator;
+import org.junit.jupiter.api.Test;
 
 @SpringBootTest
 class ConfigBeansTest {
-    @Autowired
-    private RestTemplate restTemplate;
+    @Autowired private RestTemplate restTemplate;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-    @Autowired
-    private CommonResumeValidator commonResumeValidator;
+    @Autowired private PasswordEncoder passwordEncoder;
+    @Autowired private CommonResumeValidator commonResumeValidator;
 
     @Test
-    public void testRestTemplateBean() {
+    void testRestTemplateBean() {
         assertNotNull(restTemplate);
     }
 
     @Test
-    public void testPasswordEncoderBean() {
+    void testPasswordEncoderBean() {
         assertNotNull(passwordEncoder);
     }
 
     @Test
-    public void testCommonResumeValidatorBean() {
+    void testCommonResumeValidatorBean() {
         assertNotNull(commonResumeValidator);
     }
 }

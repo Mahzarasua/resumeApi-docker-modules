@@ -1,5 +1,9 @@
 package dev.mhzars.projects.mongo.resumeapidockercompose.service;
 
+import static dev.mhzars.projects.commons.resumeapidockercompose.utils.CommonSpringUtils.removeFromList;
+
+import org.springframework.stereotype.Service;
+
 import dev.mhzars.projects.commons.resumeapidockercompose.domain.GenericDeleteResponse;
 import dev.mhzars.projects.commons.resumeapidockercompose.domain.education.EducationDomain;
 import dev.mhzars.projects.commons.resumeapidockercompose.domain.education.EducationRequest;
@@ -11,12 +15,10 @@ import dev.mhzars.projects.mongo.resumeapidockercompose.model.Resume;
 import dev.mhzars.projects.mongo.resumeapidockercompose.repository.ResumeRepository;
 import dev.mhzars.projects.mongo.resumeapidockercompose.utils.SpringResumeRepo;
 import dev.mhzars.projects.mongo.resumeapidockercompose.utils.SpringUtils;
-import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Service;
-
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
+import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
@@ -76,7 +78,12 @@ public class EducationServiceImpl implements EducationService {
     public GenericDeleteResponse deleteRecordbyId(String resumeId, String id) {
         Resume resume = checkResume.checkResumeId(resumeId);
         checkResumeEducationList(resume, id);
-        SpringUtils.removeFromList(resume.getEducationList(), row -> Objects.equals(row.getId(), SpringUtils.validateObjectId(id)) && Objects.equals(resume.getId(), SpringUtils.validateObjectId(resumeId)));
+        removeFromList(
+                resume.getEducationList(),
+                row ->
+                        Objects.equals(row.getId(), SpringUtils.validateObjectId(id))
+                                && Objects.equals(
+                                        resume.getId(), SpringUtils.validateObjectId(resumeId)));
         repo.save(resume);
         return new GenericDeleteResponse(id, resumeId);
     }
@@ -89,6 +96,7 @@ public class EducationServiceImpl implements EducationService {
             }
         }
         if (recNotFound)
-            throw new CustomNotFoundException(String.format("Education with id %s was not found", id));
+            throw new CustomNotFoundException(
+                    String.format("Education with id %s was not found", id));
     }
 }

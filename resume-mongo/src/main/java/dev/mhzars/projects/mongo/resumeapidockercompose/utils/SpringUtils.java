@@ -1,18 +1,17 @@
 package dev.mhzars.projects.mongo.resumeapidockercompose.utils;
 
+import static java.security.DrbgParameters.Capability.RESEED_ONLY;
+
 import dev.mhzars.projects.commons.resumeapidockercompose.exception.CustomBadRequestException;
 import dev.mhzars.projects.commons.resumeapidockercompose.exception.ExceptionBody;
 import dev.mhzars.projects.commons.resumeapidockercompose.utils.CommonSpringUtils;
-import org.bson.types.ObjectId;
-
 import java.security.DrbgParameters;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.Random;
-
-import static java.security.DrbgParameters.Capability.RESEED_ONLY;
+import org.bson.types.ObjectId;
 
 public class SpringUtils extends CommonSpringUtils {
 
@@ -20,8 +19,9 @@ public class SpringUtils extends CommonSpringUtils {
 
     static {
         try {
-            random = SecureRandom.getInstance("DRBG",
-                    DrbgParameters.instantiation(128, RESEED_ONLY, null));
+            random =
+                    SecureRandom.getInstance(
+                            "DRBG", DrbgParameters.instantiation(128, RESEED_ONLY, null));
         } catch (NoSuchAlgorithmException e) {
             random = new SecureRandom();
         }
@@ -42,9 +42,12 @@ public class SpringUtils extends CommonSpringUtils {
             return new ObjectId((id == null || id.isEmpty()) ? "" : id);
         } catch (IllegalArgumentException e) {
             ExceptionBody.ErrorDetails errorDetails =
-                    new ExceptionBody.ErrorDetails("id",
-                            String.format("Value provided: %s cannot be converted to ObjectId", id));
-            throw new CustomBadRequestException(Collections.singletonList(errorDetails), "Conversion Error");
+                    new ExceptionBody.ErrorDetails(
+                            "id",
+                            String.format(
+                                    "Value provided: %s cannot be converted to ObjectId", id));
+            throw new CustomBadRequestException(
+                    Collections.singletonList(errorDetails), "Conversion Error");
         }
     }
 }

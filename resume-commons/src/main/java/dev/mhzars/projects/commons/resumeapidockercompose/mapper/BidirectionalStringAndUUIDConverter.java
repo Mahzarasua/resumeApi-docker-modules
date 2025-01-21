@@ -1,10 +1,9 @@
 package dev.mhzars.projects.commons.resumeapidockercompose.mapper;
 
+import java.util.UUID;
 import ma.glasnost.orika.MappingContext;
 import ma.glasnost.orika.converter.BidirectionalConverter;
 import ma.glasnost.orika.metadata.Type;
-
-import java.util.UUID;
 
 public class BidirectionalStringAndUUIDConverter extends BidirectionalConverter<String, UUID> {
 

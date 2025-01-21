@@ -7,14 +7,13 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreRemove;
+import java.time.LocalDateTime;
+import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-
-import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Entity
 @Data
@@ -22,14 +21,9 @@ import java.util.UUID;
 @NoArgsConstructor
 @EqualsAndHashCode(exclude = {"resume"})
 public class Skill {
-    @Id
-    @GeneratedValue
-    private UUID id;
+    @Id @GeneratedValue private UUID id;
 
-    @ManyToOne
-    @ToString.Exclude
-    @JsonIgnore
-    private Resume resume;
+    @ManyToOne @ToString.Exclude @JsonIgnore private Resume resume;
 
     private String name;
     private int percentage;

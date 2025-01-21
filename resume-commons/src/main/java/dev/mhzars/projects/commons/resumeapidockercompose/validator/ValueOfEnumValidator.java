@@ -2,7 +2,6 @@ package dev.mhzars.projects.commons.resumeapidockercompose.validator;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
-
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -11,10 +10,8 @@ public class ValueOfEnumValidator implements ConstraintValidator<ValueOfEnum, Ch
 
     @Override
     public void initialize(ValueOfEnum annotation) {
-        acceptedValues = Stream.of(annotation.enumClass()
-                        .getEnumConstants())
-                .map(Enum::name)
-                .toList();
+        acceptedValues =
+                Stream.of(annotation.enumClass().getEnumConstants()).map(Enum::name).toList();
     }
 
     @Override

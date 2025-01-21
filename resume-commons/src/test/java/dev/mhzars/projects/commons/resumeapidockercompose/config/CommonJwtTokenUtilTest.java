@@ -1,37 +1,34 @@
 package dev.mhzars.projects.commons.resumeapidockercompose.config;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ExpiredJwtException;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.springframework.security.core.userdetails.UserDetails;
-
-import java.lang.reflect.Field;
-import java.util.Date;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.MockitoAnnotations.openMocks;
 
+import org.springframework.security.core.userdetails.UserDetails;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
+import java.lang.reflect.Field;
+import java.util.Date;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+
 class CommonJwtTokenUtilTest {
     private final String expectedSubject = "testSubject";
 
     private CommonJwtTokenUtil jwtTokenUtil;
-    @Mock
-    private UserDetails userDetails;
+    @Mock private UserDetails userDetails;
 
     @BeforeEach
     void setup() throws NoSuchFieldException, IllegalAccessException {
         openMocks(this);
 
         userDetails = Mockito.mock(UserDetails.class);
-        Mockito.when(userDetails.getUsername())
-                .thenReturn(expectedSubject);
-
+        Mockito.when(userDetails.getUsername()).thenReturn(expectedSubject);
 
         jwtTokenUtil = new CommonJwtTokenUtil();
 
@@ -45,14 +42,16 @@ class CommonJwtTokenUtilTest {
 
     @Test
     void getUsernameFromToken_shouldReturnSubject() {
-        String username = jwtTokenUtil.getUsernameFromToken(jwtTokenUtil.generateToken(userDetails));
+        String username =
+                jwtTokenUtil.getUsernameFromToken(jwtTokenUtil.generateToken(userDetails));
 
         assertEquals(expectedSubject, username);
     }
 
     @Test
     void getExpirationDateFromToken_shouldReturnExpirationDate() {
-        Date actualExpirationDate = jwtTokenUtil.getExpirationDateFromToken(jwtTokenUtil.generateToken(userDetails));
+        Date actualExpirationDate =
+                jwtTokenUtil.getExpirationDateFromToken(jwtTokenUtil.generateToken(userDetails));
 
         assertTrue(actualExpirationDate.after(new Date()));
     }
@@ -80,8 +79,9 @@ class CommonJwtTokenUtilTest {
     }
 
     @Test
-    void validateToken_shouldReturnFalseForExpiredToken() throws IllegalAccessException, NoSuchFieldException {
-        //Setting an expired value
+    void validateToken_shouldReturnFalseForExpiredToken()
+            throws IllegalAccessException, NoSuchFieldException {
+        // Setting an expired value
         Field expirationField = jwtTokenUtil.getClass().getDeclaredField("jwtTokenValidity");
         expirationField.setAccessible(true);
         long originalValue = (long) expirationField.get(jwtTokenUtil);
@@ -89,12 +89,12 @@ class CommonJwtTokenUtilTest {
 
         String token = jwtTokenUtil.generateToken(userDetails);
 
-        assertThrows(ExpiredJwtException.class, () -> jwtTokenUtil.validateToken(token, userDetails));
+        assertThrows(
+                ExpiredJwtException.class, () -> jwtTokenUtil.validateToken(token, userDetails));
 
-        //returning it to the original value
+        // returning it to the original value
         expirationField.setAccessible(true);
         expirationField.set(jwtTokenUtil, originalValue);
-
     }
 
     // Add more test cases as needed for different scenarios

@@ -3,7 +3,6 @@ package dev.mhzars.projects.postgres.resumeapidockercompose.utils;
 import dev.mhzars.projects.commons.resumeapidockercompose.exception.CustomBadRequestException;
 import dev.mhzars.projects.commons.resumeapidockercompose.exception.ExceptionBody;
 import dev.mhzars.projects.commons.resumeapidockercompose.utils.CommonSpringUtils;
-
 import java.util.Collections;
 import java.util.UUID;
 
@@ -22,9 +21,11 @@ public class SpringUtils extends CommonSpringUtils {
             return UUID.fromString((id == null || id.isEmpty()) ? "" : id);
         } catch (IllegalArgumentException e) {
             ExceptionBody.ErrorDetails errorDetails =
-                    new ExceptionBody.ErrorDetails("id",
+                    new ExceptionBody.ErrorDetails(
+                            "id",
                             String.format("Value provided: %s cannot be converted to UUID", id));
-            throw new CustomBadRequestException(Collections.singletonList(errorDetails), "Conversion Error");
+            throw new CustomBadRequestException(
+                    Collections.singletonList(errorDetails), "Conversion Error");
         }
     }
 }

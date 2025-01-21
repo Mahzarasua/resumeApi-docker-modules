@@ -1,21 +1,21 @@
 package dev.mhzars.projects.postgres.resumeapidockercompose.initializer;
 
+import static dev.mhzars.projects.commons.resumeapidockercompose.utils.CommonSpringUtils.readFile;
+import static dev.mhzars.projects.postgres.resumeapidockercompose.utils.SpringUtils.OBJECT_MAPPER;
+
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
+
 import dev.mhzars.projects.postgres.resumeapidockercompose.model.AuthRole;
 import dev.mhzars.projects.postgres.resumeapidockercompose.model.AuthUser;
 import dev.mhzars.projects.postgres.resumeapidockercompose.model.Resume;
 import dev.mhzars.projects.postgres.resumeapidockercompose.repository.AuthUserRepository;
 import dev.mhzars.projects.postgres.resumeapidockercompose.repository.ResumeRepository;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.stereotype.Component;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
-import static dev.mhzars.projects.commons.resumeapidockercompose.utils.CommonSpringUtils.readFile;
-import static dev.mhzars.projects.postgres.resumeapidockercompose.utils.SpringUtils.OBJECT_MAPPER;
+import lombok.extern.slf4j.Slf4j;
 
 @Component
 @Slf4j
@@ -67,16 +67,19 @@ public class InitializeDB implements CommandLineRunner {
                 log.info("User found for: {}", OBJECT_MAPPER.writeValueAsString(authUser.get()));
             } else {
                 List<AuthRole> authRoleList = new ArrayList<>();
-                for (AuthRole r :
-                        dbUser.getAuthRoles()) {
+                for (AuthRole r : dbUser.getAuthRoles()) {
                     authRoleList.add(new AuthRole(r.getRole(), CREATION_DATE));
                 }
 
-                AuthUser user = new AuthUser(dbUser.getUsername(), dbUser.getPassword(), dbUser.isActive(), CREATION_DATE
-                        , authRoleList);
+                AuthUser user =
+                        new AuthUser(
+                                dbUser.getUsername(),
+                                dbUser.getPassword(),
+                                dbUser.isActive(),
+                                CREATION_DATE,
+                                authRoleList);
                 userRepo.save(user);
             }
         }
     }
-
 }

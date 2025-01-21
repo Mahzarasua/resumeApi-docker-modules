@@ -7,7 +7,6 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <!--        <version>3.1.3</version>-->
         <version>3.2.5</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
@@ -33,7 +32,7 @@
         <spring.boot.depencencies.version>3.2.5</spring.boot.depencencies.version>
         <spring.boot.starter.parent.version>3.2.5</spring.boot.starter.parent.version>
         <swagger.core.v3.version>2.2.8</swagger.core.v3.version>
-        <springdoc-openapi-starter-webmvc-ui.version>2.1.0</springdoc-openapi-starter-webmvc-ui.version>
+        <springdoc-openapi-starter-webmvc-ui.version>2.6.0</springdoc-openapi-starter-webmvc-ui.version>
         <springdoc-openapi-maven-plugin.version>1.4</springdoc-openapi-maven-plugin.version>
         <io.jsonwebtoken.version>0.9.1</io.jsonwebtoken.version>
         <ma.glasnost.orika.version>1.5.4</ma.glasnost.orika.version>
@@ -44,6 +43,8 @@
         <spring.boot.starter.activemq.version>2.7.9</spring.boot.starter.activemq.version>
         <snakeyaml.version>2.0</snakeyaml.version>
         <jaxb-api.version>2.3.1</jaxb-api.version>
+        <mongo.app.port>60990</mongo.app.port>
+        <postgres.app.port>60993</postgres.app.port>
     </properties>
 
     <dependencyManagement>
@@ -152,6 +153,7 @@
                 </plugin>
             </plugins>
         </pluginManagement>
+        
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -161,19 +163,6 @@
                     <execution>
                         <goals>
                             <goal>test-jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.springdoc</groupId>
-                <artifactId>springdoc-openapi-maven-plugin</artifactId>
-                <version>${springdoc-openapi-maven-plugin.version}</version>
-                <executions>
-                    <execution>
-                        <phase>integration-test</phase>
-                        <goals>
-                            <goal>generate</goal>
                         </goals>
                     </execution>
                 </executions>
@@ -231,8 +220,36 @@
                     </execution>
                 </executions>
             </plugin>
-
+            <plugin>
+                <groupId>com.diffplug.spotless</groupId>
+                <artifactId>spotless-maven-plugin</artifactId>
+                <version>2.43.0</version>
+                <configuration>
+                    <java>
+                        <!-- apply a specific flavor of google-java-format and reflow long strings -->
+                        <googleJavaFormat>
+                            <version>1.23.0</version>
+                            <style>AOSP</style>
+                        </googleJavaFormat>
+                        <importOrder>  <!-- or a custom ordering -->
+                            <order>org.springframework, dev.mhzars, javax, java, com, lombok, io.swagger, \#</order>
+                        </importOrder>
+                        <removeUnusedImports/>
+                        <toggleOffOn/>
+                    </java>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>spotless-check</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
+
         <resources>
             <resource>
                 <directory>src/main/resources</directory>

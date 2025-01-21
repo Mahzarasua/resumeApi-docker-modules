@@ -1,10 +1,9 @@
 package dev.mhzars.projects.commons.resumeapidockercompose.domain.auth;
 
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor

@@ -1,10 +1,11 @@
 package dev.mhzars.projects.commons.resumeapidockercompose.config;
 
-import dev.mhzars.projects.commons.resumeapidockercompose.validator.CommonResumeValidator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.client.RestTemplate;
+
+import dev.mhzars.projects.commons.resumeapidockercompose.validator.CommonResumeValidator;
 
 public class CommonConfigBeans {
 

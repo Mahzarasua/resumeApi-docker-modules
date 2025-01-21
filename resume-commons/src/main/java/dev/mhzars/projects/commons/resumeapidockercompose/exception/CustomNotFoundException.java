@@ -7,8 +7,7 @@ import java.io.Serial;
 
 @ResponseStatus(HttpStatus.NOT_FOUND)
 public class CustomNotFoundException extends CustomErrorDetails {
-    @Serial
-    private static final long serialVersionUID = -4637713924717607806L;
+    @Serial private static final long serialVersionUID = -4637713924717607806L;
     private static final String FIELD_NAME = "Record not found";
 
     public CustomNotFoundException(String errorMessage) {

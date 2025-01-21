@@ -1,13 +1,12 @@
 package dev.mhzars.projects.mongo.resumeapidockercompose.mapper;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
+import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import ma.glasnost.orika.impl.DefaultMapperFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @Slf4j
 class CustomMapperTest {

@@ -1,9 +1,10 @@
 package dev.mhzars.projects.mongo.resumeapidockercompose.config;
 
+import org.springframework.stereotype.Component;
+
 import dev.mhzars.projects.commons.resumeapidockercompose.config.CommonJwtRequestFilter;
 import dev.mhzars.projects.mongo.resumeapidockercompose.service.MyUserDetailsService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
 
 @Component
 @Slf4j

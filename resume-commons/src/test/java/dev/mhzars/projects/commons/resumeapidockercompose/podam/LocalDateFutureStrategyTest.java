@@ -1,13 +1,12 @@
 package dev.mhzars.projects.commons.resumeapidockercompose.podam;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDate;
 import java.util.Collections;
-
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 class LocalDateFutureStrategyTest {
     private static LocalDateFutureStrategy strategy;
@@ -23,5 +22,4 @@ class LocalDateFutureStrategyTest {
         assertNotNull(value);
         assertTrue(LocalDate.now().isAfter(value) || LocalDate.now().isEqual(value));
     }
-
 }

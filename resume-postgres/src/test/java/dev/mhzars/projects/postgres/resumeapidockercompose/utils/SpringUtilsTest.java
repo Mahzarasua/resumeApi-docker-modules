@@ -1,14 +1,13 @@
 package dev.mhzars.projects.postgres.resumeapidockercompose.utils;
 
-import dev.mhzars.projects.commons.resumeapidockercompose.exception.CustomBadRequestException;
-import org.junit.jupiter.api.Test;
-
-import java.util.UUID;
-
 import static dev.mhzars.projects.postgres.resumeapidockercompose.utils.SpringUtils.generateUniqueObjectId;
 import static dev.mhzars.projects.postgres.resumeapidockercompose.utils.SpringUtils.validateObjectId;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import dev.mhzars.projects.commons.resumeapidockercompose.exception.CustomBadRequestException;
+import java.util.UUID;
+import org.junit.jupiter.api.Test;
 
 class SpringUtilsTest {
 

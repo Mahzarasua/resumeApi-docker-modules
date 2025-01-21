@@ -1,11 +1,10 @@
 package dev.mhzars.projects.commons.resumeapidockercompose.podam;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.Collections;
-
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 class GenerateUUIDStrategyTest {
     private static GenerateUUIDStrategy strategy;
@@ -20,5 +19,4 @@ class GenerateUUIDStrategyTest {
         String actual = strategy.getValue(Object.class, Collections.emptyList());
         assertNotNull(actual);
     }
-
 }

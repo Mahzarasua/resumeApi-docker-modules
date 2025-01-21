@@ -1,5 +1,15 @@
 package dev.mhzars.projects.commons.resumeapidockercompose.config;
 
+import static dev.mhzars.projects.commons.resumeapidockercompose.config.WebConfigWhiteList.getAuthWhitelist;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 import dev.mhzars.projects.commons.resumeapidockercompose.exception.CustomAuthException;
 import dev.mhzars.projects.commons.resumeapidockercompose.exception.ExceptionBody;
@@ -10,22 +20,11 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
-import org.springframework.web.filter.OncePerRequestFilter;
-
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Arrays;
-
-import static dev.mhzars.projects.commons.resumeapidockercompose.config.WebConfigWhiteList.getAuthWhitelist;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 
 @Slf4j
 public class CommonJwtRequestFilter extends OncePerRequestFilter {
@@ -35,19 +34,21 @@ public class CommonJwtRequestFilter extends OncePerRequestFilter {
     public static final String UNABLE_TO_GET_JWT_TOKEN = "Unable to get JWT Token";
     public static final String TOKEN_HAS_EXPIRED = "JWT Token has expired";
     private static final String[] WHITELISTED_PATHS = {
-            // -- Swagger UI v2
-            "/swagger",
-            "/openapi",
-            "/admin"};
+        // -- Swagger UI v2
+        "/swagger", "/openapi", "/admin"
+    };
     private final UserDetailsService jwtUserDetailsService;
     private final CommonJwtTokenUtil jwtTokenUtil;
 
-    public CommonJwtRequestFilter(UserDetailsService jwtUserDetailsService, CommonJwtTokenUtil jwtTokenUtil) {
+    public CommonJwtRequestFilter(
+            UserDetailsService jwtUserDetailsService, CommonJwtTokenUtil jwtTokenUtil) {
         this.jwtUserDetailsService = jwtUserDetailsService;
         this.jwtTokenUtil = jwtTokenUtil;
     }
 
-    public static void filterException(String requestUri, HttpServletResponse response, CustomAuthException e) throws IOException {
+    public static void filterException(
+            String requestUri, HttpServletResponse response, CustomAuthException e)
+            throws IOException {
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         ExceptionBody body = new ExceptionBody();
@@ -61,7 +62,10 @@ public class CommonJwtRequestFilter extends OncePerRequestFilter {
     }
 
     @Override
-    public void doFilterInternal(HttpServletRequest request, @Nullable HttpServletResponse response, @Nullable FilterChain chain)
+    public void doFilterInternal(
+            HttpServletRequest request,
+            @Nullable HttpServletResponse response,
+            @Nullable FilterChain chain)
             throws ServletException, IOException {
         final String requestTokenHeader = request.getHeader(AUTH_HEADER);
 
@@ -69,20 +73,28 @@ public class CommonJwtRequestFilter extends OncePerRequestFilter {
             if (checkWhiteList(request.getRequestURI()))
                 log.debug("Path {} is white listed", request.getRequestURI());
             else {
-                //If path is Whitelisted, it can be accessed without a token
+                // If path is Whitelisted, it can be accessed without a token
                 log.debug("Path {} needs to be authenticated", request.getRequestURI());
                 validateRequestAndToken(request, requestTokenHeader);
             }
-            assert chain != null;
+            if (chain == null && response != null) {
+                filterException(
+                        request.getRequestURI(),
+                        response,
+                        new CustomAuthException("Request filter chain is null"));
+            }
             chain.doFilter(request, response);
         } catch (CustomAuthException e) {
-            assert response != null;
-            filterException(request.getRequestURI(), response, e);
+            if (response != null) {
+                filterException(request.getRequestURI(), response, e);
+            }
         }
     }
 
     private boolean checkWhiteList(String uri) {
-        return Arrays.stream(WHITELISTED_PATHS).anyMatch(path -> StringUtils.contains(uri, path)) || Arrays.stream(getAuthWhitelist()).anyMatch(path -> StringUtils.contains(path, uri));
+        return Arrays.stream(WHITELISTED_PATHS).anyMatch(path -> StringUtils.contains(uri, path))
+                || Arrays.stream(getAuthWhitelist())
+                        .anyMatch(path -> StringUtils.contains(path, uri));
     }
 
     private void validateRequestAndToken(HttpServletRequest request, String requestTokenHeader) {
@@ -116,15 +128,16 @@ public class CommonJwtRequestFilter extends OncePerRequestFilter {
             // if token is valid configure Spring Security to manually set authentication
             if (Boolean.TRUE.equals(jwtTokenUtil.validateToken(jwtToken, userDetails))) {
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
-                        new UsernamePasswordAuthenticationToken(userDetails, null
-                                , userDetails.getAuthorities());
-                usernamePasswordAuthenticationToken
-                        .setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                // After setting the Authentication in the context, we specify that the current user is authenticated.
+                        new UsernamePasswordAuthenticationToken(
+                                userDetails, null, userDetails.getAuthorities());
+                usernamePasswordAuthenticationToken.setDetails(
+                        new WebAuthenticationDetailsSource().buildDetails(request));
+                // After setting the Authentication in the context, we specify that the current user
+                // is authenticated.
                 // So it passes Spring Security Configurations successfully.
-                SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+                SecurityContextHolder.getContext()
+                        .setAuthentication(usernamePasswordAuthenticationToken);
             }
         }
-
     }
 }

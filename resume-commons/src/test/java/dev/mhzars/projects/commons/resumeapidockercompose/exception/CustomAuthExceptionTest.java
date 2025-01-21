@@ -1,13 +1,13 @@
 package dev.mhzars.projects.commons.resumeapidockercompose.exception;
 
-import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-
 import static dev.mhzars.projects.commons.resumeapidockercompose.CommonTestUtils.manufacturedPojo;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 @Slf4j
 class CustomAuthExceptionTest {
@@ -31,10 +31,12 @@ class CustomAuthExceptionTest {
 
     @Test
     void test_Constructor() {
-        ExceptionBody.ErrorDetails errorDetails = manufacturedPojo(ExceptionBody.ErrorDetails.class);
-        assertThrows(CustomAuthException.class, () -> {
+        ExceptionBody.ErrorDetails errorDetails =
+                manufacturedPojo(ExceptionBody.ErrorDetails.class);
+        assertThrows(
+                CustomAuthException.class,
+                () -> {
                     throw new CustomAuthException(errorDetails, "string");
-                }
-        );
+                });
     }
 }

@@ -1,5 +1,8 @@
 package dev.mhzars.projects.mongo.resumeapidockercompose.controller;
 
+import static dev.mhzars.projects.mongo.resumeapidockercompose.TestUtils.RESUME_ID;
+import static dev.mhzars.projects.mongo.resumeapidockercompose.TestUtils.manufacturedPojo;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import dev.mhzars.projects.commons.resumeapidockercompose.domain.GenericDeleteResponse;
 import dev.mhzars.projects.commons.resumeapidockercompose.domain.education.EducationRequest;
@@ -11,10 +14,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 
-import static dev.mhzars.projects.mongo.resumeapidockercompose.TestUtils.RESUME_ID;
-import static dev.mhzars.projects.mongo.resumeapidockercompose.TestUtils.manufacturedPojo;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
 @Slf4j
 class EducationControllerTest {
     private static EducationController controller;
@@ -25,13 +24,13 @@ class EducationControllerTest {
         GenericDeleteResponse deleteResponse = manufacturedPojo(GenericDeleteResponse.class);
         EducationService service = Mockito.mock(EducationService.class);
 
-        Mockito.doReturn(response)
-                .when(service).getListbyResumeId(ArgumentMatchers.anyString());
-        Mockito.doReturn(response)
-                .when(service).saveList(ArgumentMatchers.any());
+        Mockito.doReturn(response).when(service).getListbyResumeId(ArgumentMatchers.anyString());
+        Mockito.doReturn(response).when(service).saveList(ArgumentMatchers.any());
         Mockito.doReturn(deleteResponse)
-                .when(service).deleteRecordbyId(ArgumentMatchers.anyString(), ArgumentMatchers.anyString());
-        Mockito.when(service.deleteRecordsbyResumeId(ArgumentMatchers.anyString())).thenReturn(deleteResponse);
+                .when(service)
+                .deleteRecordbyId(ArgumentMatchers.anyString(), ArgumentMatchers.anyString());
+        Mockito.when(service.deleteRecordsbyResumeId(ArgumentMatchers.anyString()))
+                .thenReturn(deleteResponse);
 
         controller = new EducationController(service);
     }
@@ -64,5 +63,4 @@ class EducationControllerTest {
         log.info("Response: {}", response);
         assertNotNull(response);
     }
-
 }

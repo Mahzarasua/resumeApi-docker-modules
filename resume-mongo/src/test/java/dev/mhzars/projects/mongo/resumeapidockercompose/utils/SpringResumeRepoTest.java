@@ -1,22 +1,20 @@
 package dev.mhzars.projects.mongo.resumeapidockercompose.utils;
 
+import static dev.mhzars.projects.mongo.resumeapidockercompose.TestUtils.manufacturedCustomPojo;
+import static dev.mhzars.projects.mongo.resumeapidockercompose.utils.SpringUtils.generateUniqueObjectId;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import dev.mhzars.projects.commons.resumeapidockercompose.exception.CustomNotFoundException;
 import dev.mhzars.projects.mongo.resumeapidockercompose.model.Resume;
 import dev.mhzars.projects.mongo.resumeapidockercompose.repository.ResumeRepository;
+import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
-
-import java.util.Optional;
-
-import static dev.mhzars.projects.mongo.resumeapidockercompose.TestUtils.manufacturedCustomPojo;
-import static dev.mhzars.projects.mongo.resumeapidockercompose.utils.SpringUtils.generateUniqueObjectId;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @Slf4j
 class SpringResumeRepoTest {
@@ -31,9 +29,9 @@ class SpringResumeRepoTest {
         Optional<Resume> emptyResume = Optional.empty();
 
         Mockito.doReturn(optionalResume)
-                .when(resumeRepo).findById(ArgumentMatchers.any(ObjectId.class));
-        Mockito.doReturn(emptyResume)
-                .when(resumeRepo).findById(objectId);
+                .when(resumeRepo)
+                .findById(ArgumentMatchers.any(ObjectId.class));
+        Mockito.doReturn(emptyResume).when(resumeRepo).findById(objectId);
 
         springResumeRepo = new SpringResumeRepo(resumeRepo);
     }
@@ -46,7 +44,10 @@ class SpringResumeRepoTest {
     @Test
     void checkResumeId_throwsException() {
         String objectIdString = objectId.toString();
-        Exception e = assertThrows(CustomNotFoundException.class, () -> springResumeRepo.checkResumeId(objectIdString));
+        Exception e =
+                assertThrows(
+                        CustomNotFoundException.class,
+                        () -> springResumeRepo.checkResumeId(objectIdString));
 
         assertTrue(e.getMessage().contains("Resume with id"));
         log.info("{}", e.getMessage());

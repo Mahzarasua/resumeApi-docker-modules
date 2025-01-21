@@ -1,14 +1,15 @@
 package dev.mhzars.projects.commons.resumeapidockercompose.config;
 
-import dev.mhzars.projects.commons.resumeapidockercompose.model.CommonAuthUser;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
 import static dev.mhzars.projects.commons.resumeapidockercompose.CommonTestUtils.manufacturedPojo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import dev.mhzars.projects.commons.resumeapidockercompose.model.CommonAuthUser;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 class MyUserDetailsTest {
     private static MyUserDetails myUserDetails;
@@ -29,12 +30,12 @@ class MyUserDetailsTest {
         myUserDetails = new MyUserDetails(user);
         assertNotNull(myUserDetails);
         assertEquals(myUserDetails.getUsername(), user.getUsername());
-        assertTrue(new BCryptPasswordEncoder().matches(user.getPassword(), myUserDetails.getPassword()));
-//        assertEquals(myUserDetails.getAuthorities(),user.getAuthRoles());
+        assertTrue(
+                new BCryptPasswordEncoder()
+                        .matches(user.getPassword(), myUserDetails.getPassword()));
         assertTrue(myUserDetails.isAccountNonExpired());
         assertTrue(myUserDetails.isAccountNonLocked());
         assertTrue(myUserDetails.isCredentialsNonExpired());
         assertEquals(myUserDetails.isEnabled(), user.isActive());
     }
-
 }

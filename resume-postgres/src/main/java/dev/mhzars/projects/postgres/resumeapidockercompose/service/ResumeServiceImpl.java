@@ -1,5 +1,9 @@
 package dev.mhzars.projects.postgres.resumeapidockercompose.service;
 
+import static dev.mhzars.projects.postgres.resumeapidockercompose.utils.SpringUtils.generateUniqueObjectId;
+import static dev.mhzars.projects.postgres.resumeapidockercompose.utils.SpringUtils.validateObjectId;
+
+import org.springframework.stereotype.Service;
 
 import dev.mhzars.projects.commons.resumeapidockercompose.domain.resume.ResumeIdResponse;
 import dev.mhzars.projects.commons.resumeapidockercompose.domain.resume.ResumeResponse;
@@ -10,15 +14,10 @@ import dev.mhzars.projects.postgres.resumeapidockercompose.mapper.CustomMapper;
 import dev.mhzars.projects.postgres.resumeapidockercompose.model.Resume;
 import dev.mhzars.projects.postgres.resumeapidockercompose.repository.ResumeRepository;
 import dev.mhzars.projects.postgres.resumeapidockercompose.validator.ResumeValidator;
-import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-
-import static dev.mhzars.projects.postgres.resumeapidockercompose.utils.SpringUtils.generateUniqueObjectId;
-import static dev.mhzars.projects.postgres.resumeapidockercompose.utils.SpringUtils.validateObjectId;
+import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
@@ -43,8 +42,13 @@ public class ResumeServiceImpl implements ResumeService {
 
     @Override
     public ResumeResponse getResumeById(String id) {
-        Resume resume = repo.findById(validateObjectId(id))
-                .orElseThrow(() -> new CustomNotFoundException(String.format("Resume with id %s was not found", id)));
+        Resume resume =
+                repo.findById(validateObjectId(id))
+                        .orElseThrow(
+                                () ->
+                                        new CustomNotFoundException(
+                                                String.format(
+                                                        "Resume with id %s was not found", id)));
         return mapper.map(resume, ResumeResponse.class);
     }
 
@@ -70,7 +74,10 @@ public class ResumeServiceImpl implements ResumeService {
     public ResumeIdResponse saveResume(ResumeRequest request, String id) {
         UUID resumeId;
         if (id == null) {
-            resumeId = (request.getId() == null || request.getId().isEmpty()) ? generateUniqueObjectId() : validateObjectId(request.getId());
+            resumeId =
+                    (request.getId() == null || request.getId().isEmpty())
+                            ? generateUniqueObjectId()
+                            : validateObjectId(request.getId());
         } else {
             resumeId = mapper.map(getResumeById(id), Resume.class).getId();
         }
@@ -84,8 +91,14 @@ public class ResumeServiceImpl implements ResumeService {
 
     @Override
     public ResumeIdResponse deleteResumeById(String id) {
-        Resume resume = repo.findById(validateObjectId(id))
-                .orElseThrow(() -> new CustomNotFoundException(String.format("No Record was found for resumeId %s", id)));
+        Resume resume =
+                repo.findById(validateObjectId(id))
+                        .orElseThrow(
+                                () ->
+                                        new CustomNotFoundException(
+                                                String.format(
+                                                        "No Record was found for resumeId %s",
+                                                        id)));
         ResumeRequest request = mapper.map(resume, ResumeRequest.class);
         removeChildRecordsAndSaveResume(request, id);
         repo.deleteById(validateObjectId(id));
@@ -95,8 +108,14 @@ public class ResumeServiceImpl implements ResumeService {
 
     @Override
     public ResumeResponse getResumeByFirstName(String firstName) {
-        Resume resume = repo.findFirstByFirstName(firstName)
-                .orElseThrow(() -> new CustomNotFoundException(String.format("Resume with firstName %s was not found", firstName)));
+        Resume resume =
+                repo.findFirstByFirstName(firstName)
+                        .orElseThrow(
+                                () ->
+                                        new CustomNotFoundException(
+                                                String.format(
+                                                        "Resume with firstName %s was not found",
+                                                        firstName)));
         return mapper.map(resume, ResumeResponse.class);
     }
 }
