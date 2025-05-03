@@ -1,6 +1,6 @@
 package dev.mhzars.projects.mongo.resumeapidockercompose.model;
 
-import static dev.mhzars.projects.mongo.resumeapidockercompose.utils.SpringUtils.generateUniqueObjectId;
+import static dev.mhzars.projects.mongo.resumeapidockercompose.utils.SpringUtils.generateUniqueId;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -25,7 +25,7 @@ public class AuthRole {
     private LocalDateTime creationDate;
 
     public AuthRole(String role, LocalDateTime creationDate) {
-        this.id = generateUniqueObjectId();
+        this.id = generateUniqueId();
         this.role = role;
         this.creationDate = creationDate;
     }

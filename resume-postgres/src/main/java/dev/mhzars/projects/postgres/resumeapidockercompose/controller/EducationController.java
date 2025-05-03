@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import dev.mhzars.projects.commons.resumeapidockercompose.domain.GenericDeleteResponse;
 import dev.mhzars.projects.commons.resumeapidockercompose.domain.education.EducationRequest;
 import dev.mhzars.projects.commons.resumeapidockercompose.domain.education.EducationResponse;
@@ -86,7 +87,8 @@ public class EducationController {
     @Operation(summary = "This operation will return a list of records associated to the resume id")
     public EducationResponse getListbyResumeId(
             @Parameter(name = "resumeId", required = true) @PathVariable("resumeId")
-                    String resumeId) {
+                    String resumeId)
+            throws JsonProcessingException {
         return service.getListbyResumeId(resumeId);
     }
 
@@ -96,7 +98,8 @@ public class EducationController {
             summary =
                     "This operation will generate a new record with the resume id provided "
                             + "and will return the list of records associated to the resume id")
-    public EducationResponse saveList(@RequestBody EducationRequest request) {
+    public EducationResponse saveList(@RequestBody EducationRequest request)
+            throws JsonProcessingException {
         return service.saveList(request);
     }
 

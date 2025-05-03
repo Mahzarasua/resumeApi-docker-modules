@@ -1,6 +1,6 @@
 package dev.mhzars.projects.postgres.resumeapidockercompose.config;
 
-import static dev.mhzars.projects.postgres.resumeapidockercompose.utils.SpringUtils.generateUniqueObjectId;
+import static dev.mhzars.projects.commons.resumeapidockercompose.utils.CommonSpringUtils.generateUniqueId;
 import static org.wildfly.common.Assert.assertTrue;
 
 import org.springframework.http.HttpStatus;
@@ -9,7 +9,6 @@ import dev.mhzars.projects.commons.resumeapidockercompose.config.MyUserDetails;
 import dev.mhzars.projects.commons.resumeapidockercompose.exception.CustomAuthException;
 import dev.mhzars.projects.commons.resumeapidockercompose.exception.ExceptionBody;
 import dev.mhzars.projects.commons.resumeapidockercompose.model.CommonAuthUser;
-import dev.mhzars.projects.postgres.resumeapidockercompose.mapper.CustomMapper;
 import dev.mhzars.projects.postgres.resumeapidockercompose.model.AuthRole;
 import dev.mhzars.projects.postgres.resumeapidockercompose.model.AuthUser;
 import dev.mhzars.projects.postgres.resumeapidockercompose.service.MyUserDetailsService;
@@ -29,8 +28,6 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 class JwtRequestFilterTest {
-
-    private static final CustomMapper mapper = new CustomMapper();
     @Mock private MyUserDetailsService userDetailsService;
     @Mock private JwtTokenUtil jwtTokenUtil;
     @Mock private HttpServletRequest request;
@@ -42,15 +39,15 @@ class JwtRequestFilterTest {
         AuthUser authUserModel = new AuthUser();
         authUserModel.setUsername(username);
         authUserModel.setPassword("password");
-        authUserModel.setId(generateUniqueObjectId());
+        authUserModel.setId(generateUniqueId());
         authUserModel.setActive(true);
         authUserModel.setCreationDate(LocalDateTime.now());
         AuthRole role = new AuthRole();
-        role.setId(generateUniqueObjectId());
+        role.setId(generateUniqueId());
         role.setRole("ROLE_USER");
         role.setCreationDate(LocalDateTime.now());
         authUserModel.setAuthRoles(Collections.singletonList(role));
-        return mapper.map(authUserModel, CommonAuthUser.class);
+        return authUserModel.getCommonAuthUser();
     }
 
     @BeforeEach

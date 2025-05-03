@@ -1,34 +1,26 @@
 package dev.mhzars.projects.commons.resumeapidockercompose.mapper;
 
+import static dev.mhzars.projects.commons.resumeapidockercompose.mapper.CommonCustomMapper.COMMON_MAPPER;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
-import ma.glasnost.orika.impl.DefaultMapperFactory;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 @Slf4j
 class CustomMapperTest {
-    private CommonCustomMapper mapper;
-
-    @BeforeEach
-    void init() {
-        mapper = new CommonCustomMapper();
-        mapper.configure(new DefaultMapperFactory.Builder().build());
-    }
 
     @Test
     void testUUIDtoString() {
-        UUID newId = mapper.map(UUID.randomUUID().toString(), UUID.class);
-        log.info("{}", newId);
+        UUID newId = COMMON_MAPPER.convertValue(UUID.randomUUID().toString(), UUID.class);
+        log.info("UUID {}", newId);
         assertNotNull(newId);
     }
 
     @Test
     void testStringtoUUID() {
-        String newId = mapper.map(UUID.randomUUID(), String.class);
-        log.info("{}", newId);
+        String newId = COMMON_MAPPER.convertValue(UUID.randomUUID(), String.class);
+        log.info("String {}", newId);
         assertNotNull(newId);
     }
 }

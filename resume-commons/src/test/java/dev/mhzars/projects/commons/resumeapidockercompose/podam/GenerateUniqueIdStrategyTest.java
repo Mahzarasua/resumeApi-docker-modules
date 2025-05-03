@@ -6,12 +6,12 @@ import java.util.Collections;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class GenerateUUIDStrategyTest {
-    private static GenerateUUIDStrategy strategy;
+class GenerateUniqueIdStrategyTest {
+    private static GenerateUniqueIdStrategy strategy;
 
     @BeforeEach
     void init() {
-        strategy = new GenerateUUIDStrategy();
+        strategy = new GenerateUniqueIdStrategy();
     }
 
     @Test

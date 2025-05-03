@@ -1,6 +1,6 @@
 package dev.mhzars.projects.commons.resumeapidockercompose.domain.experience;
 
-import dev.mhzars.projects.commons.resumeapidockercompose.podam.GenerateUUIDStrategy;
+import dev.mhzars.projects.commons.resumeapidockercompose.podam.GenerateUniqueIdStrategy;
 import jakarta.validation.constraints.NotBlank;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -15,10 +15,10 @@ import uk.co.jemos.podam.common.PodamStrategyValue;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ExperienceDomain {
-    @PodamStrategyValue(GenerateUUIDStrategy.class)
+    @PodamStrategyValue(GenerateUniqueIdStrategy.class)
     private String resumeId;
 
-    @PodamStrategyValue(GenerateUUIDStrategy.class)
+    @PodamStrategyValue(GenerateUniqueIdStrategy.class)
     private String id;
 
     @NotBlank private String title;

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import dev.mhzars.projects.commons.resumeapidockercompose.domain.GenericDeleteResponse;
 import dev.mhzars.projects.commons.resumeapidockercompose.domain.experience.ExperienceRequest;
 import dev.mhzars.projects.commons.resumeapidockercompose.domain.experience.ExperienceResponse;
@@ -85,7 +86,8 @@ public class ExperienceController {
     @Operation(summary = "This operation will return a list of records associated to the resume id")
     public ExperienceResponse getListbyResumeId(
             @Parameter(name = "resumeId", required = true) @PathVariable("resumeId")
-                    String resumeId) {
+                    String resumeId)
+            throws JsonProcessingException {
         return service.getListbyResumeId(resumeId);
     }
 
@@ -94,7 +96,8 @@ public class ExperienceController {
     @Operation(
             summary =
                     "This operation will associate a new Experience and will return the list of Experience associated to a resume id")
-    public ExperienceResponse saveList(@RequestBody ExperienceRequest request) {
+    public ExperienceResponse saveList(@RequestBody ExperienceRequest request)
+            throws JsonProcessingException {
         return service.saveList(request);
     }
 

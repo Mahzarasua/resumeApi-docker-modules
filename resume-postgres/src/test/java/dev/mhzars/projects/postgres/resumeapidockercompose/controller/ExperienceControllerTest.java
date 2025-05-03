@@ -4,6 +4,7 @@ import static dev.mhzars.projects.postgres.resumeapidockercompose.TestUtils.RESU
 import static dev.mhzars.projects.postgres.resumeapidockercompose.TestUtils.manufacturedPojo;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import dev.mhzars.projects.commons.resumeapidockercompose.domain.GenericDeleteResponse;
 import dev.mhzars.projects.commons.resumeapidockercompose.domain.experience.ExperienceRequest;
 import dev.mhzars.projects.commons.resumeapidockercompose.domain.experience.ExperienceResponse;
@@ -19,7 +20,7 @@ class ExperienceControllerTest {
     private static ExperienceController controller;
 
     @BeforeEach
-    void init() {
+    void init() throws JsonProcessingException {
         ExperienceResponse response = manufacturedPojo(ExperienceResponse.class);
         GenericDeleteResponse deleteResponse = manufacturedPojo(GenericDeleteResponse.class);
         ExperienceService service = Mockito.mock(ExperienceService.class);
@@ -36,14 +37,14 @@ class ExperienceControllerTest {
     }
 
     @Test
-    void givenValidResumeId_whenGetListbyResumeId_thenSuccess() {
+    void givenValidResumeId_whenGetListbyResumeId_thenSuccess() throws JsonProcessingException {
         ExperienceResponse response = controller.getListbyResumeId(RESUME_ID);
         log.info("Response: {}", response);
         assertNotNull(response);
     }
 
     @Test
-    void givenValidRequest_whenCreateList_thenSuccess() {
+    void givenValidRequest_whenCreateList_thenSuccess() throws JsonProcessingException {
         ExperienceRequest request = manufacturedPojo(ExperienceRequest.class);
         ExperienceResponse response = controller.saveList(request);
         log.info("Response: {}", response);

@@ -4,6 +4,7 @@ import static dev.mhzars.projects.postgres.resumeapidockercompose.TestUtils.RESU
 import static dev.mhzars.projects.postgres.resumeapidockercompose.TestUtils.manufacturedPojo;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import dev.mhzars.projects.commons.resumeapidockercompose.domain.resume.ResumeIdResponse;
 import dev.mhzars.projects.commons.resumeapidockercompose.domain.resume.ResumeResponse;
 import dev.mhzars.projects.postgres.resumeapidockercompose.domain.resume.ResumeRequest;
@@ -22,7 +23,7 @@ class ResumeControllerTest {
     private static ResumeController controller;
 
     @BeforeEach
-    void init() {
+    void init() throws JsonProcessingException {
         ResumeResponse response = manufacturedPojo(ResumeResponse.class);
         List<ResumeResponse> responseList = Collections.singletonList(response);
         ResumeIdResponse resumeIdResponse = manufacturedPojo(ResumeIdResponse.class);
@@ -43,7 +44,7 @@ class ResumeControllerTest {
     }
 
     @Test
-    void whenGetResumes_thenSuccess() {
+    void whenGetResumes_thenSuccess() throws JsonProcessingException {
         List<ResumeResponse> response = controller.getResumes();
         log.info("Response: {}", response);
         assertNotNull(response);

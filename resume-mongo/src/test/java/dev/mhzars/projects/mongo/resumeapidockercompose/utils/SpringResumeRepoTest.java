@@ -1,7 +1,7 @@
 package dev.mhzars.projects.mongo.resumeapidockercompose.utils;
 
 import static dev.mhzars.projects.mongo.resumeapidockercompose.TestUtils.manufacturedCustomPojo;
-import static dev.mhzars.projects.mongo.resumeapidockercompose.utils.SpringUtils.generateUniqueObjectId;
+import static dev.mhzars.projects.mongo.resumeapidockercompose.utils.SpringUtils.generateUniqueId;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -18,7 +18,7 @@ import org.mockito.Mockito;
 
 @Slf4j
 class SpringResumeRepoTest {
-    private final ObjectId objectId = generateUniqueObjectId();
+    private final ObjectId objectId = generateUniqueId();
     private SpringResumeRepo springResumeRepo;
 
     @BeforeEach
@@ -38,7 +38,7 @@ class SpringResumeRepoTest {
 
     @Test
     void checkResumeId() {
-        springResumeRepo.checkResumeId(generateUniqueObjectId().toString());
+        springResumeRepo.checkResumeId(generateUniqueId().toString());
     }
 
     @Test

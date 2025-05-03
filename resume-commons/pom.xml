@@ -38,11 +38,6 @@
             <artifactId>swagger-core</artifactId>
         </dependency>
         <!--        SWAGGER-->
-
-        <dependency>
-            <groupId>ma.glasnost.orika</groupId>
-            <artifactId>orika-core</artifactId>
-        </dependency>
         <dependency>
             <groupId>org.yaml</groupId>
             <artifactId>snakeyaml</artifactId>
@@ -94,7 +89,10 @@
             <artifactId>mockito-core</artifactId>
             <scope>test</scope>
         </dependency>
-
+        <dependency>
+            <groupId>org.mongodb</groupId>
+            <artifactId>bson</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

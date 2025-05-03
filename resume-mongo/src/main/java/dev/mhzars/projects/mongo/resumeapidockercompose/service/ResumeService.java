@@ -1,12 +1,13 @@
 package dev.mhzars.projects.mongo.resumeapidockercompose.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import dev.mhzars.projects.commons.resumeapidockercompose.domain.resume.ResumeIdResponse;
 import dev.mhzars.projects.commons.resumeapidockercompose.domain.resume.ResumeResponse;
 import dev.mhzars.projects.mongo.resumeapidockercompose.domain.resume.ResumeRequest;
 import java.util.List;
 
 public interface ResumeService {
-    List<ResumeResponse> getAllResumes();
+    List<ResumeResponse> getAllResumes() throws JsonProcessingException;
 
     ResumeResponse getResumeById(String id);
 

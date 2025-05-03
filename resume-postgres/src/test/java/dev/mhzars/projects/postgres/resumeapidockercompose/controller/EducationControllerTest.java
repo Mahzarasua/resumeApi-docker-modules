@@ -4,6 +4,7 @@ import static dev.mhzars.projects.postgres.resumeapidockercompose.TestUtils.RESU
 import static dev.mhzars.projects.postgres.resumeapidockercompose.TestUtils.manufacturedPojo;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import dev.mhzars.projects.commons.resumeapidockercompose.domain.GenericDeleteResponse;
 import dev.mhzars.projects.commons.resumeapidockercompose.domain.education.EducationRequest;
 import dev.mhzars.projects.commons.resumeapidockercompose.domain.education.EducationResponse;
@@ -19,7 +20,7 @@ class EducationControllerTest {
     private static EducationController controller;
 
     @BeforeEach
-    void init() {
+    void init() throws JsonProcessingException {
         EducationResponse response = manufacturedPojo(EducationResponse.class);
         GenericDeleteResponse deleteResponse = manufacturedPojo(GenericDeleteResponse.class);
         EducationService service = Mockito.mock(EducationService.class);
@@ -36,14 +37,14 @@ class EducationControllerTest {
     }
 
     @Test
-    void givenValidResumeId_whenGetListbyResumeId_thenSuccess() {
+    void givenValidResumeId_whenGetListbyResumeId_thenSuccess() throws JsonProcessingException {
         EducationResponse response = controller.getListbyResumeId(RESUME_ID);
         log.info("Response: {}", response);
         assertNotNull(response);
     }
 
     @Test
-    void givenValidRequest_whenCreateList_thenSuccess() {
+    void givenValidRequest_whenCreateList_thenSuccess() throws JsonProcessingException {
         EducationRequest request = manufacturedPojo(EducationRequest.class);
         EducationResponse response = controller.saveList(request);
         log.info("Response: {}", response);

@@ -1,6 +1,6 @@
 package dev.mhzars.projects.mongo.resumeapidockercompose.advice;
 
-import static dev.mhzars.projects.mongo.resumeapidockercompose.utils.SpringUtils.OBJECT_MAPPER;
+import static dev.mhzars.projects.commons.resumeapidockercompose.mapper.CommonCustomMapper.COMMON_MAPPER;
 
 import org.springframework.stereotype.Component;
 
@@ -30,14 +30,14 @@ public class LoggingAdvice {
                 "Entering {}.{}(): Args:{}",
                 className,
                 methodName,
-                OBJECT_MAPPER.writeValueAsString(array));
+                COMMON_MAPPER.writeValueAsString(array));
         Object object = pjp.proceed();
 
         log.info(
                 "Output {}.{}(): Response:{}",
                 className,
                 methodName,
-                OBJECT_MAPPER.writeValueAsString(object));
+                COMMON_MAPPER.writeValueAsString(object));
         return object;
     }
 }

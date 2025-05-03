@@ -1,5 +1,7 @@
 package dev.mhzars.projects.commons.resumeapidockercompose;
 
+import ch.qos.logback.classic.Level;
+import ch.qos.logback.classic.Logger;
 import dev.mhzars.projects.commons.resumeapidockercompose.podam.EmailStrategy;
 import dev.mhzars.projects.commons.resumeapidockercompose.podam.LocalDateFutureStrategy;
 import dev.mhzars.projects.commons.resumeapidockercompose.podam.LocalDatePastStrategy;
@@ -7,6 +9,7 @@ import dev.mhzars.projects.commons.resumeapidockercompose.podam.MyDataProviderSt
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.Past;
+import org.slf4j.LoggerFactory;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 import uk.co.jemos.podam.api.RandomDataProviderStrategy;
@@ -15,11 +18,18 @@ public class CommonTestUtils {
     public static final String RESUME_ID = "resumeId";
 
     public static <T> T manufacturedPojo(Class<T> clazz) {
+        Logger root = (Logger) LoggerFactory.getLogger("uk.co.jemos.podam.api");
+        root.setLevel(Level.OFF);
+        System.setProperty("org.slf4j.simpleLogger.log.uk.co.jemos.podam", "ERROR");
         PodamFactory factory = new PodamFactoryImpl(new MyDataProviderStrategy());
         return factory.manufacturePojo(clazz);
     }
 
     public static <T> T manufacturedCustomPojo(Class<T> clazz) {
+        Logger root = (Logger) LoggerFactory.getLogger("uk.co.jemos.podam.api");
+        root.setLevel(Level.OFF);
+        System.setProperty("org.slf4j.simpleLogger.log.uk.co.jemos.podam", "ERROR");
+        System.setProperty("org.slf4j.simpleLogger.log.uk.co.jemos.podam", "ERROR");
         PodamFactory factory = new PodamFactoryImpl(new MyDataProviderStrategy());
         EmailStrategy emailStrategy = new EmailStrategy();
         LocalDatePastStrategy pastStrategy = new LocalDatePastStrategy();

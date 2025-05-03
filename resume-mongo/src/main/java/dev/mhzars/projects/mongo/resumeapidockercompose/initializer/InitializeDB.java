@@ -1,11 +1,11 @@
 package dev.mhzars.projects.mongo.resumeapidockercompose.initializer;
 
+import static dev.mhzars.projects.commons.resumeapidockercompose.mapper.CommonCustomMapper.COMMON_MAPPER;
 import static dev.mhzars.projects.commons.resumeapidockercompose.utils.CommonSpringUtils.readFile;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import dev.mhzars.projects.commons.resumeapidockercompose.utils.CommonSpringUtils;
 import dev.mhzars.projects.mongo.resumeapidockercompose.model.AuthRole;
 import dev.mhzars.projects.mongo.resumeapidockercompose.model.AuthUser;
 import dev.mhzars.projects.mongo.resumeapidockercompose.model.Resume;
@@ -64,9 +64,7 @@ public class InitializeDB implements CommandLineRunner {
         for (AuthUser dbUser : dbUsers) {
             Optional<AuthUser> authUser = userRepo.findByUsername(dbUser.getUsername());
             if (authUser.isPresent()) {
-                log.info(
-                        "User found for: {}",
-                        CommonSpringUtils.OBJECT_MAPPER.writeValueAsString(authUser.get()));
+                log.info("User found for: {}", COMMON_MAPPER.writeValueAsString(authUser.get()));
             } else {
                 List<AuthRole> authRoleList = new ArrayList<>();
                 for (AuthRole r : dbUser.getAuthRoles()) {

@@ -1,6 +1,7 @@
 package dev.mhzars.projects.commons.resumeapidockercompose.config;
 
 import static dev.mhzars.projects.commons.resumeapidockercompose.config.WebConfigWhiteList.getAuthWhitelist;
+import static dev.mhzars.projects.commons.resumeapidockercompose.mapper.CommonCustomMapper.COMMON_MAPPER;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -13,7 +14,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import dev.mhzars.projects.commons.resumeapidockercompose.exception.CustomAuthException;
 import dev.mhzars.projects.commons.resumeapidockercompose.exception.ExceptionBody;
-import dev.mhzars.projects.commons.resumeapidockercompose.utils.CommonSpringUtils;
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.annotation.Nullable;
 import jakarta.servlet.FilterChain;
@@ -58,7 +58,7 @@ public class CommonJwtRequestFilter extends OncePerRequestFilter {
         body.setMessage(REVIEW_MSG);
         body.setPath(requestUri.replace(URI_STR, ""));
         body.setDetails(e.getErrorDetails());
-        response.getWriter().write(CommonSpringUtils.OBJECT_MAPPER.writeValueAsString(body));
+        response.getWriter().write(COMMON_MAPPER.writeValueAsString(body));
     }
 
     @Override

@@ -1,13 +1,14 @@
 package dev.mhzars.projects.postgres.resumeapidockercompose.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import dev.mhzars.projects.commons.resumeapidockercompose.domain.GenericDeleteResponse;
 import dev.mhzars.projects.commons.resumeapidockercompose.domain.skill.SkillRequest;
 import dev.mhzars.projects.commons.resumeapidockercompose.domain.skill.SkillResponse;
 
 public interface SkillService {
-    SkillResponse getListbyResumeId(String resumeId);
+    SkillResponse getListbyResumeId(String resumeId) throws JsonProcessingException;
 
-    SkillResponse saveList(SkillRequest request);
+    SkillResponse saveList(SkillRequest request) throws JsonProcessingException;
 
     GenericDeleteResponse deleteRecordsbyResumeId(String resumeId);
 

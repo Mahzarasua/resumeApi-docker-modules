@@ -1,7 +1,7 @@
 package dev.mhzars.projects.commons.resumeapidockercompose.domain.resume;
 
 import dev.mhzars.projects.commons.resumeapidockercompose.podam.EmailStrategy;
-import dev.mhzars.projects.commons.resumeapidockercompose.podam.GenerateUUIDStrategy;
+import dev.mhzars.projects.commons.resumeapidockercompose.podam.GenerateUniqueIdStrategy;
 import dev.mhzars.projects.commons.resumeapidockercompose.podam.PhoneStrategy;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
@@ -17,7 +17,7 @@ import uk.co.jemos.podam.common.PodamStrategyValue;
 @NoArgsConstructor
 @Schema(description = "ResumeRequest")
 public class CommonResumeRequest {
-    @PodamStrategyValue(GenerateUUIDStrategy.class)
+    @PodamStrategyValue(GenerateUniqueIdStrategy.class)
     private String id;
 
     @NotBlank private String firstName;

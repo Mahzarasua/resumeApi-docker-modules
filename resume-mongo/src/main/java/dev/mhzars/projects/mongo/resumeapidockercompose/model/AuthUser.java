@@ -1,11 +1,14 @@
 package dev.mhzars.projects.mongo.resumeapidockercompose.model;
 
-import static dev.mhzars.projects.mongo.resumeapidockercompose.utils.SpringUtils.generateUniqueObjectId;
+import static dev.mhzars.projects.mongo.resumeapidockercompose.utils.SpringUtils.generateUniqueId;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import dev.mhzars.projects.commons.resumeapidockercompose.model.CommonAuthRole;
+import dev.mhzars.projects.commons.resumeapidockercompose.model.CommonAuthUser;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -35,11 +38,32 @@ public class AuthUser {
             boolean active,
             LocalDateTime creationDate,
             List<AuthRole> authRoles) {
-        this.id = generateUniqueObjectId();
+        this.id = generateUniqueId();
         this.username = username;
         this.password = password;
         this.active = active;
         this.creationDate = creationDate;
         this.authRoles = authRoles;
+    }
+
+    public CommonAuthUser getCommonAuthUser() {
+        List<CommonAuthRole> authRoleList = new ArrayList<>();
+        if (this.getAuthRoles() != null) {
+            for (AuthRole authRole : this.getAuthRoles()) {
+                CommonAuthRole commonAuthRole =
+                        CommonAuthRole.builder()
+                                .role(authRole.getRole())
+                                .creationDate(authRole.getCreationDate())
+                                .build();
+                authRoleList.add(commonAuthRole);
+            }
+        }
+        return CommonAuthUser.builder()
+                .username(this.username)
+                .password(this.password)
+                .active(this.active)
+                .authRoles(authRoleList)
+                .creationDate(this.creationDate)
+                .build();
     }
 }

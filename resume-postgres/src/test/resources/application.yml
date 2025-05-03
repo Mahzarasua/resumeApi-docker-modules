@@ -22,6 +22,7 @@ spring:
     password: R4nd0m
 logging:
   level:
+    uk.co.jemos.podam: INFO
     dev:
       mhzars: DEBUG
     org:

@@ -6,11 +6,13 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
 @Data
 @AllArgsConstructor
 @JsonIgnoreProperties
+@Builder
 public class CommonAuthUser implements Serializable {
     @Serial private static final long serialVersionUID = -220636052751713755L;
     private String username;

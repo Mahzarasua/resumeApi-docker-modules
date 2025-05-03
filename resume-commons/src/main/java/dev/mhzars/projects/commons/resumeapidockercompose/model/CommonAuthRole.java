@@ -5,11 +5,13 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
 @Data
 @AllArgsConstructor
 @JsonIgnoreProperties
+@Builder
 public class CommonAuthRole implements Serializable {
     @Serial private static final long serialVersionUID = 2350147283914722122L;
     private String role;

@@ -12,10 +12,6 @@ public class SpringUtils extends CommonSpringUtils {
         super();
     }
 
-    public static UUID generateUniqueObjectId() {
-        return getRandomId();
-    }
-
     public static UUID validateObjectId(String id) {
         try {
             return UUID.fromString((id == null || id.isEmpty()) ? "" : id);

@@ -1,6 +1,6 @@
 package dev.mhzars.projects.postgres.resumeapidockercompose.utils;
 
-import static dev.mhzars.projects.postgres.resumeapidockercompose.utils.SpringUtils.generateUniqueObjectId;
+import static dev.mhzars.projects.commons.resumeapidockercompose.utils.CommonSpringUtils.generateUniqueId;
 import static dev.mhzars.projects.postgres.resumeapidockercompose.utils.SpringUtils.validateObjectId;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -10,10 +10,9 @@ import java.util.UUID;
 import org.junit.jupiter.api.Test;
 
 class SpringUtilsTest {
-
     @Test
     void test() {
-        UUID id = generateUniqueObjectId();
+        UUID id = generateUniqueId();
         assertNotNull(id);
         assertNotNull(validateObjectId(id.toString()));
     }

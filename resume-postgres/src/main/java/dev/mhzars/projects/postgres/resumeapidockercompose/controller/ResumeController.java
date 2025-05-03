@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import dev.mhzars.projects.commons.resumeapidockercompose.domain.resume.ResumeIdResponse;
 import dev.mhzars.projects.commons.resumeapidockercompose.domain.resume.ResumeResponse;
 import dev.mhzars.projects.commons.resumeapidockercompose.exception.ExceptionBody;
@@ -86,7 +87,7 @@ public class ResumeController {
     @GetMapping(value = "/")
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "This operation will return the list of Resumes stored in the Database")
-    public List<ResumeResponse> getResumes() {
+    public List<ResumeResponse> getResumes() throws JsonProcessingException {
         return service.getAllResumes();
     }
 
