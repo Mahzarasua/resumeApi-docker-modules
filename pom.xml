@@ -44,6 +44,9 @@
         <jaxb-api.version>2.3.1</jaxb-api.version>
         <mongo.app.port>60990</mongo.app.port>
         <postgres.app.port>60993</postgres.app.port>
+        <podam.version>8.0.1.RELEASE</podam.version>
+        <io-micrometer.version>1.2.5</io-micrometer.version>
+        <zipkin-reporter.version>2.16.3</zipkin-reporter.version>
     </properties>
 
     <dependencyManagement>
@@ -117,9 +120,18 @@
             <dependency>
                 <groupId>uk.co.jemos.podam</groupId>
                 <artifactId>podam</artifactId>
-                <version>8.0.1.RELEASE</version>
+                <version>${podam.version}</version>
             </dependency>
-
+            <dependency>
+                <groupId>io.micrometer</groupId>
+                <artifactId>micrometer-tracing-bridge-brave</artifactId>
+                <version>${io-micrometer.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.zipkin.reporter2</groupId>
+                <artifactId>zipkin-reporter-brave</artifactId>
+                <version>${zipkin-reporter.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

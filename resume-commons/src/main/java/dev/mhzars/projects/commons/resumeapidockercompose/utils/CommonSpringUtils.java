@@ -1,11 +1,12 @@
 package dev.mhzars.projects.commons.resumeapidockercompose.utils;
 
+import static dev.mhzars.projects.commons.resumeapidockercompose.mapper.CommonCustomMapper.COMMON_MAPPER;
+import static java.security.DrbgParameters.Capability.RESEED_ONLY;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.type.CollectionType;
-import org.bson.types.ObjectId;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.DrbgParameters;
@@ -18,9 +19,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 import java.util.function.Predicate;
-
-import static dev.mhzars.projects.commons.resumeapidockercompose.mapper.CommonCustomMapper.COMMON_MAPPER;
-import static java.security.DrbgParameters.Capability.RESEED_ONLY;
+import org.bson.types.ObjectId;
 
 public class CommonSpringUtils {
     private static Random random;

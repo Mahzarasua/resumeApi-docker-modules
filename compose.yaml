@@ -23,3 +23,9 @@ services:
       - 'MONGO_INITDB_DATABASE=resume-db'
       - 'MONGO_INITDB_ROOT_PASSWORD=R4nd0m'
       - 'MONGO_INITDB_ROOT_USERNAME=zars'
+  zipkin:
+    image: openzipkin/zipkin
+    ports:
+      - "9411:9411"
+    environment:
+      - STORAGE_TYPE=mem # In-memory storage for testing

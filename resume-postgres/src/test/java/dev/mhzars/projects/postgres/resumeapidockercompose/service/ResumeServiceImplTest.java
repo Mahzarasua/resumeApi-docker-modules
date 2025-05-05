@@ -44,7 +44,6 @@ class ResumeServiceImplTest {
         Optional<Resume> optionalResponse = Optional.ofNullable(resume);
         List<Resume> responseList = Collections.singletonList(resume);
         ResumeResponse resumeResponse = manufacturedPojo(ResumeResponse.class);
-        List<ResumeResponse> resumeResponseList = Collections.singletonList(resumeResponse);
 
         ResumeRepository repository = Mockito.mock(ResumeRepository.class);
         ResumeValidator validator = Mockito.mock(ResumeValidator.class);

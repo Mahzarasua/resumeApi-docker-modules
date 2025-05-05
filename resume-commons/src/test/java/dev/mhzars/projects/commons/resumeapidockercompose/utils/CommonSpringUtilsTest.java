@@ -1,20 +1,5 @@
 package dev.mhzars.projects.commons.resumeapidockercompose.utils;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.Test;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
-import java.util.function.Predicate;
-
 import static dev.mhzars.projects.commons.resumeapidockercompose.utils.CommonSpringUtils.generateUniqueObjectId;
 import static dev.mhzars.projects.commons.resumeapidockercompose.utils.CommonSpringUtils.getExceptionMessageChain;
 import static dev.mhzars.projects.commons.resumeapidockercompose.utils.CommonSpringUtils.getRandomId;
@@ -26,6 +11,20 @@ import static dev.mhzars.projects.commons.resumeapidockercompose.utils.CommonSpr
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.UUID;
+import java.util.function.Predicate;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.Test;
 
 @Slf4j
 class CommonSpringUtilsTest {
@@ -61,8 +60,7 @@ class CommonSpringUtilsTest {
     @Test
     void testMapFromJsonList() throws JsonProcessingException {
         String json = "[{\"name\":\"test1\",\"value\":123},{\"name\":\"test2\",\"value\":456}]";
-        List<TestObject> list = mapFromJsonList(json, new TypeReference<>() {
-        });
+        List<TestObject> list = mapFromJsonList(json, new TypeReference<>() {});
         assertNotNull(list);
         assertEquals(2, list.size());
     }

@@ -54,5 +54,10 @@ management:
       show-details: always
       probes:
         enabled: false
+  tracing:
+    sampling:
+      probability: 1.0 # 100% sampling rate (adjust for production)
+  zipkin:
+    endpoint: http://localhost:9411/api/v2/spans # New Zipkin endpoint format
 db:
   type: mongo

@@ -1,6 +1,7 @@
 package dev.mhzars.projects.mongo.resumeapidockercompose.service;
 
 import static dev.mhzars.projects.commons.resumeapidockercompose.mapper.CommonCustomMapper.COMMON_MAPPER;
+import static dev.mhzars.projects.commons.resumeapidockercompose.utils.CommonSpringUtils.generateUniqueId;
 import static dev.mhzars.projects.commons.resumeapidockercompose.utils.CommonSpringUtils.mapFromJsonList;
 import static dev.mhzars.projects.commons.resumeapidockercompose.utils.CommonSpringUtils.removeFromList;
 
@@ -53,7 +54,7 @@ public class EducationServiceImpl implements EducationService {
                         COMMON_MAPPER.writeValueAsString(request.getEducationList()),
                         new TypeReference<List<Education>>() {});
         for (Education e : educationList) {
-            if (e.getId() == null) e.setId(SpringUtils.generateUniqueId());
+            if (e.getId() == null) e.setId(generateUniqueId());
             if (e.getCreationDate() == null) e.setCreationDate(LocalDateTime.now());
             if (!resume.getEducationList().contains(e)) {
                 resume.getEducationList().add(e);

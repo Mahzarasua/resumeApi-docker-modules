@@ -13,6 +13,10 @@ spring:
   docker:
     compose:
       lifecycle-management: start_only
+  zipkin:
+    base-url: http://localhost:9411
+    sender:
+      type: web
 # Details used by Json Web Token functionality, This is the encrypted key
 jwt:
   secret: '{cipher}cdbbf31873716ca9cbf934ffc9932ca8e20b3ee0419d2b85422cccdb50b68109'
@@ -39,6 +43,12 @@ info:
       email: "mahzarasua@hotmail.com"
 #Actuactor
 management:
+  tracing:
+    sampling:
+      probability: 1.0 # 100% sampling
+  zipkin:
+    endpoint: http://zipkin:9411/api/v2/spans  # ← Critical Docker change
+    sender.type: web
   health:
     db:
       enabled: true
@@ -56,3 +66,9 @@ management:
         enabled: false
 db:
   type: postgres
+logging:
+  level:
+    io.micrometer.tracing: DEBUG
+    brave: DEBUG
+  pattern:
+    level: "%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]"
