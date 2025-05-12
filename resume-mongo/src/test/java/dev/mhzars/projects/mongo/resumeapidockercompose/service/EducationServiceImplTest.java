@@ -40,7 +40,7 @@ class EducationServiceImplTest {
     }
 
     @BeforeEach
-    void init() throws JsonProcessingException {
+    void init() {
         List<Education> entityList = new ArrayList<>();
         List<EducationDomain> domainList = new ArrayList<>();
         for (int i = 0; i < 5; i++) {

@@ -39,7 +39,7 @@ class ExperienceServiceImplTest {
     }
 
     @BeforeEach
-    void init() throws JsonProcessingException {
+    void init() {
         List<Experience> entityList = new ArrayList<>();
         List<ExperienceDomain> domainList = new ArrayList<>();
         for (int i = 0; i < 5; i++) {

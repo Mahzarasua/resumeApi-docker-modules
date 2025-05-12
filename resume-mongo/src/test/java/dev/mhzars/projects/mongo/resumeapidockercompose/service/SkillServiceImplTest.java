@@ -39,7 +39,7 @@ class SkillServiceImplTest {
     }
 
     @BeforeEach
-    void init() throws JsonProcessingException {
+    void init() {
         List<Skill> entityList = new ArrayList<>();
         List<SkillDomain> domainList = new ArrayList<>();
         for (int i = 0; i < 5; i++) {

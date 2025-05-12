@@ -42,7 +42,7 @@ class ResumeServiceImplTest {
     }
 
     @BeforeEach
-    void init() throws JsonProcessingException {
+    void init() {
         Optional<Resume> optionalResponse = Optional.ofNullable(resume);
         List<Resume> responseList = Collections.singletonList(resume);
         ResumeResponse resumeResponse = manufacturedPojo(ResumeResponse.class);
