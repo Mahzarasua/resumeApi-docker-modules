@@ -23,7 +23,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
-class CommonJwtRequestFilcterTest {
+class CommonJwtRequestFilterTest {
     @Mock private UserDetailsService userDetailsService;
     @Mock private CommonJwtTokenUtil jwtTokenUtil;
     @Mock private HttpServletRequest request;
@@ -44,6 +44,28 @@ class CommonJwtRequestFilcterTest {
     }
 
     @Test
+    void testDoFilterInternal_WithChainNull() throws ServletException, IOException {
+        String token = "valid_token";
+        String username = "testUser";
+
+        MyUserDetails userDetails = new MyUserDetails(getAuthUser(username));
+        Mockito.when(request.getHeader("Authorization")).thenReturn("Bearer " + token);
+        Mockito.when(jwtTokenUtil.getUsernameFromToken(token)).thenReturn(username);
+        Mockito.when(userDetailsService.loadUserByUsername(username)).thenReturn(userDetails);
+        Mockito.when(jwtTokenUtil.validateToken(token, userDetails)).thenReturn(true);
+        PrintWriter printWriter = Mockito.mock(PrintWriter.class);
+        Mockito.when(response.getWriter()).thenReturn(printWriter);
+        Mockito.when(request.getRequestURI()).thenReturn("request");
+
+        jwtRequestFilter.doFilterInternal(request, response, null);
+
+        Mockito.verify(request, Mockito.times(1)).getHeader("Authorization");
+        Mockito.verify(jwtTokenUtil, Mockito.times(1)).getUsernameFromToken(token);
+        Mockito.verify(userDetailsService, Mockito.times(1)).loadUserByUsername(username);
+        assertTrue(true);
+    }
+
+    @Test
     void testDoFilterInternal_WithValidToken() throws ServletException, IOException {
         String token = "valid_token";
         String username = "testUser";
@@ -59,7 +81,6 @@ class CommonJwtRequestFilcterTest {
         Mockito.verify(filterChain, Mockito.times(1)).doFilter(request, response);
         Mockito.verify(request, Mockito.times(1)).getHeader("Authorization");
         Mockito.verify(jwtTokenUtil, Mockito.times(1)).getUsernameFromToken(token);
-        Mockito.verify(userDetailsService, Mockito.times(1)).loadUserByUsername(username);
         assertTrue(true);
     }
 

@@ -8,14 +8,15 @@ import static dev.mhzars.projects.mongo.resumeapidockercompose.utils.SpringUtils
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import dev.mhzars.projects.commons.resumeapidockercompose.domain.resume.CommonResumeRequest;
 import dev.mhzars.projects.commons.resumeapidockercompose.domain.resume.ResumeIdResponse;
 import dev.mhzars.projects.commons.resumeapidockercompose.domain.resume.ResumeResponse;
 import dev.mhzars.projects.commons.resumeapidockercompose.exception.CustomNotFoundException;
+import dev.mhzars.projects.commons.resumeapidockercompose.service.ResumeService;
 import dev.mhzars.projects.commons.resumeapidockercompose.validator.CommonResumeValidator;
-import dev.mhzars.projects.mongo.resumeapidockercompose.domain.resume.ResumeRequest;
+import dev.mhzars.projects.commons.resumeapidockercompose.validator.ResumeValidator;
 import dev.mhzars.projects.mongo.resumeapidockercompose.model.Resume;
 import dev.mhzars.projects.mongo.resumeapidockercompose.repository.ResumeRepository;
-import dev.mhzars.projects.mongo.resumeapidockercompose.validator.ResumeValidator;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +31,7 @@ public class ResumeServiceImpl implements ResumeService {
     private final ResumeValidator validator;
     private final CommonResumeValidator commonValidator;
 
-    private static void removeChildRecords(ResumeRequest request) {
+    private static void removeChildRecords(CommonResumeRequest request) {
         request.setEducationList(new ArrayList<>());
         request.setExperienceList(new ArrayList<>());
         request.setSkillList(new ArrayList<>());
@@ -55,12 +56,12 @@ public class ResumeServiceImpl implements ResumeService {
         return COMMON_MAPPER.convertValue(resume, ResumeResponse.class);
     }
 
-    private void removeChildRecordsAndSaveResume(ResumeRequest request, String id) {
+    private void removeChildRecordsAndSaveResume(CommonResumeRequest request, String id) {
         removeChildRecords(request);
         saveResume(request, id);
     }
 
-    private void validateAndSaveResume(ResumeRequest request) {
+    private void validateAndSaveResume(CommonResumeRequest request) {
         commonValidator.validate(request);
         validator.validate(request);
         Resume resume = COMMON_MAPPER.convertValue(request, Resume.class);
@@ -89,12 +90,12 @@ public class ResumeServiceImpl implements ResumeService {
     }
 
     @Override
-    public ResumeIdResponse saveResume(ResumeRequest request) {
+    public ResumeIdResponse saveResume(CommonResumeRequest request) {
         return saveResume(request, null);
     }
 
     @Override
-    public ResumeIdResponse saveResume(ResumeRequest request, String id) {
+    public ResumeIdResponse saveResume(CommonResumeRequest request, String id) {
         ObjectId resumeId;
         if (id == null) {
             resumeId =
@@ -122,7 +123,7 @@ public class ResumeServiceImpl implements ResumeService {
                                                 String.format(
                                                         "No Record was found for resumeId %s",
                                                         id)));
-        ResumeRequest request = COMMON_MAPPER.convertValue(resume, ResumeRequest.class);
+        CommonResumeRequest request = COMMON_MAPPER.convertValue(resume, CommonResumeRequest.class);
         removeChildRecordsAndSaveResume(request, id);
         repo.deleteById(validateObjectId(id));
 

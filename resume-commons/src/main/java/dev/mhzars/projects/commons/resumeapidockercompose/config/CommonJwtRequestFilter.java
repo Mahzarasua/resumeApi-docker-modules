@@ -10,6 +10,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import dev.mhzars.projects.commons.resumeapidockercompose.exception.CustomAuthException;
@@ -27,6 +28,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
 @Slf4j
+@Component
 public class CommonJwtRequestFilter extends OncePerRequestFilter {
     public static final String REVIEW_MSG = "Authentication failed, please review";
     public static final String URI_STR = "uri=";
@@ -83,7 +85,9 @@ public class CommonJwtRequestFilter extends OncePerRequestFilter {
                         response,
                         new CustomAuthException("Request filter chain is null"));
             }
-            chain.doFilter(request, response);
+            if (chain != null) {
+                chain.doFilter(request, response);
+            }
         } catch (CustomAuthException e) {
             if (response != null) {
                 filterException(request.getRequestURI(), response, e);
@@ -126,7 +130,7 @@ public class CommonJwtRequestFilter extends OncePerRequestFilter {
             UserDetails userDetails = this.jwtUserDetailsService.loadUserByUsername(username);
 
             // if token is valid configure Spring Security to manually set authentication
-            if (Boolean.TRUE.equals(jwtTokenUtil.validateToken(jwtToken, userDetails))) {
+            if (jwtTokenUtil.validateToken(jwtToken, userDetails)) {
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
                         new UsernamePasswordAuthenticationToken(
                                 userDetails, null, userDetails.getAuthorities());

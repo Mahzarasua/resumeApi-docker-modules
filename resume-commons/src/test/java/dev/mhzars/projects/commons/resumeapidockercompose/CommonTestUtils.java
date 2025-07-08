@@ -1,7 +1,10 @@
 package dev.mhzars.projects.commons.resumeapidockercompose;
 
+import static dev.mhzars.projects.commons.resumeapidockercompose.utils.CommonSpringUtils.generateUniqueId;
+
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
+import dev.mhzars.projects.commons.resumeapidockercompose.domain.resume.CommonResumeRequest;
 import dev.mhzars.projects.commons.resumeapidockercompose.podam.EmailStrategy;
 import dev.mhzars.projects.commons.resumeapidockercompose.podam.LocalDateFutureStrategy;
 import dev.mhzars.projects.commons.resumeapidockercompose.podam.LocalDatePastStrategy;
@@ -48,5 +51,11 @@ public class CommonTestUtils {
                         javax.validation.constraints.FutureOrPresent.class, futureStrategy);
 
         return factory.manufacturePojo(clazz);
+    }
+
+    public static void setChildTables(CommonResumeRequest request) {
+        request.getEducationList().forEach(r -> r.setId(generateUniqueId().toString()));
+        request.getExperienceList().forEach(r -> r.setId(generateUniqueId().toString()));
+        request.getSkillList().forEach(r -> r.setId(generateUniqueId().toString()));
     }
 }

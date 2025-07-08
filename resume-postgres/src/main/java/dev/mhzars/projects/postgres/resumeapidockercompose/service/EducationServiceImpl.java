@@ -11,6 +11,7 @@ import dev.mhzars.projects.commons.resumeapidockercompose.domain.education.Educa
 import dev.mhzars.projects.commons.resumeapidockercompose.domain.education.EducationRequest;
 import dev.mhzars.projects.commons.resumeapidockercompose.domain.education.EducationResponse;
 import dev.mhzars.projects.commons.resumeapidockercompose.exception.CustomNotFoundException;
+import dev.mhzars.projects.commons.resumeapidockercompose.service.EducationService;
 import dev.mhzars.projects.postgres.resumeapidockercompose.model.Education;
 import dev.mhzars.projects.postgres.resumeapidockercompose.model.Resume;
 import dev.mhzars.projects.postgres.resumeapidockercompose.repository.ResumeRepository;

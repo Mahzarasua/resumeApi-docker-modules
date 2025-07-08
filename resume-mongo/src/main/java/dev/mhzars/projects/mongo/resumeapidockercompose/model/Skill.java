@@ -22,4 +22,20 @@ public class Skill extends CommonSkill {
     @BsonId
     @BsonProperty("_id")
     private ObjectId id;
+
+    @Override
+    public String toString() {
+        return "{"
+                + "id="
+                + id
+                + ", name="
+                + getName()
+                + ", percentage="
+                + getPercentage()
+                + ", type="
+                + getType()
+                + ", creationDate="
+                + getCreationDate()
+                + '}';
+    }
 }

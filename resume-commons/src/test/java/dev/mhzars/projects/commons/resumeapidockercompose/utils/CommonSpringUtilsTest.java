@@ -1,20 +1,5 @@
 package dev.mhzars.projects.commons.resumeapidockercompose.utils;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.Test;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
-import java.util.function.Predicate;
-
 import static dev.mhzars.projects.commons.resumeapidockercompose.utils.CommonSpringUtils.generateUniqueObjectId;
 import static dev.mhzars.projects.commons.resumeapidockercompose.utils.CommonSpringUtils.getExceptionMessageChain;
 import static dev.mhzars.projects.commons.resumeapidockercompose.utils.CommonSpringUtils.getRandomId;
@@ -25,10 +10,56 @@ import static dev.mhzars.projects.commons.resumeapidockercompose.utils.CommonSpr
 import static dev.mhzars.projects.commons.resumeapidockercompose.utils.CommonSpringUtils.removeFromList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.UUID;
+import java.util.function.Predicate;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 @Slf4j
 class CommonSpringUtilsTest {
+
+    @Test
+    @DisplayName("Should throw IllegalStateException when attempting to instantiate")
+    void constructor_shouldThrowIllegalStateException() throws NoSuchMethodException {
+        final Constructor<CommonSpringUtils> constructor =
+                CommonSpringUtils.class.getDeclaredConstructor();
+
+        // Make the constructor accessible, as it's protected
+        constructor.setAccessible(true);
+
+        // 'constructor' is now effectively final
+        InvocationTargetException thrownException =
+                assertThrows(
+                        InvocationTargetException.class,
+                        constructor::newInstance,
+                        "Instantiating utility class should throw InvocationTargetException.");
+
+        assertInstanceOf(
+                IllegalStateException.class,
+                thrownException.getCause(),
+                "The cause of the exception should be an IllegalStateException.");
+        assertEquals(
+                "Utility class",
+                thrownException.getCause().getMessage(),
+                "The exception message should match 'Utility class'.");
+    }
+
     @Test
     void testGetUuid_ValidUUIDString() {
         String validUUIDString = "550e8400-e29b-41d4-a716-446655440000";
@@ -61,8 +92,7 @@ class CommonSpringUtilsTest {
     @Test
     void testMapFromJsonList() throws JsonProcessingException {
         String json = "[{\"name\":\"test1\",\"value\":123},{\"name\":\"test2\",\"value\":456}]";
-        List<TestObject> list = mapFromJsonList(json, new TypeReference<>() {
-        });
+        List<TestObject> list = mapFromJsonList(json, new TypeReference<>() {});
         assertNotNull(list);
         assertEquals(2, list.size());
     }

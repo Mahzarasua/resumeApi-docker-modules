@@ -22,4 +22,24 @@ public class Education extends CommonEducation {
     @BsonId
     @BsonProperty("_id")
     private ObjectId id;
+
+    @Override
+    public String toString() {
+        return "{"
+                + "id="
+                + id
+                + ", name="
+                + getName()
+                + ", career="
+                + getCareer()
+                + ", degree="
+                + getDegree()
+                + ", startDate="
+                + getStartDate()
+                + ", endDate="
+                + getEndDate()
+                + ", creationDate="
+                + getCreationDate()
+                + "}";
+    }
 }

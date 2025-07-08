@@ -1,5 +1,9 @@
 package dev.mhzars.projects.commons.resumeapidockercompose.domain.resume;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import dev.mhzars.projects.commons.resumeapidockercompose.domain.education.EducationDomain;
+import dev.mhzars.projects.commons.resumeapidockercompose.domain.experience.ExperienceDomain;
+import dev.mhzars.projects.commons.resumeapidockercompose.domain.skill.SkillDomain;
 import dev.mhzars.projects.commons.resumeapidockercompose.podam.EmailStrategy;
 import dev.mhzars.projects.commons.resumeapidockercompose.podam.GenerateUniqueIdStrategy;
 import dev.mhzars.projects.commons.resumeapidockercompose.podam.PhoneStrategy;
@@ -7,6 +11,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -38,4 +43,13 @@ public class CommonResumeRequest {
 
     @NotBlank private String summary;
     private LocalDateTime creationDate;
+
+    @JsonIgnoreProperties(value = "resumeId")
+    private List<SkillDomain> skillList;
+
+    @JsonIgnoreProperties(value = "resumeId")
+    private List<EducationDomain> educationList;
+
+    @JsonIgnoreProperties(value = "resumeId")
+    private List<ExperienceDomain> experienceList;
 }

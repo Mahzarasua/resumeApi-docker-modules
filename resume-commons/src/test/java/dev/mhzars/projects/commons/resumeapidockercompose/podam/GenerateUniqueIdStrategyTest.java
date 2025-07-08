@@ -19,4 +19,11 @@ class GenerateUniqueIdStrategyTest {
         String actual = strategy.getValue(Object.class, Collections.emptyList());
         assertNotNull(actual);
     }
+
+    @Test
+    void testStrategyPostgres() {
+        System.setProperty("db.mongo", "false");
+        String actual = strategy.getValue(Object.class, Collections.emptyList());
+        assertNotNull(actual);
+    }
 }

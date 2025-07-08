@@ -7,14 +7,15 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import dev.mhzars.projects.commons.resumeapidockercompose.domain.resume.CommonResumeRequest;
 import dev.mhzars.projects.commons.resumeapidockercompose.domain.resume.ResumeIdResponse;
 import dev.mhzars.projects.commons.resumeapidockercompose.domain.resume.ResumeResponse;
 import dev.mhzars.projects.commons.resumeapidockercompose.exception.CustomNotFoundException;
+import dev.mhzars.projects.commons.resumeapidockercompose.service.ResumeService;
 import dev.mhzars.projects.commons.resumeapidockercompose.validator.CommonResumeValidator;
-import dev.mhzars.projects.postgres.resumeapidockercompose.domain.resume.ResumeRequest;
+import dev.mhzars.projects.commons.resumeapidockercompose.validator.ResumeValidator;
 import dev.mhzars.projects.postgres.resumeapidockercompose.model.Resume;
 import dev.mhzars.projects.postgres.resumeapidockercompose.repository.ResumeRepository;
-import dev.mhzars.projects.postgres.resumeapidockercompose.validator.ResumeValidator;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -31,20 +32,18 @@ class ResumeServiceImplTest {
 
     private static Resume resume;
 
-    private static ResumeRequest resumeRequest;
+    private static CommonResumeRequest resumeRequest;
 
     @BeforeAll
     static void start() {
         resume = manufacturedPojo(Resume.class);
-        resumeRequest = manufacturedPojo(ResumeRequest.class);
+        resumeRequest = manufacturedPojo(CommonResumeRequest.class);
     }
 
     @BeforeEach
     void init() {
         Optional<Resume> optionalResponse = Optional.ofNullable(resume);
         List<Resume> responseList = Collections.singletonList(resume);
-        ResumeResponse resumeResponse = manufacturedPojo(ResumeResponse.class);
-        List<ResumeResponse> resumeResponseList = Collections.singletonList(resumeResponse);
 
         ResumeRepository repository = Mockito.mock(ResumeRepository.class);
         ResumeValidator validator = Mockito.mock(ResumeValidator.class);

@@ -53,20 +53,15 @@ public class AuthUser {
         List<CommonAuthRole> authRoleList = new ArrayList<>();
         if (this.getAuthRoles() != null) {
             for (AuthRole authRole : this.getAuthRoles()) {
-                CommonAuthRole commonAuthRole =
-                        CommonAuthRole.builder()
-                                .role(authRole.getRole())
-                                .creationDate(authRole.getCreationDate())
-                                .build();
-                authRoleList.add(commonAuthRole);
+                authRoleList.add(
+                        new CommonAuthRole(authRole.getRole(), authRole.getCreationDate()));
             }
         }
-        return CommonAuthUser.builder()
-                .username(this.username)
-                .password(this.password)
-                .active(this.active)
-                .authRoles(authRoleList)
-                .creationDate(this.creationDate)
-                .build();
+        return new CommonAuthUser(
+                this.getUsername(),
+                this.getPassword(),
+                this.isActive(),
+                this.getCreationDate(),
+                authRoleList);
     }
 }

@@ -1,8 +1,8 @@
 package dev.mhzars.projects.mongo.resumeapidockercompose.service;
 
-import static dev.mhzars.projects.mongo.resumeapidockercompose.TestUtils.RESUME_ID;
-import static dev.mhzars.projects.mongo.resumeapidockercompose.TestUtils.manufacturedCustomPojo;
-import static dev.mhzars.projects.mongo.resumeapidockercompose.TestUtils.manufacturedPojo;
+import static dev.mhzars.projects.commons.resumeapidockercompose.CommonTestUtils.RESUME_ID;
+import static dev.mhzars.projects.commons.resumeapidockercompose.CommonTestUtils.manufacturedCustomPojo;
+import static dev.mhzars.projects.commons.resumeapidockercompose.CommonTestUtils.manufacturedPojo;
 import static dev.mhzars.projects.mongo.resumeapidockercompose.utils.SpringUtils.generateUniqueId;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -13,6 +13,7 @@ import dev.mhzars.projects.commons.resumeapidockercompose.domain.experience.Expe
 import dev.mhzars.projects.commons.resumeapidockercompose.domain.experience.ExperienceRequest;
 import dev.mhzars.projects.commons.resumeapidockercompose.domain.experience.ExperienceResponse;
 import dev.mhzars.projects.commons.resumeapidockercompose.exception.CustomNotFoundException;
+import dev.mhzars.projects.commons.resumeapidockercompose.service.ExperienceService;
 import dev.mhzars.projects.commons.resumeapidockercompose.utils.CommonSpringUtils;
 import dev.mhzars.projects.mongo.resumeapidockercompose.model.Experience;
 import dev.mhzars.projects.mongo.resumeapidockercompose.model.Resume;
@@ -39,7 +40,7 @@ class ExperienceServiceImplTest {
     }
 
     @BeforeEach
-    void init() throws JsonProcessingException {
+    void init() {
         List<Experience> entityList = new ArrayList<>();
         List<ExperienceDomain> domainList = new ArrayList<>();
         for (int i = 0; i < 5; i++) {

@@ -1,7 +1,7 @@
 package dev.mhzars.projects.mongo.resumeapidockercompose.service;
 
-import static dev.mhzars.projects.mongo.resumeapidockercompose.TestUtils.RESUME_ID;
-import static dev.mhzars.projects.mongo.resumeapidockercompose.TestUtils.manufacturedPojo;
+import static dev.mhzars.projects.commons.resumeapidockercompose.CommonTestUtils.RESUME_ID;
+import static dev.mhzars.projects.commons.resumeapidockercompose.CommonTestUtils.manufacturedPojo;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 

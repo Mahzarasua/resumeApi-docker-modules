@@ -27,4 +27,39 @@ public class Resume extends CommonResume {
     private List<Education> educationList;
     private List<Experience> experienceList;
     private List<Skill> skillList;
+
+    @Override
+    public String toString() {
+        return "{"
+                + "id="
+                + id
+                + ", firstName="
+                + getFirstName()
+                + // Access CommonResume fields directly
+                ", lastName="
+                + getLastName()
+                + ", title="
+                + getTitle()
+                + ", city="
+                + getCity()
+                + ", state="
+                + getState()
+                + ", country="
+                + getCountry()
+                + ", email="
+                + getEmail()
+                + ", phone="
+                + getPhone()
+                + ", summary="
+                + getSummary()
+                + ", creationDate="
+                + getCreationDate()
+                + ", educationList="
+                + educationList
+                + ", experienceList="
+                + experienceList
+                + ", skillList="
+                + skillList
+                + "}";
+    }
 }

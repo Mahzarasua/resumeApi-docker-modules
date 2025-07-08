@@ -12,6 +12,7 @@ import dev.mhzars.projects.commons.resumeapidockercompose.domain.skill.SkillDoma
 import dev.mhzars.projects.commons.resumeapidockercompose.domain.skill.SkillRequest;
 import dev.mhzars.projects.commons.resumeapidockercompose.domain.skill.SkillResponse;
 import dev.mhzars.projects.commons.resumeapidockercompose.exception.CustomNotFoundException;
+import dev.mhzars.projects.commons.resumeapidockercompose.service.SkillService;
 import dev.mhzars.projects.postgres.resumeapidockercompose.model.Resume;
 import dev.mhzars.projects.postgres.resumeapidockercompose.model.Skill;
 import dev.mhzars.projects.postgres.resumeapidockercompose.repository.ResumeRepository;

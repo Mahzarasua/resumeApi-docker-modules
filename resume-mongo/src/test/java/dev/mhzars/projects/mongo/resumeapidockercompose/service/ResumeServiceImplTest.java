@@ -1,21 +1,22 @@
 package dev.mhzars.projects.mongo.resumeapidockercompose.service;
 
-import static dev.mhzars.projects.mongo.resumeapidockercompose.TestUtils.RESUME_ID;
-import static dev.mhzars.projects.mongo.resumeapidockercompose.TestUtils.manufacturedPojo;
+import static dev.mhzars.projects.commons.resumeapidockercompose.CommonTestUtils.RESUME_ID;
+import static dev.mhzars.projects.commons.resumeapidockercompose.CommonTestUtils.manufacturedPojo;
 import static dev.mhzars.projects.mongo.resumeapidockercompose.utils.SpringUtils.generateUniqueId;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import dev.mhzars.projects.commons.resumeapidockercompose.domain.resume.CommonResumeRequest;
 import dev.mhzars.projects.commons.resumeapidockercompose.domain.resume.ResumeIdResponse;
 import dev.mhzars.projects.commons.resumeapidockercompose.domain.resume.ResumeResponse;
 import dev.mhzars.projects.commons.resumeapidockercompose.exception.CustomNotFoundException;
+import dev.mhzars.projects.commons.resumeapidockercompose.service.ResumeService;
 import dev.mhzars.projects.commons.resumeapidockercompose.utils.CommonSpringUtils;
 import dev.mhzars.projects.commons.resumeapidockercompose.validator.CommonResumeValidator;
-import dev.mhzars.projects.mongo.resumeapidockercompose.domain.resume.ResumeRequest;
+import dev.mhzars.projects.commons.resumeapidockercompose.validator.ResumeValidator;
 import dev.mhzars.projects.mongo.resumeapidockercompose.model.Resume;
 import dev.mhzars.projects.mongo.resumeapidockercompose.repository.ResumeRepository;
-import dev.mhzars.projects.mongo.resumeapidockercompose.validator.ResumeValidator;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -33,16 +34,16 @@ class ResumeServiceImplTest {
 
     private static Resume resume;
 
-    private static ResumeRequest resumeRequest;
+    private static CommonResumeRequest resumeRequest;
 
     @BeforeAll
     static void start() {
         resume = manufacturedPojo(Resume.class);
-        resumeRequest = manufacturedPojo(ResumeRequest.class);
+        resumeRequest = manufacturedPojo(CommonResumeRequest.class);
     }
 
     @BeforeEach
-    void init() throws JsonProcessingException {
+    void init() {
         Optional<Resume> optionalResponse = Optional.ofNullable(resume);
         List<Resume> responseList = Collections.singletonList(resume);
         ResumeResponse resumeResponse = manufacturedPojo(ResumeResponse.class);

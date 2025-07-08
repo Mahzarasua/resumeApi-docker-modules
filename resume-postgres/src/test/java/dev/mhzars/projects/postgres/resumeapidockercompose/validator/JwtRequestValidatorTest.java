@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import dev.mhzars.projects.commons.resumeapidockercompose.domain.auth.JwtRequest;
 import dev.mhzars.projects.commons.resumeapidockercompose.exception.CustomBadRequestException;
+import dev.mhzars.projects.commons.resumeapidockercompose.validator.JwtRequestValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

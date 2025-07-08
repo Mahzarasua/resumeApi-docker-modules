@@ -6,9 +6,10 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import dev.mhzars.projects.commons.resumeapidockercompose.domain.education.EducationDomain;
 import dev.mhzars.projects.commons.resumeapidockercompose.domain.experience.ExperienceDomain;
+import dev.mhzars.projects.commons.resumeapidockercompose.domain.resume.CommonResumeRequest;
 import dev.mhzars.projects.commons.resumeapidockercompose.domain.skill.SkillDomain;
 import dev.mhzars.projects.commons.resumeapidockercompose.exception.CustomBadRequestException;
-import dev.mhzars.projects.postgres.resumeapidockercompose.domain.resume.ResumeRequest;
+import dev.mhzars.projects.commons.resumeapidockercompose.validator.ResumeValidator;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -28,7 +29,7 @@ class ResumeValidatorTest {
 
     @Test
     void validate() {
-        ResumeRequest request = manufacturedCustomPojo(ResumeRequest.class);
+        CommonResumeRequest request = manufacturedCustomPojo(CommonResumeRequest.class);
 
         request.setId(null);
         setChildTables(request);
@@ -37,7 +38,7 @@ class ResumeValidatorTest {
 
     @Test
     void validate_Negative_childTables() {
-        ResumeRequest request = new ResumeRequest();
+        CommonResumeRequest request = new CommonResumeRequest();
         request.setId("");
         request.setFirstName("");
         request.setLastName("");

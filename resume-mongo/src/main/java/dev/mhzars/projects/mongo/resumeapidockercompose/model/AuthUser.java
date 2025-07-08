@@ -1,6 +1,6 @@
 package dev.mhzars.projects.mongo.resumeapidockercompose.model;
 
-import static dev.mhzars.projects.mongo.resumeapidockercompose.utils.SpringUtils.generateUniqueId;
+import static dev.mhzars.projects.commons.resumeapidockercompose.utils.CommonSpringUtils.generateUniqueId;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -10,60 +10,53 @@ import dev.mhzars.projects.commons.resumeapidockercompose.model.CommonAuthUser;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.bson.codecs.pojo.annotations.BsonId;
 import org.bson.codecs.pojo.annotations.BsonProperty;
 import org.bson.types.ObjectId;
 
 @Document
+@EqualsAndHashCode(callSuper = true)
 @Data
 @NoArgsConstructor
-public class AuthUser {
+@AllArgsConstructor
+public class AuthUser extends CommonAuthUser {
     @Id
     @BsonId
     @BsonProperty("_id")
     private ObjectId id;
-
-    private String username;
-    private String password;
-    private boolean active;
-    private LocalDateTime creationDate;
-
-    private List<AuthRole> authRoles;
 
     public AuthUser(
             String username,
             String password,
             boolean active,
             LocalDateTime creationDate,
-            List<AuthRole> authRoles) {
+            List<CommonAuthRole> authRoles) {
+        super(username, password, active, creationDate, authRoles);
         this.id = generateUniqueId();
-        this.username = username;
-        this.password = password;
-        this.active = active;
-        this.creationDate = creationDate;
-        this.authRoles = authRoles;
     }
 
     public CommonAuthUser getCommonAuthUser() {
         List<CommonAuthRole> authRoleList = new ArrayList<>();
         if (this.getAuthRoles() != null) {
-            for (AuthRole authRole : this.getAuthRoles()) {
-                CommonAuthRole commonAuthRole =
-                        CommonAuthRole.builder()
-                                .role(authRole.getRole())
-                                .creationDate(authRole.getCreationDate())
-                                .build();
-                authRoleList.add(commonAuthRole);
+            for (CommonAuthRole authRole : this.getAuthRoles()) {
+                authRoleList.add(
+                        new CommonAuthRole(authRole.getRole(), authRole.getCreationDate()));
             }
         }
-        return CommonAuthUser.builder()
-                .username(this.username)
-                .password(this.password)
-                .active(this.active)
-                .authRoles(authRoleList)
-                .creationDate(this.creationDate)
-                .build();
+        return new CommonAuthUser(
+                this.getUsername(),
+                this.getPassword(),
+                this.isActive(),
+                this.getCreationDate(),
+                authRoleList);
+    }
+
+    @Override
+    public String toString() {
+        return "AuthUser{" + "id=" + id + super.toString() + '}';
     }
 }

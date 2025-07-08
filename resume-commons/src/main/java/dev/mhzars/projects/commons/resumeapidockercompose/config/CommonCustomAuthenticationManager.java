@@ -7,12 +7,14 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
 
 import dev.mhzars.projects.commons.resumeapidockercompose.exception.CustomAuthException;
 import dev.mhzars.projects.commons.resumeapidockercompose.exception.ExceptionBody;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@Component
 public class CommonCustomAuthenticationManager implements AuthenticationManager {
     public static final String USER_PROVIDED_IS_DISABLED = "The user provided is disabled";
     public static final String INVALID_USERNAME_OR_PASSWORD =
