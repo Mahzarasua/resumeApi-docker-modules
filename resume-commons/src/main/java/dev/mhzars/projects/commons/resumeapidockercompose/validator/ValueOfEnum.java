@@ -19,7 +19,7 @@ import java.lang.annotation.Target;
 @Documented
 @Constraint(validatedBy = ValueOfEnumValidator.class)
 public @interface ValueOfEnum {
-    Class<? extends Enum<?>> enumClass();
+    Class<? extends Enum> enumClass();
 
     String message() default "must be any of enum {enumClass}";
 

@@ -1,11 +1,13 @@
 package dev.mhzars.projects.mongo.resumeapidockercompose.initializer;
 
+import static dev.mhzars.projects.commons.resumeapidockercompose.mapper.CommonCustomMapper.COMMON_MAPPER;
+import static dev.mhzars.projects.commons.resumeapidockercompose.utils.CommonSpringUtils.generateUniqueObjectId;
 import static dev.mhzars.projects.commons.resumeapidockercompose.utils.CommonSpringUtils.readFile;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import dev.mhzars.projects.commons.resumeapidockercompose.utils.CommonSpringUtils;
+import dev.mhzars.projects.commons.resumeapidockercompose.model.CommonAuthRole;
 import dev.mhzars.projects.mongo.resumeapidockercompose.model.AuthRole;
 import dev.mhzars.projects.mongo.resumeapidockercompose.model.AuthUser;
 import dev.mhzars.projects.mongo.resumeapidockercompose.model.Resume;
@@ -40,7 +42,7 @@ public class InitializeDB implements CommandLineRunner {
         }
     }
 
-    private void readOrCreateSampleResume() {
+    public void readOrCreateSampleResume() {
         List<Resume> resumes = readFile("resumeSample.json", Resume.class, InitializeDB.class);
         for (Resume resume : resumes) {
             log.info("Resume loaded: {}", resume);
@@ -49,27 +51,25 @@ public class InitializeDB implements CommandLineRunner {
                 log.info("Resume found: {}", resume);
             } else {
                 resume.setId(null);
-                resume.getEducationList().forEach(e -> e.setId(null));
-                resume.getSkillList().forEach(e -> e.setId(null));
-                resume.getExperienceList().forEach(e -> e.setId(null));
+                resume.getEducationList().forEach(e -> e.setId(generateUniqueObjectId()));
+                resume.getSkillList().forEach(e -> e.setId(generateUniqueObjectId()));
+                resume.getExperienceList().forEach(e -> e.setId(generateUniqueObjectId()));
                 resumeRepo.save(resume);
             }
         }
     }
 
-    private void readOrCreateDBUser() throws Exception {
+    public void readOrCreateDBUser() throws Exception {
         List<AuthUser> dbUsers = readFile("dbUser.json", AuthUser.class, InitializeDB.class);
 
         log.info("DbUser loaded: {}", dbUsers);
         for (AuthUser dbUser : dbUsers) {
             Optional<AuthUser> authUser = userRepo.findByUsername(dbUser.getUsername());
             if (authUser.isPresent()) {
-                log.info(
-                        "User found for: {}",
-                        CommonSpringUtils.OBJECT_MAPPER.writeValueAsString(authUser.get()));
+                log.info("User found for: {}", COMMON_MAPPER.writeValueAsString(authUser.get()));
             } else {
-                List<AuthRole> authRoleList = new ArrayList<>();
-                for (AuthRole r : dbUser.getAuthRoles()) {
+                List<CommonAuthRole> authRoleList = new ArrayList<>();
+                for (CommonAuthRole r : dbUser.getAuthRoles()) {
                     authRoleList.add(new AuthRole(r.getRole(), CREATION_DATE));
                 }
 

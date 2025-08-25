@@ -22,4 +22,26 @@ public class Experience extends CommonExperience {
     @BsonId
     @BsonProperty("_id")
     private ObjectId id;
+
+    @Override
+    public String toString() {
+        return "{"
+                + "id="
+                + id
+                + ", title="
+                + getTitle()
+                + ", company="
+                + getCompany()
+                + ", currentJob="
+                + isCurrentJob()
+                + ", description="
+                + getDescription()
+                + ", startDate="
+                + getStartDate()
+                + ", endDate="
+                + getEndDate()
+                + ", creationDate="
+                + getCreationDate()
+                + "}";
+    }
 }

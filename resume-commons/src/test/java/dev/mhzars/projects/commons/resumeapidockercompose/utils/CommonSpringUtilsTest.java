@@ -1,11 +1,23 @@
 package dev.mhzars.projects.commons.resumeapidockercompose.utils;
 
+import static dev.mhzars.projects.commons.resumeapidockercompose.utils.CommonSpringUtils.generateUniqueObjectId;
+import static dev.mhzars.projects.commons.resumeapidockercompose.utils.CommonSpringUtils.getExceptionMessageChain;
+import static dev.mhzars.projects.commons.resumeapidockercompose.utils.CommonSpringUtils.getRandomId;
+import static dev.mhzars.projects.commons.resumeapidockercompose.utils.CommonSpringUtils.getUuid;
+import static dev.mhzars.projects.commons.resumeapidockercompose.utils.CommonSpringUtils.mapFromJson;
+import static dev.mhzars.projects.commons.resumeapidockercompose.utils.CommonSpringUtils.mapFromJsonList;
+import static dev.mhzars.projects.commons.resumeapidockercompose.utils.CommonSpringUtils.mapToJson;
+import static dev.mhzars.projects.commons.resumeapidockercompose.utils.CommonSpringUtils.removeFromList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -15,33 +27,63 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+@Slf4j
 class CommonSpringUtilsTest {
+
+    @Test
+    @DisplayName("Should throw IllegalStateException when attempting to instantiate")
+    void constructor_shouldThrowIllegalStateException() throws NoSuchMethodException {
+        final Constructor<CommonSpringUtils> constructor =
+                CommonSpringUtils.class.getDeclaredConstructor();
+
+        // Make the constructor accessible, as it's protected
+        constructor.setAccessible(true);
+
+        // 'constructor' is now effectively final
+        InvocationTargetException thrownException =
+                assertThrows(
+                        InvocationTargetException.class,
+                        constructor::newInstance,
+                        "Instantiating utility class should throw InvocationTargetException.");
+
+        assertInstanceOf(
+                IllegalStateException.class,
+                thrownException.getCause(),
+                "The cause of the exception should be an IllegalStateException.");
+        assertEquals(
+                "Utility class",
+                thrownException.getCause().getMessage(),
+                "The exception message should match 'Utility class'.");
+    }
+
     @Test
     void testGetUuid_ValidUUIDString() {
         String validUUIDString = "550e8400-e29b-41d4-a716-446655440000";
-        UUID uuid = CommonSpringUtils.getUuid(validUUIDString);
+        UUID uuid = getUuid(validUUIDString);
         assertEquals(UUID.fromString(validUUIDString), uuid);
     }
 
     @Test
     void testGetRandomId() {
-        UUID uuid = CommonSpringUtils.getRandomId();
+        UUID uuid = getRandomId();
         assertNotNull(uuid);
     }
 
     @Test
     void testMapToJson() throws JsonProcessingException {
         TestObject obj = new TestObject("test", 123);
-        String json = CommonSpringUtils.mapToJson(obj);
+        String json = mapToJson(obj);
         assertNotNull(json);
     }
 
     @Test
     void testMapFromJson() throws JsonProcessingException {
         String json = "{\"name\":\"test\",\"value\":123}";
-        TestObject obj = CommonSpringUtils.mapFromJson(json, TestObject.class);
+        TestObject obj = mapFromJson(json, TestObject.class);
         assertNotNull(obj);
         assertEquals("test", obj.getName());
         assertEquals(123, obj.getValue());
@@ -50,7 +92,7 @@ class CommonSpringUtilsTest {
     @Test
     void testMapFromJsonList() throws JsonProcessingException {
         String json = "[{\"name\":\"test1\",\"value\":123},{\"name\":\"test2\",\"value\":456}]";
-        List<TestObject> list = CommonSpringUtils.mapFromJsonList(json, new TypeReference<>() {});
+        List<TestObject> list = mapFromJsonList(json, new TypeReference<>() {});
         assertNotNull(list);
         assertEquals(2, list.size());
     }
@@ -59,7 +101,7 @@ class CommonSpringUtilsTest {
     void testRemoveFromList() {
         List<Integer> list = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5));
         Predicate<Integer> predicate = num -> num % 2 == 0; // Remove even numbers
-        CommonSpringUtils.removeFromList(list, predicate);
+        removeFromList(list, predicate);
         assertEquals(3, list.size());
         assertFalse(list.contains(2));
         assertFalse(list.contains(4));
@@ -69,7 +111,7 @@ class CommonSpringUtilsTest {
     void testGetExceptionMessageChain() {
         Throwable throwable =
                 new RuntimeException("Root cause", new IllegalArgumentException("Nested cause"));
-        List<String> messageChain = CommonSpringUtils.getExceptionMessageChain(throwable);
+        List<String> messageChain = getExceptionMessageChain(throwable);
         assertEquals(2, messageChain.size());
         assertEquals("Root cause", messageChain.get(0));
         assertEquals("Nested cause", messageChain.get(1));
@@ -77,8 +119,17 @@ class CommonSpringUtilsTest {
 
     @Test
     void testGenerateUniqueObjectId() {
-        String uniqueId = CommonSpringUtils.generateUniqueObjectId();
+        String uniqueId = generateUniqueObjectId().toString();
         assertNotNull(uniqueId);
+        log.info("UniqueId generated: {}", uniqueId);
+        assertEquals(24, uniqueId.length()); // UUID length
+    }
+
+    @Test
+    void testGenerateUUId() {
+        String uniqueId = getRandomId().toString();
+        assertNotNull(uniqueId);
+        log.info("UniqueId generated: {}", uniqueId);
         assertEquals(36, uniqueId.length()); // UUID length
     }
 

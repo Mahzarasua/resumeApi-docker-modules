@@ -1,6 +1,7 @@
 package dev.mhzars.projects.commons.resumeapidockercompose.config;
 
 import static dev.mhzars.projects.commons.resumeapidockercompose.config.WebConfigWhiteList.getAuthWhitelist;
+import static dev.mhzars.projects.commons.resumeapidockercompose.mapper.CommonCustomMapper.COMMON_MAPPER;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -9,11 +10,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import dev.mhzars.projects.commons.resumeapidockercompose.exception.CustomAuthException;
 import dev.mhzars.projects.commons.resumeapidockercompose.exception.ExceptionBody;
-import dev.mhzars.projects.commons.resumeapidockercompose.utils.CommonSpringUtils;
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.annotation.Nullable;
 import jakarta.servlet.FilterChain;
@@ -27,6 +28,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
 @Slf4j
+@Component
 public class CommonJwtRequestFilter extends OncePerRequestFilter {
     public static final String REVIEW_MSG = "Authentication failed, please review";
     public static final String URI_STR = "uri=";
@@ -58,7 +60,7 @@ public class CommonJwtRequestFilter extends OncePerRequestFilter {
         body.setMessage(REVIEW_MSG);
         body.setPath(requestUri.replace(URI_STR, ""));
         body.setDetails(e.getErrorDetails());
-        response.getWriter().write(CommonSpringUtils.OBJECT_MAPPER.writeValueAsString(body));
+        response.getWriter().write(COMMON_MAPPER.writeValueAsString(body));
     }
 
     @Override
@@ -83,7 +85,9 @@ public class CommonJwtRequestFilter extends OncePerRequestFilter {
                         response,
                         new CustomAuthException("Request filter chain is null"));
             }
-            chain.doFilter(request, response);
+            if (chain != null) {
+                chain.doFilter(request, response);
+            }
         } catch (CustomAuthException e) {
             if (response != null) {
                 filterException(request.getRequestURI(), response, e);
@@ -126,7 +130,7 @@ public class CommonJwtRequestFilter extends OncePerRequestFilter {
             UserDetails userDetails = this.jwtUserDetailsService.loadUserByUsername(username);
 
             // if token is valid configure Spring Security to manually set authentication
-            if (Boolean.TRUE.equals(jwtTokenUtil.validateToken(jwtToken, userDetails))) {
+            if (jwtTokenUtil.validateToken(jwtToken, userDetails)) {
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
                         new UsernamePasswordAuthenticationToken(
                                 userDetails, null, userDetails.getAuthorities());

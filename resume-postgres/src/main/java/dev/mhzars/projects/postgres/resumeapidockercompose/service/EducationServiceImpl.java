@@ -1,15 +1,17 @@
 package dev.mhzars.projects.postgres.resumeapidockercompose.service;
 
+import static dev.mhzars.projects.commons.resumeapidockercompose.utils.CommonSpringUtils.mapFromJsonList;
 import static dev.mhzars.projects.commons.resumeapidockercompose.utils.CommonSpringUtils.removeFromList;
 
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import dev.mhzars.projects.commons.resumeapidockercompose.domain.GenericDeleteResponse;
 import dev.mhzars.projects.commons.resumeapidockercompose.domain.education.EducationDomain;
 import dev.mhzars.projects.commons.resumeapidockercompose.domain.education.EducationRequest;
 import dev.mhzars.projects.commons.resumeapidockercompose.domain.education.EducationResponse;
 import dev.mhzars.projects.commons.resumeapidockercompose.exception.CustomNotFoundException;
-import dev.mhzars.projects.postgres.resumeapidockercompose.mapper.CustomMapper;
+import dev.mhzars.projects.commons.resumeapidockercompose.service.EducationService;
 import dev.mhzars.projects.postgres.resumeapidockercompose.model.Education;
 import dev.mhzars.projects.postgres.resumeapidockercompose.model.Resume;
 import dev.mhzars.projects.postgres.resumeapidockercompose.repository.ResumeRepository;
@@ -25,27 +27,26 @@ public class EducationServiceImpl implements EducationService {
 
     public static final String EXCEPTION_MSG = "No Education record was found for resumeId %s";
     private final ResumeRepository repo;
-    private final CustomMapper mapper;
     private final SpringResumeRepo checkResume;
 
     @Override
-    public EducationResponse getListbyResumeId(String resumeId) {
+    public EducationResponse getListbyResumeId(String resumeId) throws JsonProcessingException {
         Resume resume = checkResume.checkResumeId(resumeId);
         List<Education> list = resume.getEducationList();
 
         if (list.isEmpty())
             throw new CustomNotFoundException(String.format(EXCEPTION_MSG, resumeId));
 
-        return new EducationResponse(mapper.mapAsList(list, EducationDomain.class));
+        return new EducationResponse(mapFromJsonList(list, EducationDomain.class));
     }
 
     @Override
-    public EducationResponse saveList(EducationRequest request) {
+    public EducationResponse saveList(EducationRequest request) throws JsonProcessingException {
         String resumeId = request.getEducationList().get(0).getResumeId();
         Resume resume = checkResume.checkResumeId(resumeId);
 
         request.getEducationList().forEach(e -> e.setResumeId(String.valueOf(resume.getId())));
-        for (Education e : mapper.mapAsList(request.getEducationList(), Education.class)) {
+        for (Education e : mapFromJsonList(request.getEducationList(), Education.class)) {
             if (!resume.getEducationList().contains(e)) {
                 resume.getEducationList().add(e);
             }

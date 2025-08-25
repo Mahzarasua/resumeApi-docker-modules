@@ -23,4 +23,9 @@ public class CommonConfigBeans {
     public CommonResumeValidator getCommonResumeValidator() {
         return new CommonResumeValidator();
     }
+
+    @Bean
+    public CommonJwtTokenUtil getCommonJwtTokenUtil() {
+        return new CommonJwtTokenUtil();
+    }
 }

@@ -15,6 +15,7 @@ import io.swagger.v3.oas.annotations.security.SecurityScheme;
 public class ResumePostgres {
 
     public static void main(String[] args) {
+        System.setProperty("db.mongo", "false");
         SpringApplication.run(ResumePostgres.class, args);
     }
 }

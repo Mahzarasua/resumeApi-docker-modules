@@ -2,19 +2,20 @@ package dev.mhzars.projects.postgres.resumeapidockercompose.service;
 
 import static dev.mhzars.projects.postgres.resumeapidockercompose.TestUtils.RESUME_ID;
 import static dev.mhzars.projects.postgres.resumeapidockercompose.TestUtils.manufacturedPojo;
-import static dev.mhzars.projects.postgres.resumeapidockercompose.utils.SpringUtils.generateUniqueObjectId;
+import static dev.mhzars.projects.postgres.resumeapidockercompose.utils.SpringUtils.generateUniqueId;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import dev.mhzars.projects.commons.resumeapidockercompose.domain.resume.CommonResumeRequest;
 import dev.mhzars.projects.commons.resumeapidockercompose.domain.resume.ResumeIdResponse;
 import dev.mhzars.projects.commons.resumeapidockercompose.domain.resume.ResumeResponse;
 import dev.mhzars.projects.commons.resumeapidockercompose.exception.CustomNotFoundException;
+import dev.mhzars.projects.commons.resumeapidockercompose.service.ResumeService;
 import dev.mhzars.projects.commons.resumeapidockercompose.validator.CommonResumeValidator;
-import dev.mhzars.projects.postgres.resumeapidockercompose.domain.resume.ResumeRequest;
-import dev.mhzars.projects.postgres.resumeapidockercompose.mapper.CustomMapper;
+import dev.mhzars.projects.commons.resumeapidockercompose.validator.ResumeValidator;
 import dev.mhzars.projects.postgres.resumeapidockercompose.model.Resume;
 import dev.mhzars.projects.postgres.resumeapidockercompose.repository.ResumeRepository;
-import dev.mhzars.projects.postgres.resumeapidockercompose.validator.ResumeValidator;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -31,25 +32,22 @@ class ResumeServiceImplTest {
 
     private static Resume resume;
 
-    private static ResumeRequest resumeRequest;
+    private static CommonResumeRequest resumeRequest;
 
     @BeforeAll
     static void start() {
         resume = manufacturedPojo(Resume.class);
-        resumeRequest = manufacturedPojo(ResumeRequest.class);
+        resumeRequest = manufacturedPojo(CommonResumeRequest.class);
     }
 
     @BeforeEach
     void init() {
         Optional<Resume> optionalResponse = Optional.ofNullable(resume);
         List<Resume> responseList = Collections.singletonList(resume);
-        ResumeResponse resumeResponse = manufacturedPojo(ResumeResponse.class);
-        List<ResumeResponse> resumeResponseList = Collections.singletonList(resumeResponse);
 
         ResumeRepository repository = Mockito.mock(ResumeRepository.class);
         ResumeValidator validator = Mockito.mock(ResumeValidator.class);
         CommonResumeValidator commonResumeValidator = Mockito.mock(CommonResumeValidator.class);
-        CustomMapper mapper = Mockito.mock(CustomMapper.class);
 
         Mockito.doReturn(responseList).when(repository).findAll();
         Mockito.doReturn(optionalResponse).when(repository).findById(ArgumentMatchers.any());
@@ -65,37 +63,11 @@ class ResumeServiceImplTest {
         Mockito.doNothing().when(validator).validate(ArgumentMatchers.any());
         Mockito.doNothing().when(commonResumeValidator).validate(ArgumentMatchers.any());
 
-        Mockito.when(
-                        mapper.mapAsList(
-                                ArgumentMatchers.anyList(),
-                                ArgumentMatchers.eq(ResumeResponse.class)))
-                .thenReturn(resumeResponseList);
-        Mockito.when(
-                        mapper.map(
-                                ArgumentMatchers.any(ResumeResponse.class),
-                                ArgumentMatchers.eq(Resume.class)))
-                .thenReturn(resume);
-        Mockito.when(
-                        mapper.map(
-                                ArgumentMatchers.any(Resume.class),
-                                ArgumentMatchers.eq(ResumeResponse.class)))
-                .thenReturn(resumeResponse);
-        Mockito.when(
-                        mapper.map(
-                                ArgumentMatchers.any(Resume.class),
-                                ArgumentMatchers.eq(ResumeRequest.class)))
-                .thenReturn(resumeRequest);
-        Mockito.when(
-                        mapper.map(
-                                ArgumentMatchers.any(ResumeRequest.class),
-                                ArgumentMatchers.eq(Resume.class)))
-                .thenReturn(resume);
-
-        service = new ResumeServiceImpl(repository, mapper, validator, commonResumeValidator);
+        service = new ResumeServiceImpl(repository, validator, commonResumeValidator);
     }
 
     @Test
-    void getAllResumes() {
+    void getAllResumes() throws JsonProcessingException {
         List<ResumeResponse> response = service.getAllResumes();
         log.info("Response: {}", response);
         assertNotNull(response);
@@ -103,7 +75,7 @@ class ResumeServiceImplTest {
 
     @Test
     void getResumeById() {
-        ResumeResponse response = service.getResumeById(generateUniqueObjectId().toString());
+        ResumeResponse response = service.getResumeById(generateUniqueId().toString());
         log.info("Response: {}", response);
         assertNotNull(response);
     }
@@ -126,7 +98,7 @@ class ResumeServiceImplTest {
     @Test
     void testSaveResume() {
         ResumeIdResponse response =
-                service.saveResume(resumeRequest, generateUniqueObjectId().toString());
+                service.saveResume(resumeRequest, generateUniqueId().toString());
         log.info("Response: {}", response);
         assertNotNull(response);
     }
@@ -136,14 +108,14 @@ class ResumeServiceImplTest {
         resumeRequest.setCreationDate(null);
         resume.setCreationDate(null);
         ResumeIdResponse response =
-                service.saveResume(resumeRequest, generateUniqueObjectId().toString());
+                service.saveResume(resumeRequest, generateUniqueId().toString());
         log.info("Response: {}", response);
         assertNotNull(response);
     }
 
     @Test
     void deleteResumeById() {
-        ResumeIdResponse response = service.deleteResumeById(generateUniqueObjectId().toString());
+        ResumeIdResponse response = service.deleteResumeById(generateUniqueId().toString());
         log.info("Response: {}", response);
         assertNotNull(response);
     }

@@ -1,6 +1,6 @@
 package dev.mhzars.projects.mongo.resumeapidockercompose.controller;
 
-import static dev.mhzars.projects.mongo.resumeapidockercompose.TestUtils.manufacturedCustomPojo;
+import static dev.mhzars.projects.commons.resumeapidockercompose.CommonTestUtils.manufacturedCustomPojo;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import org.springframework.http.ResponseEntity;

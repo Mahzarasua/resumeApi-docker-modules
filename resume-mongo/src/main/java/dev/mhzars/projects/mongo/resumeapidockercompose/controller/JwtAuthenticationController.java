@@ -10,12 +10,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import dev.mhzars.projects.commons.resumeapidockercompose.config.CommonCustomAuthenticationManager;
 import dev.mhzars.projects.commons.resumeapidockercompose.config.CommonJwtTokenUtil;
+import dev.mhzars.projects.commons.resumeapidockercompose.controller.CommonJwtAuthenticationController;
 import dev.mhzars.projects.commons.resumeapidockercompose.domain.auth.JwtRequest;
 import dev.mhzars.projects.commons.resumeapidockercompose.domain.auth.JwtResponse;
 import dev.mhzars.projects.commons.resumeapidockercompose.exception.ExceptionBody;
-import dev.mhzars.projects.mongo.resumeapidockercompose.config.CustomAuthenticationManager;
-import dev.mhzars.projects.mongo.resumeapidockercompose.validator.JwtRequestValidator;
+import dev.mhzars.projects.commons.resumeapidockercompose.validator.JwtRequestValidator;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -60,31 +61,19 @@ import io.swagger.v3.oas.annotations.tags.Tag;
                                 schema = @Schema(implementation = ExceptionBody.class))
                     })
         })
-// @Hidden
-public class JwtAuthenticationController {
-
-    private final CustomAuthenticationManager authenticationManager;
-
-    private final CommonJwtTokenUtil jwtTokenUtil;
-
-    private final JwtRequestValidator validator;
+public class JwtAuthenticationController extends CommonJwtAuthenticationController {
 
     public JwtAuthenticationController(
-            CustomAuthenticationManager authenticationManager,
+            CommonCustomAuthenticationManager authenticationManager,
             CommonJwtTokenUtil jwtTokenUtil,
             JwtRequestValidator validator) {
-        this.authenticationManager = authenticationManager;
-        this.jwtTokenUtil = jwtTokenUtil;
-        this.validator = validator;
+        super(authenticationManager, jwtTokenUtil, validator);
     }
 
     @PostMapping(value = "/authenticate")
     @ResponseStatus(HttpStatus.OK)
+    @Override
     public JwtResponse createAuthenticationToken(@RequestBody JwtRequest authRequest) {
-        validator.validate(authRequest);
-        return new JwtResponse(
-                jwtTokenUtil.generateToken(
-                        authenticationManager.authentication(
-                                authRequest.getUsername(), authRequest.getPassword())));
+        return super.createAuthenticationToken(authRequest);
     }
 }

@@ -5,8 +5,10 @@ import static dev.mhzars.projects.postgres.resumeapidockercompose.TestUtils.manu
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeAll;
@@ -34,12 +36,31 @@ class ExperienceTest {
 
     @Test
     void testSetCreationDate() {
-        // Call the method
+        LocalDateTime beforeCall = LocalDateTime.now();
         r.setCreationDate();
+        LocalDateTime afterCall = LocalDateTime.now();
+        LocalDateTime actualCreationDate = r.getCreationDate();
 
-        // Check that the creation date is set to the current time
-        LocalDateTime now = LocalDateTime.now();
-        assertEquals(now, r.getCreationDate());
+        assertNotNull(
+                actualCreationDate,
+                "Creation date should not be null after calling setCreationDate.");
+        assertTrue(
+                actualCreationDate.isAfter(beforeCall) || actualCreationDate.isEqual(beforeCall),
+                "Creation date should not be before the start of the test window.");
+        assertTrue(
+                actualCreationDate.isBefore(afterCall) || actualCreationDate.isEqual(afterCall),
+                "Creation date should not be after the end of the test window.");
+
+        assertEquals(
+                LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS),
+                r.getCreationDate().truncatedTo(ChronoUnit.SECONDS),
+                "Creation date should be roughly the current time within a second.");
+        assertTrue(
+                actualCreationDate.isAfter(beforeCall.minus(100, ChronoUnit.MILLIS)),
+                "Creation date should not be too far in the past.");
+        assertTrue(
+                actualCreationDate.isBefore(beforeCall.plus(100, ChronoUnit.MILLIS)),
+                "Creation date should not be too far in the future.");
     }
 
     @Test

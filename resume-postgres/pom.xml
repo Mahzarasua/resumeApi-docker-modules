@@ -68,11 +68,6 @@
             <artifactId>swagger-core</artifactId>
         </dependency>
         <!--        SWAGGER-->
-
-        <dependency>
-            <groupId>ma.glasnost.orika</groupId>
-            <artifactId>orika-core</artifactId>
-        </dependency>
         <dependency>
             <groupId>org.yaml</groupId>
             <artifactId>snakeyaml</artifactId>
@@ -158,6 +153,7 @@
                         -Dspring.datasource.url=jdbc:postgresql://localhost:5432/resume-db
                         -Dspring.datasource.username=zars
                         -Dspring.datasource.password=R4nd0m
+                        -Ddb.mongo=false
                         --add-opens java.base/java.lang=ALL-UNNAMED
                     </jvmArguments>
                 </configuration>
@@ -192,6 +188,15 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <systemPropertyVariables>
+                        <db.mongo>false</db.mongo>
+                    </systemPropertyVariables>
+                </configuration>
             </plugin>
         </plugins>
     </build>

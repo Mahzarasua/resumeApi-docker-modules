@@ -1,6 +1,6 @@
 package dev.mhzars.projects.mongo.resumeapidockercompose.utils;
 
-import static dev.mhzars.projects.mongo.resumeapidockercompose.utils.SpringUtils.generateUniqueObjectId;
+import static dev.mhzars.projects.mongo.resumeapidockercompose.utils.SpringUtils.generateUniqueId;
 import static dev.mhzars.projects.mongo.resumeapidockercompose.utils.SpringUtils.validateObjectId;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -13,7 +13,7 @@ class SpringUtilsTest {
 
     @Test
     void test() {
-        ObjectId id = generateUniqueObjectId();
+        ObjectId id = generateUniqueId();
         assertNotNull(id);
         assertNotNull(validateObjectId(id.toString()));
     }

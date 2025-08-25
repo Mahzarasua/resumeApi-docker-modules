@@ -1,7 +1,7 @@
 package dev.mhzars.projects.postgres.resumeapidockercompose.initializer;
 
+import static dev.mhzars.projects.commons.resumeapidockercompose.mapper.CommonCustomMapper.COMMON_MAPPER;
 import static dev.mhzars.projects.commons.resumeapidockercompose.utils.CommonSpringUtils.readFile;
-import static dev.mhzars.projects.postgres.resumeapidockercompose.utils.SpringUtils.OBJECT_MAPPER;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -64,7 +64,7 @@ public class InitializeDB implements CommandLineRunner {
         for (AuthUser dbUser : dbUsers) {
             Optional<AuthUser> authUser = userRepo.findByUsername(dbUser.getUsername());
             if (authUser.isPresent()) {
-                log.info("User found for: {}", OBJECT_MAPPER.writeValueAsString(authUser.get()));
+                log.info("User found for: {}", COMMON_MAPPER.writeValueAsString(authUser.get()));
             } else {
                 List<AuthRole> authRoleList = new ArrayList<>();
                 for (AuthRole r : dbUser.getAuthRoles()) {
